@@ -1,0 +1,3 @@
+Put motors instantiation (especially launch motors) in constructor, not taking any ressources to avoid starving threads
+Fix tests in test package
+Test for wheelbase and wheel radius to ensure odometer is working fine. 
