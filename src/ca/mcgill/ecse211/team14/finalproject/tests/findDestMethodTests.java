@@ -1,6 +1,7 @@
 package ca.mcgill.ecse211.team14.finalproject.tests;
 
 import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 
 public class findDestMethodTests {

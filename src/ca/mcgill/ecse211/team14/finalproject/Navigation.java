@@ -24,12 +24,12 @@ public class Navigation {
 	/**
 	 * Variable target's x coordinate.
 	 */
-	private static final double targetX = 1 * TILE_SIZE- 0.5*TILE_SIZE;
+	private double targetX;
 
 	/**
 	 * Variable destination's y coordinate.
 	 */
-	private static final double targetY = 7 * TILE_SIZE + 0.5*TILE_SIZE;
+	private double targetY;
 
 	/**
 	 * Origin (1,1) coordinates.
@@ -81,7 +81,7 @@ public class Navigation {
 	 * grid lines assuming the robot is currently on the diagonal line (45 degrees)
 	 * of a tile.
 	 */
-	public void findRobotPosition() {
+	public void findRobotPosition() { // TODO CHANGE 
 
 		// Set robot speeds
 		LEFT_MOTOR.setSpeed(MOTOR_SPEED);
@@ -140,21 +140,28 @@ public class Navigation {
 		double dx = x - odometer.getXYT()[0];
 		double dy = y - odometer.getXYT()[1];
 
-		// Calculate the distance to waypoint
-		double distance = Math.hypot(dx, dy);
-
-		// Compute the angle needed to turn; dx and dy are intentionally switched in
-		// order to compute angle w.r.t. the y-axis and not w.r.t. the x-axis
-		double theta = Math.toDegrees(Math.atan2(dx, dy)) - odometer.getXYT()[2];
+		// First travel along X-axis, then travel along Y-axis
+		if (dx >= 0) {
+			turnTo2(90);			
+		} else {
+			turnTo2(270);
+		}
+		
+		// Second travel along Y-axis
+		if (dy >= 0) {
+			turnTo2(0);
+		} else {
+			turnTo2(180);
+		}
+		
+//		// Compute the angle needed to turn; dx and dy are intentionally switched in
+//		// order to compute angle w.r.t. the y-axis and not w.r.t. the x-axis
+//		double theta = Math.toDegrees(Math.atan2(dx, dy)) - odometer.getXYT()[2];
 
 		// Turn to the correct angle
-		turnTo(theta);
+//		turnTo(theta);
 
 		// Turn on motor
-		LEFT_MOTOR.setSpeed(MOTOR_SPEED);
-		RIGHT_MOTOR.setSpeed(MOTOR_SPEED);
-		LEFT_MOTOR.rotate(Converter.convertDistance(distance), true);
-		RIGHT_MOTOR.rotate(Converter.convertDistance(distance), false);
 
 		// Once the destination is reached, stop both motors
 		stop();
@@ -168,6 +175,18 @@ public class Navigation {
 	public boolean isNavigating() {
 		return this.traveling;
 	}
+	
+	/**
+	 * This method causes the robot to navigate foward
+	 * 
+	 * @Param distance to travel
+	 */
+	public void navigateForward(double distance) {
+		LEFT_MOTOR.setSpeed(MOTOR_SPEED);
+		RIGHT_MOTOR.setSpeed(MOTOR_SPEED);
+		LEFT_MOTOR.rotate(Converter.convertDistance(distance), true);
+		RIGHT_MOTOR.rotate(Converter.convertDistance(distance), false);
+	}
 
 	/**
 	 * This method causes the robot to turn (on point) to the absolute heading
@@ -177,6 +196,32 @@ public class Navigation {
 
 		// Set traveling to true when the robot is turning
 		this.traveling = true;
+
+		// If theta is bigger than 180 or smaller than -180, set it to smallest minimal
+		// turning angle
+		if (theta > 180.0) {
+			theta = 360.0 - theta;
+		} else if (theta < -180.0) {
+			theta = 360.0 + theta;
+		}
+
+		// Set motors' speed
+		LEFT_MOTOR.setSpeed(ROTATE_SPEED);
+		RIGHT_MOTOR.setSpeed(ROTATE_SPEED);
+		LEFT_MOTOR.rotate(Converter.convertAngle(theta), true);
+		RIGHT_MOTOR.rotate(-Converter.convertAngle(theta), false);
+	}
+	
+	/**
+	 * This method causes the robot to turn to an exact angle.
+	 */
+	public void turnTo2(double theta) {
+
+		// Set traveling to true when the robot is turning
+		this.traveling = true;
+		
+		// Angle needed to turn to the required angle
+		theta -= odometer.getXYT()[2];
 
 		// If theta is bigger than 180 or smaller than -180, set it to smallest minimal
 		// turning angle

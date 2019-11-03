@@ -1,18 +1,19 @@
 package ca.mcgill.ecse211.team14.finalproject.tests;
-import static ca.mcgill.ecse211.lab5.Resources.*;
-import ca.mcgill.ecse211.lab5.Converter;
+import static ca.mcgill.ecse211.team14.finalproject.Resources.*;
+import ca.mcgill.ecse211.team14.finalproject.Converter;
 import lejos.hardware.Button;
 
 public class WheelBaseTests {
-    public static void main(String args[]) {
-      
+    public static void main(String args[]) { 
       int buttonChoice = -1;
+      
       showText("Press Right      ","Button to start  ");
+      
       while(buttonChoice != Button.ID_RIGHT) {
         buttonChoice = Button.waitForAnyPress();
       }
       
-      //Test wheelBase by rotating the robot 360 degrees.
+      // Test wheel base by rotating the robot 360 degrees.
       LEFT_MOTOR.setSpeed(ROTATE_SPEED);
       RIGHT_MOTOR.setSpeed(ROTATE_SPEED);
       LEFT_MOTOR.rotate(Converter.convertAngle(360),true);
