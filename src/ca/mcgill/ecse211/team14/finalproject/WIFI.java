@@ -25,10 +25,30 @@ public class WIFI {
 	private double launchY;
 	
 	/**
+	 * Variable that tracks starting position X coordinate.
+	 */
+	private double startX;
+	
+	/**
+	 * Variable that tracks starting position Y coordinate.
+	 */
+	private double startY;
+	
+	/**
+	 * Array that stores the lower left and upper right corners of islands.
+	 */
+	private double[] islandCoordinates;
+	
+	/**
+	 * Array that stores the tunnel coordinates.
+	 */
+	private double[] tunnelCoordinates;
+	
+	/**
 	 * This method uses the given target position (binX,binY) to find the
 	 * ideal launching position.
 	 */
-	public void findLaunchPosition() {
+	private void findLaunchPosition() {
 		double currentX = odometer.getXYT()[0];
 		double currentY = odometer.getXYT()[1];
 		double[] curPosition = new double[] { currentX, currentY };
@@ -57,7 +77,10 @@ public class WIFI {
 		}
 	}
 	
-	public void findDestination2() {
+	/**
+	 * Method that turns the robot to face the bin. 
+	 */
+	private void turnToTarget() {
 
 		// Compute angle towards the destination
 		// Compute displacement
@@ -72,12 +95,31 @@ public class WIFI {
 	}
 
 	/**
-	 * 
-	 * @param curPos
-	 * @param center
-	 * @return
+	 * Method that calculates and returns the coordinates at which the robot needs to travel to in order to enter the tunnel.
 	 */
-	private static double[] findCircle(double[] curPos, double[] center) {
+	public double[] getTunnelEntrance() {
+		System.out.println("h");
+		return islandCoordinates;
+	}
+
+	/**
+	 * Method that calculates and returns the coordinates at which the robot needs to travel to in order to exit the tunnel.
+	 */
+	public double[] getTunnelExit() {
+		System.out.println(" ");
+		return islandCoordinates;
+	}
+	
+	/**
+	 * Method that calculates the intersection between the line formed by the robot's current position and the target bin, 
+	 * and the circumference of the target formed with the launch radius range. 
+	 * 
+	 * @param curPos: the current position of the robot
+	 * @param center: the target position of the ball
+	 
+	 * @returnThe coordinates that represent the ideal launch point.
+	 */
+	private double[] findCircle(double[] curPos, double[] center) {
 		double[] target = new double[2];
 		if (center[0] > center[1]) { // upper half
 			double tX = curPos[0];
@@ -86,7 +128,7 @@ public class WIFI {
 		} else { // lower half
 			double tY = curPos[1];
 			double tX = Math.sqrt(Math.pow(LAUNCH_RANGE, 2) - Math.pow((curPos[1] - center[1]), 2)) + center[0];
-			target = new double[] { tX, tY };
+			target = new double[] {tX, tY};
 		}
 		return target;
 	}
@@ -119,6 +161,38 @@ public class WIFI {
 	 */
 	public double getlaunchY() {
 		return this.launchY;
+	}
+
+	public double getStartX() {
+		return startX;
+	}
+
+	public void setStartX(double startX) {
+		this.startX = startX;
+	}
+
+	public double getStartY() {
+		return startY;
+	}
+
+	public void setStartY(double startY) {
+		this.startY = startY;
+	}
+
+	public double[] getIslandCoordinates() {
+		return islandCoordinates;
+	}
+
+	public void setIslandCoordinates(double[] islandCoordinates) {
+		this.islandCoordinates = islandCoordinates;
+	}
+
+	public double[] getTunnelCoordinates() {
+		return tunnelCoordinates;
+	}
+
+	public void setTunnelCoordinates(double[] tunnelCoordinates) {
+		this.tunnelCoordinates = tunnelCoordinates;
 	}
 
 }

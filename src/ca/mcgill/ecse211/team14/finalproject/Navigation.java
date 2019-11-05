@@ -10,7 +10,17 @@ public class Navigation {
 	 * {@code true} when robot is traveling.
 	 */
 	private boolean traveling = false; // false by default
+	
+	/**
+	 * Current destination's x coordinate.
+	 */
+	private double destX;
 
+	/**
+	 * Current destination's y coordinate.
+	 */
+	private double destY;
+	
 	/**
 	 * Navigation class implements the singleton pattern
 	 */
@@ -190,5 +200,21 @@ public class Navigation {
 	 */
 	public void setTraveling(boolean traveling) {
 		this.traveling = traveling;
+	}
+
+	public double getDestX() {
+		return destX;
+	}
+
+	public void setDestX(double destX) {
+		this.destX = destX;
+	}
+
+	public double getDestY() {
+		return destY;
+	}
+
+	public void setDestY(double destY) {
+		this.destY = destY;
 	}
 }

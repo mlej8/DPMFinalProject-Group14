@@ -4,9 +4,8 @@ import static ca.mcgill.ecse211.team14.finalproject.Resources.*;
 import lejos.hardware.Sound;
 
 /**
- * This class contains methods needed for light sensor localization. These methods guide the robot to waypoint
- * (1,1) more precisely after ultrasonic sensor has been used. The robot will drive around in a circle for 360
- * degrees and detect four black lines in the process. The Theta reading when these lines are touched are stored
+ * This class contains methods needed for light sensor localization. These methods guide the robot to travel to the waypoint
+ * (1,1) after ultrasonic localization. The robot turns 360 degrees around itself and detect four black lines in the process. The Theta reading when these lines are touched are stored
  * into an array. Then error in X, Y, Theta odometer readings are adjusted by calculated values. Finally, the robot
  * navigates to (1,1) again in main class and the main class should use reOrient() method to orient itself towards
  * 0 degree axis.
