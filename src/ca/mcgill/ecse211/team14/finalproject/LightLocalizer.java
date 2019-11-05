@@ -10,32 +10,7 @@ import lejos.hardware.Sound;
  * navigates to (1,1) again in main class and the main class should use reOrient() method to orient itself towards
  * 0 degree axis.
  */
-public class LightLocalizer {
-    /**
-     * Lower bound for non-black line intensity. When intensity falls below this value, black lines are met.
-     */
-	private static final int MINIMUM_NONBLACK_INTENSITY = 20; 
-	
-	/**
-	 * Maximum ratio for last intensity compared to current intensity when there is no black line. 
-	 */
-	private static final double INTENSITY_RATIO = 1.3;
-	
-	// An array to store theta readings when light sensor intersects 4 black line, X-negative, Y-positive, X-
-	// positive, Y-negative, listed in intersection time order
-	private double[] intersectionDegrees = new double[4];
-	
-	// Index for tracing black lines already intersected by robot up to now
-	private int lineCount = 0;
-	
-	// A boolean to specify if black line is touched
-	private boolean lineTouched = false; 
-	
-	// Initial lastIntensity
-	private double lastIntensity = -1;
-	
-	// A boolean to specify if light localization has started
-	private boolean localizerStarted = false;  
+public class LightLocalizer extends LightController { 
 
 	/**
 	 * This method controls how the robot moves when using the light sensor to localize. The
@@ -44,19 +19,19 @@ public class LightLocalizer {
 	 */
 	public void localize() {
 		
-		// Set motor speed 
-		LEFT_MOTOR.setSpeed(ROTATE_SPEED);
-		RIGHT_MOTOR.setSpeed(ROTATE_SPEED);
-
-		// Rotate 360 degrees 
-		LEFT_MOTOR.rotate(Converter.convertAngle(360), true);
-		RIGHT_MOTOR.rotate(-Converter.convertAngle(360), false);
-		
-		// Stop motor 
-		navigator.stop();
-		
-		// Adjust odometer reading
-		adjustOdometer(intersectionDegrees);
+//		// Set motor speed 
+//		LEFT_MOTOR.setSpeed(ROTATE_SPEED);
+//		RIGHT_MOTOR.setSpeed(ROTATE_SPEED);
+//
+//		// Rotate 360 degrees 
+//		LEFT_MOTOR.rotate(Converter.convertAngle(360), true);
+//		RIGHT_MOTOR.rotate(-Converter.convertAngle(360), false);
+//		
+//		// Stop motor 
+//		navigator.stop();
+//		
+//		// Adjust odometer reading
+//		adjustOdometer(intersectionDegrees);
 	}
 
 	/**

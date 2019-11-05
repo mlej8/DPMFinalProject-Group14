@@ -39,162 +39,163 @@ public class PController extends UltrasonicController {
 	 */
 	@Override
 	public void processUSData(int distance) {
-
-		filter(distance);
-
-		if (state == State.INIT && this.distance < THRESHOLD) {
-			// If distance is smaller than threshold change to TURNING state
-			state = State.TURNING;
-
-			// Log current state
-			System.out.println("Switched state to TURNING");
-
-		} else if (state == State.TURNING) {
-			// Get the sensor to look forward
-			rotateMotor.rotate(-rotateMotor.getTachoCount(), false);
-			navigatorObstacle.setTraveling(true);
-
-			// Store variables
-			double x = odometer.getXYT()[0];
-			double y = odometer.getXYT()[1];
-			double theta = odometer.getXYT()[2];
-
-			if (x > 2 * TILE_SIZE && y > 2 * TILE_SIZE) {
-				// If robot is on the first quadrant, i.e. top right
-
-				if ((theta >= CLOCKWISE_LOWER_BOUND - RIGHT_ANGLE && theta <= 360)
-						|| (theta >= 0 && theta <= CLOCKWISE_UPPER_BOUND - RIGHT_ANGLE)) {
-					// If robot is traveling counterclockwise, turn left
-					sharpTurnLeft();
-
-				} else if (theta >= COUNTERCLOCKWISE_LOWER_BOUND - RIGHT_ANGLE
-						&& theta <= COUNTERCLOCKWISE_UPPER_BOUND - RIGHT_ANGLE) {
-					// If going clockwise, turn right
-					sharpTurnRight();
-				}
-
-			} else if (x < 2 * TILE_SIZE && y > 2 * TILE_SIZE) {
-				// If robot is on the second quadrant, i.e. top left
-
-				if ((theta >= CLOCKWISE_LOWER_BOUND && theta <= 360)
-						|| (theta >= 0 && theta <= CLOCKWISE_UPPER_BOUND)) {
-					// If robot is traveling clockwise, turn right
-					sharpTurnRight();
-				} else if (theta >= COUNTERCLOCKWISE_LOWER_BOUND && theta <= COUNTERCLOCKWISE_UPPER_BOUND) {
-					// If going counter clockwise, turn left
-					sharpTurnLeft();
-				}
-
-			} else if (x < 2 * TILE_SIZE && y < 2 * TILE_SIZE) {
-				// If robot is on the third quadrant, i.e. bottom left
-
-				if ((theta >= CLOCKWISE_LOWER_BOUND - RIGHT_ANGLE && theta <= 360)
-						|| (theta >= 0 && theta <= CLOCKWISE_UPPER_BOUND - RIGHT_ANGLE)) {
-					// If robot is traveling clockwise, turn right
-					sharpTurnRight();
-
-				} else if (theta >= COUNTERCLOCKWISE_LOWER_BOUND - RIGHT_ANGLE
-						&& theta <= COUNTERCLOCKWISE_UPPER_BOUND - RIGHT_ANGLE) {
-					// If going counter clockwise, turn left
-					sharpTurnLeft();
-				}
-
-			} else if (x > 2 * TILE_SIZE && y < 2 * TILE_SIZE) {
-				// If robot is on the forth quadrant, i.e. bottom right
-
-				if ((theta >= CLOCKWISE_LOWER_BOUND && theta <= 360)
-						|| (theta >= 0 && theta <= CLOCKWISE_UPPER_BOUND)) {
-					// If robot is traveling counterclockwise, turn left
-					sharpTurnLeft();
-
-				} else if (theta >= COUNTERCLOCKWISE_LOWER_BOUND && theta <= COUNTERCLOCKWISE_UPPER_BOUND) {
-					// If robot is traveling clockwise, turn right
-					sharpTurnRight();
-				}
-			}
-
-			// Log current state
-			System.out.println("Navigation state switched to FOLLOWING_WALL");
-
-			// Switch state to following wall
-			state = State.FOLLOWING_WALL;
-
-		} else if (state == State.FOLLOWING_WALL) {
-
-			// Compute error
-			int error = BAND_CENTER - this.distance; // (distance between the US sensor and an obstacle in cm) -
-														// (Standard offset from the wall cm). We need to tweak
-														// BAND_CENTER and BAND_WIDTH in order to make the robot
-														// smooth.
-
-			// Compute low and high speed using the calcGain function.
-			int lowSpeed = MOTOR_SPEED - calcGain(error);
-			int highSpeed = MOTOR_SPEED + calcGain(error);
-
-			if (turnedRight) {
-				if (Math.abs(error) <= BAND_WIDTH) {
-					forward();
-				} else if (error > 0) {
-					turnRightR(highSpeed);
-				} else if (error < 0) {
-					turnLeftR(lowSpeed, highSpeed);
-				}
-			} else if (turnedLeft) {
-				if (Math.abs(error) <= BAND_WIDTH) {
-					forward();
-				} else if (error > 0) {
-					turnLeftL(highSpeed);
-				} else if (error < 0) {
-					turnRightL(lowSpeed, highSpeed);
-				}
-			}
-
-			if (stopFollowing()) {
-				// Switch state back to INIT
-				state = State.PASSED;
-
-				// Log current state
-				System.out.println("Navigation state switched to PASSED");
-
-				// Stop motors
-				LEFT_MOTOR.stop(true);
-				RIGHT_MOTOR.stop(false);
-			}
-		} else if (state == State.PASSED) {
-
-			// Rotate sensor back to looking forward
-			rotateMotor.rotate(-rotateMotor.getTachoCount(), false);
-
-			// Reset tachocount to 0
-			rotateMotor.resetTachoCount();
-
-			// Reset turned right or turned left to false
-			turnedRight = false;
-			turnedLeft = false;
-
-			// Navigate to waypoint
-			navigatorObstacle.setTraveling(false);
-			
-			// Stop motors 
-			LEFT_MOTOR.stop(true);
-			RIGHT_MOTOR.stop(false);
-
-			// Change state back to INIT
-			state = State.INIT;
-
-			// Log current state
-			System.out.println("Navigation state switched to INIT");
-		}
+//
+//		filter(distance);
+//
+//		if (state == State.INIT && this.distance < THRESHOLD) {
+//			// If distance is smaller than threshold change to TURNING state
+//			state = State.TURNING;
+//
+//			// Log current state
+//			System.out.println("Switched state to TURNING");
+//
+//		} else if (state == State.TURNING) {
+//			// Get the sensor to look forward
+//			rotateMotor.rotate(-rotateMotor.getTachoCount(), false);
+//			navigatorObstacle.setTraveling(true);
+//
+//			// Store variables
+//			double x = odometer.getXYT()[0];
+//			double y = odometer.getXYT()[1];
+//			double theta = odometer.getXYT()[2];
+//
+//			if (x > 2 * TILE_SIZE && y > 2 * TILE_SIZE) {
+//				// If robot is on the first quadrant, i.e. top right
+//
+//				if ((theta >= CLOCKWISE_LOWER_BOUND - RIGHT_ANGLE && theta <= 360)
+//						|| (theta >= 0 && theta <= CLOCKWISE_UPPER_BOUND - RIGHT_ANGLE)) {
+//					// If robot is traveling counterclockwise, turn left
+//					sharpTurnLeft();
+//
+//				} else if (theta >= COUNTERCLOCKWISE_LOWER_BOUND - RIGHT_ANGLE
+//						&& theta <= COUNTERCLOCKWISE_UPPER_BOUND - RIGHT_ANGLE) {
+//					// If going clockwise, turn right
+//					sharpTurnRight();
+//				}
+//
+//			} else if (x < 2 * TILE_SIZE && y > 2 * TILE_SIZE) {
+//				// If robot is on the second quadrant, i.e. top left
+//
+//				if ((theta >= CLOCKWISE_LOWER_BOUND && theta <= 360)
+//						|| (theta >= 0 && theta <= CLOCKWISE_UPPER_BOUND)) {
+//					// If robot is traveling clockwise, turn right
+//					sharpTurnRight();
+//				} else if (theta >= COUNTERCLOCKWISE_LOWER_BOUND && theta <= COUNTERCLOCKWISE_UPPER_BOUND) {
+//					// If going counter clockwise, turn left
+//					sharpTurnLeft();
+//				}
+//
+//			} else if (x < 2 * TILE_SIZE && y < 2 * TILE_SIZE) {
+//				// If robot is on the third quadrant, i.e. bottom left
+//
+//				if ((theta >= CLOCKWISE_LOWER_BOUND - RIGHT_ANGLE && theta <= 360)
+//						|| (theta >= 0 && theta <= CLOCKWISE_UPPER_BOUND - RIGHT_ANGLE)) {
+//					// If robot is traveling clockwise, turn right
+//					sharpTurnRight();
+//
+//				} else if (theta >= COUNTERCLOCKWISE_LOWER_BOUND - RIGHT_ANGLE
+//						&& theta <= COUNTERCLOCKWISE_UPPER_BOUND - RIGHT_ANGLE) {
+//					// If going counter clockwise, turn left
+//					sharpTurnLeft();
+//				}
+//
+//			} else if (x > 2 * TILE_SIZE && y < 2 * TILE_SIZE) {
+//				// If robot is on the forth quadrant, i.e. bottom right
+//
+//				if ((theta >= CLOCKWISE_LOWER_BOUND && theta <= 360)
+//						|| (theta >= 0 && theta <= CLOCKWISE_UPPER_BOUND)) {
+//					// If robot is traveling counterclockwise, turn left
+//					sharpTurnLeft();
+//
+//				} else if (theta >= COUNTERCLOCKWISE_LOWER_BOUND && theta <= COUNTERCLOCKWISE_UPPER_BOUND) {
+//					// If robot is traveling clockwise, turn right
+//					sharpTurnRight();
+//				}
+//			}
+//
+//			// Log current state
+//			System.out.println("Navigation state switched to FOLLOWING_WALL");
+//
+//			// Switch state to following wall
+//			state = State.FOLLOWING_WALL;
+//
+//		} else if (state == State.FOLLOWING_WALL) {
+//
+//			// Compute error
+//			int error = BAND_CENTER - this.distance; // (distance between the US sensor and an obstacle in cm) -
+//														// (Standard offset from the wall cm). We need to tweak
+//														// BAND_CENTER and BAND_WIDTH in order to make the robot
+//														// smooth.
+//
+//			// Compute low and high speed using the calcGain function.
+//			int lowSpeed = MOTOR_SPEED - calcGain(error);
+//			int highSpeed = MOTOR_SPEED + calcGain(error);
+//
+//			if (turnedRight) {
+//				if (Math.abs(error) <= BAND_WIDTH) {
+//					forward();
+//				} else if (error > 0) {
+//					turnRightR(highSpeed);
+//				} else if (error < 0) {
+//					turnLeftR(lowSpeed, highSpeed);
+//				}
+//			} else if (turnedLeft) {
+//				if (Math.abs(error) <= BAND_WIDTH) {
+//					forward();
+//				} else if (error > 0) {
+//					turnLeftL(highSpeed);
+//				} else if (error < 0) {
+//					turnRightL(lowSpeed, highSpeed);
+//				}
+//			}
+//
+//			if (stopFollowing()) {
+//				// Switch state back to INIT
+//				state = State.PASSED;
+//
+//				// Log current state
+//				System.out.println("Navigation state switched to PASSED");
+//
+//				// Stop motors
+//				LEFT_MOTOR.stop(true);
+//				RIGHT_MOTOR.stop(false);
+//			}
+//		} else if (state == State.PASSED) {
+//
+//			// Rotate sensor back to looking forward
+//			rotateMotor.rotate(-rotateMotor.getTachoCount(), false);
+//
+//			// Reset tachocount to 0
+//			rotateMotor.resetTachoCount();
+//
+//			// Reset turned right or turned left to false
+//			turnedRight = false;
+//			turnedLeft = false;
+//
+//			// Navigate to waypoint
+//			navigatorObstacle.setTraveling(false);
+//			
+//			// Stop motors 
+//			LEFT_MOTOR.stop(true);
+//			RIGHT_MOTOR.stop(false);
+//
+//			// Change state back to INIT
+//			state = State.INIT;
+//
+//			// Log current state
+//			System.out.println("Navigation state switched to INIT");
+//		}
+System.out.println("asdf");
 	}
 
 	/**
 	 * Method that moves to robot forward
 	 */
 	private static void forward() {
-		LEFT_MOTOR.setSpeed(MOTOR_SPEED);
-		RIGHT_MOTOR.setSpeed(MOTOR_SPEED);
-		LEFT_MOTOR.forward();
-		RIGHT_MOTOR.forward();
+//		LEFT_MOTOR.setSpeed(MOTOR_SPEED);
+//		RIGHT_MOTOR.setSpeed(MOTOR_SPEED);
+//		LEFT_MOTOR.forward();
+//		RIGHT_MOTOR.forward();
 	}
 
 	/**
@@ -205,10 +206,10 @@ public class PController extends UltrasonicController {
 	private static void turnRightR(int speed) {
 		// if error is bigger than 0, this means that the vehicle is too close from the
 		// wall which means we need to turn right
-		LEFT_MOTOR.setSpeed(speed);
-		RIGHT_MOTOR.setSpeed(speed);
-		LEFT_MOTOR.forward();
-		RIGHT_MOTOR.backward();
+//		LEFT_MOTOR.setSpeed(speed);
+//		RIGHT_MOTOR.setSpeed(speed);
+//		LEFT_MOTOR.forward();
+//		RIGHT_MOTOR.backward();
 	}
 
 	/**
@@ -221,10 +222,10 @@ public class PController extends UltrasonicController {
 		// if error is smaller than 0, this means that the vehicle is too far from the
 		// wall, which
 		// means we need to turn left
-		LEFT_MOTOR.setSpeed(lowSpeed);
-		RIGHT_MOTOR.setSpeed(highSpeed);
-		LEFT_MOTOR.forward();
-		RIGHT_MOTOR.forward();
+//		LEFT_MOTOR.setSpeed(lowSpeed);
+//		RIGHT_MOTOR.setSpeed(highSpeed);
+//		LEFT_MOTOR.forward();
+//		RIGHT_MOTOR.forward();
 	}
 
 	/**
@@ -235,10 +236,10 @@ public class PController extends UltrasonicController {
 	private static void turnRightL(int lowSpeed, int highSpeed) {
 		// if error is bigger than 0, this means that the vehicle is too close from the
 		// wall which means we need to turn right
-		LEFT_MOTOR.setSpeed(highSpeed);
-		RIGHT_MOTOR.setSpeed(lowSpeed);
-		LEFT_MOTOR.forward();
-		RIGHT_MOTOR.forward();
+//		LEFT_MOTOR.setSpeed(highSpeed);
+//		RIGHT_MOTOR.setSpeed(lowSpeed);
+//		LEFT_MOTOR.forward();
+//		RIGHT_MOTOR.forward();
 	}
 
 	/**
@@ -248,10 +249,10 @@ public class PController extends UltrasonicController {
 	 * @param highSpeed
 	 */
 	private static void turnLeftL(int speed) {
-		LEFT_MOTOR.setSpeed(speed);
-		RIGHT_MOTOR.setSpeed(speed);
-		LEFT_MOTOR.backward();
-		RIGHT_MOTOR.forward();
+//		LEFT_MOTOR.setSpeed(speed);
+//		RIGHT_MOTOR.setSpeed(speed);
+//		LEFT_MOTOR.backward();
+//		RIGHT_MOTOR.forward();
 	}
 
 	/**
@@ -302,15 +303,15 @@ public class PController extends UltrasonicController {
 	private static void sharpTurnRight() {
 
 		// Set rotate speed
-		LEFT_MOTOR.setSpeed(ROTATE_SPEED);
-		RIGHT_MOTOR.setSpeed(ROTATE_SPEED);
-
-		// Turn right
-		LEFT_MOTOR.rotate(NavigationWithObstacles.convertAngle(RIGHT_ANGLE), true);
-		RIGHT_MOTOR.rotate(-NavigationWithObstacles.convertAngle(RIGHT_ANGLE), false);
-
-		// Turn sensor 90 degrees to the left to face the wall
-		rotateMotor.rotate(NavigationWithObstacles.convertAngle(SENSOR_ROTATION));
+//		LEFT_MOTOR.setSpeed(ROTATE_SPEED);
+//		RIGHT_MOTOR.setSpeed(ROTATE_SPEED);
+//
+//		// Turn right
+//		LEFT_MOTOR.rotate(NavigationWithObstacles.convertAngle(RIGHT_ANGLE), true);
+//		RIGHT_MOTOR.rotate(-NavigationWithObstacles.convertAngle(RIGHT_ANGLE), false);
+//
+//		// Turn sensor 90 degrees to the left to face the wall
+//		rotateMotor.rotate(NavigationWithObstacles.convertAngle(SENSOR_ROTATION));
 
 		// Set variable to track we turned right
 		turnedRight = true;
@@ -323,15 +324,15 @@ public class PController extends UltrasonicController {
 	private static void sharpTurnLeft() {
 
 		// Set rotate speed
-		LEFT_MOTOR.setSpeed(ROTATE_SPEED);
-		RIGHT_MOTOR.setSpeed(ROTATE_SPEED);
-
-		// Turn left
-		LEFT_MOTOR.rotate(-NavigationWithObstacles.convertAngle(RIGHT_ANGLE), true);
-		RIGHT_MOTOR.rotate(NavigationWithObstacles.convertAngle(RIGHT_ANGLE), false);
-
-		// Turn sensor 90 degrees to the right to face the wall
-		rotateMotor.rotate(-NavigationWithObstacles.convertAngle(SENSOR_ROTATION));
+//		LEFT_MOTOR.setSpeed(ROTATE_SPEED);
+//		RIGHT_MOTOR.setSpeed(ROTATE_SPEED);
+//
+//		// Turn left
+//		LEFT_MOTOR.rotate(-NavigationWithObstacles.convertAngle(RIGHT_ANGLE), true);
+//		RIGHT_MOTOR.rotate(NavigationWithObstacles.convertAngle(RIGHT_ANGLE), false);
+//
+//		// Turn sensor 90 degrees to the right to face the wall
+//		rotateMotor.rotate(-NavigationWithObstacles.convertAngle(SENSOR_ROTATION));
 
 		// Set variable to track we turned left
 		turnedLeft = true;
@@ -346,16 +347,16 @@ public class PController extends UltrasonicController {
 	 */
 	public static boolean stopFollowing() {
 		// Compute displacement
-		double dx = navigatorObstacle.getDestX() - odometer.getXYT()[0];
-		double dy = navigatorObstacle.getDestY() - odometer.getXYT()[1];
-
-		// Compute the angle needed to turn; dx and dy are intentionally switched in
-		// order to compute angle w.r.t. the y-axis and not w.r.t. the x-axis
-		double theta = scaleTo360Degrees(Math.toDegrees(Math.atan2(dx, dy))) - odometer.getXYT()[2];
-
-		if (Math.abs(theta) <= STOP_THRESHOLD) {
-			return true;
-		}
+//		double dx = navigatorObstacle.getDestX() - odometer.getXYT()[0];
+//		double dy = navigatorObstacle.getDestY() - odometer.getXYT()[1];
+//
+//		// Compute the angle needed to turn; dx and dy are intentionally switched in
+//		// order to compute angle w.r.t. the y-axis and not w.r.t. the x-axis
+//		double theta = scaleTo360Degrees(Math.toDegrees(Math.atan2(dx, dy))) - odometer.getXYT()[2];
+//
+//		if (Math.abs(theta) <= STOP_THRESHOLD) {
+//			return true;
+//		}
 		return false;
 	}
 
@@ -373,8 +374,10 @@ public class PController extends UltrasonicController {
 	}
 
 	public static double distanceToWaypoint() {
-		double dx = navigatorObstacle.getDestX() - odometer.getXYT()[0];
-		double dy = navigatorObstacle.getDestY() - odometer.getXYT()[1];
-		return Math.hypot(dx, dy);
-	}
+//		double dx = navigatorObstacle.getDestX() - odometer.getXYT()[0];
+//		double dy = navigatorObstacle.getDestY() - odometer.getXYT()[1];
+//		return Math.hypot(dx, dy);
+		return 0.2;
+		}
+	
 }
