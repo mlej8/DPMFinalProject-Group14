@@ -12,10 +12,10 @@ import lejos.hardware.Sound;
  * measure the distance to the two walls nearest the robot to determine the
  * initial orientation of the robot by rotating 360 degrees on itself.
  */
-public class UltrasonicLocalizer extends UltrasonicController {
-
+public class UltrasonicLocalizer extends UltrasonicController{
+	
 	/**
-	 * Method that executes ultrasonic localization by using falling edges.
+	 * Method that executes ultrasonic localization by using falling edge technique.
 	 */
 	public void fallingEdge() {
 
@@ -37,42 +37,6 @@ public class UltrasonicLocalizer extends UltrasonicController {
 		} else {
 			// if currentAngle + odometer.getXYT()[2] is negative, rescale it on 360
 			// degrees.
-			odometer.setTheta(360 + correctionAngle + odometer.getXYT()[2]);
-		}
-
-		// Turn to 0 degrees w.r.t. the Y-axis using the minimal angle.
-		if (odometer.getXYT()[2] > 180) {
-			navigator.turnTo(360 - odometer.getXYT()[2]);
-		} else {
-			navigator.turnTo(0 - odometer.getXYT()[2]);
-		}
-	}
-
-	/**
-	 * Method that executes ultrasonic localization by using rising edges.
-	 */
-	public void risingEdge() {
-
-		// Filter out noisy data during US sensor's initialization
-		while (this.distance == 0) {
-		}
-
-		// rising edge is the point at which the measured distances rises above d +
-		// NOISE_MARGIN
-		double backWall, leftWall, correctionAngle;
-
-		backWall = findRisingEdgeA();
-		leftWall = findRisingEdgeB();
-
-		// Get the angle to be added to the heading reported by the odometer to orient
-		// the robot correctly
-		correctionAngle = getCorrectionAngle(backWall, leftWall);
-
-		// Correct current odometer's orientation
-		if (correctionAngle + odometer.getXYT()[2] > 0) {
-			odometer.setTheta(correctionAngle + odometer.getXYT()[2]);
-		} else {
-			// if currentAngle + odometer.getXYT()[2] is negative, rescale it on 360.
 			odometer.setTheta(360 + correctionAngle + odometer.getXYT()[2]);
 		}
 
@@ -152,83 +116,6 @@ public class UltrasonicLocalizer extends UltrasonicController {
 	}
 
 	/**
-	 * Method that returns the angle at which the back wall is detected for the
-	 * rising edge implementation
-	 * 
-	 * @return average of the angle at which the robot enter the noise margin and
-	 *         the angle at which the rising edge is detected.
-	 */
-	private double findRisingEdgeA() {
-
-		double risingEdge;
-
-		// Turn right until the robot is facing the wall
-		while (readUSDistance() > d) {
-			navigator.rotate(ROTATION_RIGHT);
-		}
-
-		// Turn left until the robot detects the rising edge for the back wall.
-		while (readUSDistance() < d) {
-			navigator.rotate(ROTATION_LEFT);
-		}
-
-		// Stop robot when it detects the rising edge.
-		navigator.stop();
-
-		// Make a sound when rising edge is detected.
-		Sound.beep();
-
-		// Store the angle at which the rising edge is detected.
-		risingEdge = odometer.getXYT()[2];
-
-		return risingEdge;
-	}
-
-	/**
-	 * Method that returns the angle at which the left wall is detected for the
-	 * rising edge implementation
-	 * 
-	 * @return average of the angle at which the robot enter the noise margin and
-	 *         the angle at which the rising edge is detected.
-	 */
-	private double findRisingEdgeB() {
-
-		double risingEdge;
-
-		// Turn right until the robot is under distance + NOISE_MARGIN of the back wall
-		while (readUSDistance() > d) {
-			System.out.println(this.distance);
-			navigator.rotate(ROTATION_RIGHT);
-		}
-
-		// Turn right until the robot detects the rising edge for the left wall.
-		while (readUSDistance() < d) {
-			navigator.rotate(ROTATION_RIGHT);
-		}
-
-		// Stop robot when it detects the rising edge.
-		navigator.stop();
-
-		// Make a sound when rising edge is detected.
-		Sound.beep();
-
-		// Store the angle at which the rising edge is detected.
-		risingEdge = odometer.getXYT()[2];
-
-		return risingEdge;
-	}
-
-	@Override
-	public void processUSData(int distance) {
-		filter(distance);
-	}
-
-	@Override
-	public int readUSDistance() {
-		return this.distance;
-	}
-
-	/**
 	 * Method that computes the angle to be added to the heading reported by the
 	 * odometer to orient the robot correctly.
 	 * 
@@ -242,5 +129,15 @@ public class UltrasonicLocalizer extends UltrasonicController {
 		} else {
 			return (222 - ((a + b) / 2.0));
 		}
+	}
+
+	@Override
+	public void processUSData(int distance) {
+		filter(distance);
+	}
+
+	@Override
+	public int readUSDistance() {
+		return this.distance;
 	}
 }

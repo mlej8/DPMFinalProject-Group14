@@ -60,10 +60,24 @@ public class Odometer implements Runnable {
 
 	private static Odometer odo; // Returned as singleton
 
-	// Motor-related variables
+	/**
+	 * Left motor tacho count
+	 */
 	private static int leftMotorTachoCount;  // current left wheel's tachometer count
+
+	/**
+	 * Right motor tacho count
+	 */
 	private static int rightMotorTachoCount; // current right wheel's tachometer count
+	
+	/**
+	 * Last left motor tacho count
+	 */
 	private static int lastTachoCountL = 0;  // left wheel's last tachometer count
+	
+	/**
+	 * Last right motor tacho count
+	 */
 	private static int lastTachoCountR = 0;  // right wheel's last tachometer count
 
 	/**
@@ -279,17 +293,6 @@ public class Odometer implements Runnable {
 			doneResetting.signalAll();
 		} finally {
 			lock.unlock();
-		}
-	}
-
-	/**
-	 * Populates the input position array in the format [x, y, theta].
-	 */
-	public void populatePosition(double[] position) {
-		synchronized (this) {
-			position[0] = x;
-			position[1] = y;
-			position[2] = theta;
 		}
 	}
 }

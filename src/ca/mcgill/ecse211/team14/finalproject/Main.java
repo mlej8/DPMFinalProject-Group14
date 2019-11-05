@@ -1,20 +1,18 @@
 package ca.mcgill.ecse211.team14.finalproject;
 
 import static ca.mcgill.ecse211.team14.finalproject.Resources.*;
-
-import ca.mcgill.ecse211.team14.finalproject.Display;
 import ca.mcgill.ecse211.team14.finalproject.SensorPoller.Mode;
 import lejos.hardware.Button;
 import lejos.hardware.Sound;
 
 /**
- * The main class controlling the flow of the application.
+ * The main class controls the flow of the application.
  */
 public class Main {
 
 	public static void main(String args[]) {
 
-		waitToStart();
+		waitForPress();
 		
 		// TODO: Process WIFI info (starting position, bin, tunnel, island left bottom corner and right corner -> Create map)
 		
@@ -79,17 +77,10 @@ public class Main {
 	 * 
 	 * @return Button choice
 	 */
-	private static int waitToStart() {
+	private static int waitForPress() {
 		int buttonChoice;
 		
-		Display.showText(" 	  Press The	   ", 
-						 "  Center Button  ", 
-						 "     to Start    ",
-						 "    Target X: " + navigator.getTargetX(),
-						 "    Target Y: " + navigator.getTargetY(),
-						 "    Launch X: " + navigator.getlaunchX(),
-						 "    Launch Y: " + navigator.getlaunchY());
-
+		System.out.println("Press the center button to start.");
 		do {
 			buttonChoice = Button.waitForAnyPress();
 		} while (buttonChoice != Button.ID_ENTER);

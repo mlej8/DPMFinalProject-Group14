@@ -12,32 +12,6 @@ public class Navigation {
 	private boolean traveling = false; // false by default
 
 	/**
-	 * Variable destination's x coordinate.
-	 */
-	private double launchX;
-
-	/**
-	 * Variable destination's y coordinate.
-	 */
-	private double launchY;
-
-	/**
-	 * Variable target's x coordinate.
-	 */
-	private double targetX;
-
-	/**
-	 * Variable destination's y coordinate.
-	 */
-	private double targetY;
-
-	/**
-	 * Origin (1,1) coordinates.
-	 */
-	private static final double originX = 1 * TILE_SIZE;
-	private static final double originY = 1 * TILE_SIZE;
-
-	/**
 	 * Navigation class implements the singleton pattern
 	 */
 	private Navigation() {
@@ -56,68 +30,6 @@ public class Navigation {
 	}
 
 	/**
-	 * Method that travels to the origin (1,1).
-	 */
-	public void travelToOrigin() {
-
-		// Navigate to origin (1,1)
-		navigator.travelTo(originX, originY);
-
-		// Sleep while it is traveling
-		while (navigator.isNavigating()) {
-			Main.sleepFor(10 * SLEEPINT);
-		}
-	}
-
-	/**
-	 * Method that travels to the launch point (launchX, launchY).
-	 */
-	public void travelToLaunchPoint() {
-		navigator.travelTo(this.launchX, this.launchY);
-	}
-
-	/**
-	 * Find current robot position after ultrasonic localization by detecting the
-	 * grid lines assuming the robot is currently on the diagonal line (45 degrees)
-	 * of a tile.
-	 */
-	public void findRobotPosition() { // TODO CHANGE 
-
-		// Set robot speeds
-		LEFT_MOTOR.setSpeed(MOTOR_SPEED);
-		RIGHT_MOTOR.setSpeed(MOTOR_SPEED);
-
-		// Reset tacho counts
-		LEFT_MOTOR.resetTachoCount();
-		RIGHT_MOTOR.resetTachoCount();
-
-		// Travel forward until a line is detected
-		while (!lightLocalizer.getLineTouched()) {
-			LEFT_MOTOR.forward();
-			RIGHT_MOTOR.forward();
-		}
-		// Stop robot once it detects the black line
-		stop();
-
-		// Note the distance it traveled
-		int tachCountLeft = LEFT_MOTOR.getTachoCount();
-		int tachCountRight = RIGHT_MOTOR.getTachoCount();
-
-		// Go Back to starting position
-		LEFT_MOTOR.rotate(-tachCountLeft, true);
-		RIGHT_MOTOR.rotate(-tachCountRight, false);
-
-		// Position of the center of rotation
-		double distToGridLine = Math.PI * WHEEL_RAD * (tachCountLeft) / 180 - DIST_CENTRE_TO_LIGHT_SENSOR;
-
-		// Assuming the robot is on the diagonalize line of the tile, the horizontal
-		// distance is equal to the vertical distance
-		odometer.setX(TILE_SIZE - distToGridLine);
-		odometer.setY(TILE_SIZE - distToGridLine);
-		lightLocalizer.setlocalizerStarted(true);
-	}
-
-	/**
 	 * Method that stops the robot completely.
 	 */
 	public void stop() {
@@ -125,14 +37,17 @@ public class Navigation {
 		RIGHT_MOTOR.stop(false);
 	}
 
+	/**
+	 * This method causes the robot to travel to the absolute field location (x, y),
+	 * specified in tile points. This method should continuously call turnTo(double
+	 * theta) and then set the motor speed to forward (straight). This will make
+	 * sure that your heading is updated until you reach your exact goal. This
+	 * method will poll the odometer for information.
+	 * @param x: destination x coordinates 
+	 * @param y: destination y coordinates 
+	 */
 	public void travelTo(double x, double y) {
-		/**
-		 * This method causes the robot to travel to the absolute field location (x, y),
-		 * specified in tile points. This method should continuously call turnTo(double
-		 * theta) and then set the motor speed to forward (straight). This will make
-		 * sure that your heading is updated until you reach your exact goal. This
-		 * method will poll the odometer for information.
-		 */
+		
 		// Traveling
 		this.traveling = true;
 
@@ -181,9 +96,9 @@ public class Navigation {
 	}
 	
 	/**
-	 * This method causes the robot to navigate foward
+	 * This method causes the robot to navigate forward for a set amount of distance.
 	 * 
-	 * @Param distance to travel
+	 * @Param distance: distance to travel.
 	 */
 	public void navigateForward(double distance) {
 		LEFT_MOTOR.setSpeed(MOTOR_SPEED);
@@ -217,7 +132,10 @@ public class Navigation {
 	}
 	
 	/**
-	 * This method causes the robot to turn to an exact angle.
+	 *
+	 * Method that causes the robot to turn to an exact angle with respect to the Y axis.
+	 *
+	 * @param theta
 	 */
 	public void turnTo2(double theta) {
 
@@ -257,87 +175,6 @@ public class Navigation {
 	}
 
 	/**
-	 * This method uses the given target position (targetX,targetY) to find the
-	 * ideal launching position.
-	 */
-	public void findDestination() {
-		double currentX = odometer.getXYT()[0];
-		double currentY = odometer.getXYT()[1];
-		double[] curPosition = new double[] { currentX, currentY };
-		double[] throwTo = new double[] { targetX, targetY };
-
-		double theta = Math.atan2(currentX - targetX, currentY - targetY);
-
-		double dx, dy;
-		// calculate the intersection of the circle and the line
-		if (theta < 0) { // when the robot is in 2nd/3rd quadrant
-			dy = LAUNCH_RANGE * Math.cos(-theta);
-			dx = -LAUNCH_RANGE * Math.sin(-theta);
-			this.launchY = targetY + dy;
-			this.launchX = targetX + dx;
-		} else { // in 1st/4th quadrant
-			dy = LAUNCH_RANGE * Math.cos(theta);
-			dx = LAUNCH_RANGE * Math.sin(theta);
-			this.launchY = targetY + dy;
-			this.launchX = targetX + dx; 
-		}
-
-		if (launchX <= 15 || launchY <= 15) {
-			double[] target = findCircle(curPosition, throwTo);
-			this.launchX = target[0];
-			this.launchY = target[1];
-		}
-	}
-
-	public void findDestination2() {
-
-		// Compute angle towards the destination
-		// Compute displacement
-		double dx = targetX - odometer.getXYT()[0];
-		double dy = targetY - odometer.getXYT()[1];
-
-		// Compute the angle needed to turn; dx and dy are intentionally switched in
-		// order to compute angle w.r.t. the y-axis and not w.r.t. the x-axis
-		double theta = Math.toDegrees(Math.atan2(dx, dy)) - odometer.getXYT()[2];
-		// Turn to destination
-		navigator.turnTo(theta);
-	}
-
-	/**
-	 * 
-	 * @param curPos
-	 * @param center
-	 * @return
-	 */
-	private static double[] findCircle(double[] curPos, double[] center) {
-		double[] target = new double[2];
-		if (center[0] > center[1]) { // upper half
-			double tX = curPos[0];
-			double tY = Math.sqrt(Math.pow(LAUNCH_RANGE, 2) - Math.pow((curPos[0] - center[0]), 2)) + center[1];
-			target = new double[] { tX, tY };
-		} else { // lower half
-			double tY = curPos[1];
-			double tX = Math.sqrt(Math.pow(LAUNCH_RANGE, 2) - Math.pow((curPos[1] - center[1]), 2)) + center[0];
-			target = new double[] { tX, tY };
-		}
-		return target;
-	}
-
-	/**
-	 * @return launch point's x coordinate.
-	 */
-	public double getlaunchX() {
-		return this.launchX;
-	}
-
-	/**
-	 * @return launch point's y coordinate.
-	 */
-	public double getlaunchY() {
-		return this.launchY;
-	}
-
-	/**
 	 * Getters method for traveling.
 	 * 
 	 * @return traveling
@@ -354,13 +191,4 @@ public class Navigation {
 	public void setTraveling(boolean traveling) {
 		this.traveling = traveling;
 	}
-
-	public double getTargetX() {
-		return targetX;
-	}
-
-	public double getTargetY() {
-		return targetY;
-	}
-
 }

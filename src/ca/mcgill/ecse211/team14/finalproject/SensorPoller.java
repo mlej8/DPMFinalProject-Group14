@@ -6,14 +6,31 @@ import static ca.mcgill.ecse211.team14.finalproject.Resources.*;
  * Class that handles which sensor to use (US Sensor or Light Sensor) and fetch data from. 
  */
 public class SensorPoller implements Runnable {
-
+	
+	/**
+	 * Array to store ultrasonic data
+	 */
     private float[] usData;
+    
+    /**
+     * Array to store light sensor data
+     */
     private float[] lightData;
+    
+    /**
+     * Mode indicating current state of Sensor Poller
+     */
     private Mode mode;
     
+    /**
+     * States of sensor poller
+     * 
+     * @author Michael Li, Lora Zhang, Cecilia Jiang
+     *
+     */
     public enum Mode 
     { 
-        ULTRASONIC, LIGHT; 
+        ULTRASONIC, LIGHT, BOTH, IDLE; 
     } 
       
     public SensorPoller() {
@@ -48,6 +65,9 @@ public class SensorPoller implements Runnable {
         }      
     }
     
+    /**
+     * Set current state of sensor poller. It can either be pooling data for ultrasonic sensor, light sensor, both sensors or not pooling data (IDLE).
+     */
     public void setMode(Mode selectedMode) {
       mode = selectedMode;
     }

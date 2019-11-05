@@ -3,9 +3,9 @@ package ca.mcgill.ecse211.team14.finalproject;
 import static ca.mcgill.ecse211.team14.finalproject.Resources.*;
 
 /**
- * This class contains method for launching a ball using catapult and reload ball.
+ * This class contains method for launching a ping-pong ball using the launching mechanism designed by the hardware team.
  * 
- * @author Yilin Jiang
+ * @author Yilin Jiang, Michael Li, Lora Zhang
  *
  */
 public class BallLauncher {
@@ -13,9 +13,9 @@ public class BallLauncher {
     public BallLauncher() {}
 
     /**
-     * Launch the catapult.
+     * Triggers the launching mechanism.
      */
-    public void catapultlaunch() {
+    public void launch() {
 
       // Set motors' acceleration and speed
       leftLaunchMotor.setAcceleration(LAUNCH_MOTOR_ACCELERATOR);
@@ -33,20 +33,6 @@ public class BallLauncher {
       reload();
     }
 
-    /**
-     * Allow for manual reload by rotating the arm backward.
-     */
-    public void reload() {
-      // Set reload speed
-      leftLaunchMotor.setAcceleration(ACCELERATION);
-      rightLaunchMotor.setAcceleration(ACCELERATION);
-      leftLaunchMotor.setSpeed(MOTOR_SPEED);
-      rightLaunchMotor.setSpeed(MOTOR_SPEED);
-  
-      // Rotate catapult back to its original position
-      leftLaunchMotor.rotate(-Converter.convertAngle(LAUNCH_ANGLE), true);
-      rightLaunchMotor.rotate(-Converter.convertAngle(LAUNCH_ANGLE), false);
-      Main.sleepFor(7000);
-    }
+
 
 }
