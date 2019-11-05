@@ -147,12 +147,16 @@ public class Navigation {
 			turnTo2(270);
 		}
 		
+		navigateForward(dx);
+		
 		// Second travel along Y-axis
 		if (dy >= 0) {
 			turnTo2(0);
 		} else {
 			turnTo2(180);
 		}
+		
+		navigateForward(dy);
 		
 //		// Compute the angle needed to turn; dx and dy are intentionally switched in
 //		// order to compute angle w.r.t. the y-axis and not w.r.t. the x-axis

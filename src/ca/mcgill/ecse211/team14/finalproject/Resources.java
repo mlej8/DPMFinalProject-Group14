@@ -86,17 +86,17 @@ public class Resources {
 	/**
 	 * The ultrasonic sensor.
 	 */
-	public static final EV3UltrasonicSensor usSensor = new EV3UltrasonicSensor(SensorPort.S1);
+//	public static final EV3UltrasonicSensor usSensor = new EV3UltrasonicSensor(SensorPort.S1);
 
 	/**
      * The light sensor.
      */
-    public static final EV3ColorSensor lightSensor = new EV3ColorSensor(SensorPort.S2);
+//    public static final EV3ColorSensor lightSensor = new EV3ColorSensor(SensorPort.S2);
     
 	/**
 	 * The ultrasonic poller.
 	 */
-	public static SensorPoller sensorPoller = new SensorPoller();
+//	public static SensorPoller sensorPoller = new SensorPoller();
 
 	/**
 	 * Instance of the Navigation class.
@@ -116,21 +116,17 @@ public class Resources {
 	/**
 	 * Instance of US Localizer
 	 */
-	public static UltrasonicLocalizer ultrasonicLocalizer = new UltrasonicLocalizer();
+//	public static UltrasonicLocalizer ultrasonicLocalizer = new UltrasonicLocalizer();
 	
 	/** 
 	 * Instance of Light Localizer
 	 */
-	public static LightLocalizer lightLocalizer = new LightLocalizer();
-	
-	/** 
-     * Instance of Light Localizer
-     */
-	public static BallLauncher ballLauncher = new BallLauncher();
+//	public static LightLocalizer lightLocalizer = new LightLocalizer();
+
 	
 	/**
 	 * d constant for ultrasonic localizer representing the threshold distance from the wall 
-	 */
+	 *
 	public static double d = 45.0; 
 	
 	/**
@@ -166,15 +162,7 @@ public class Resources {
     public static final int LAUNCH_ANGLE = -40;
 
 
-    /**
-     * Motor instance of the launch motor.
-     */
-    public static final EV3LargeRegulatedMotor leftLaunchMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("B"));
-    
-    /**
-     * Motor instance of the launch motor.
-     */
-    public static final EV3LargeRegulatedMotor rightLaunchMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("C"));
+
     
     /**
      * Ball launch range;
