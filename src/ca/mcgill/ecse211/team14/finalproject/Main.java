@@ -11,64 +11,83 @@ import lejos.hardware.Sound;
 public class Main {
 
 	public static void main(String args[]) {
-
+		
+		// Initiate a WIFI object
+		Wifi wifi = new Wifi();
+		// TODO: Tell wifi class to collect data and calculate everything it needs (launch, tunnelEn, tunnelEx, etc.)
+		
 		waitForPress();
-		
-		// TODO: Process WIFI info (starting position, bin, tunnel, island left bottom corner and right corner -> Create map)
-		
+
+		// TODO: Cecilia and Lora Zhang - Process WIFI info (starting position, bin,
+		// tunnel, island left bottom corner and right corner -> Create map)
+
 		// TODO: Start odometer thread
 		new Thread(odometer).start();
-		
-		// TODO: Start sensor poller 
-		
-		// TODO: Execute Falling Edge implementation of ultrasonic localization		
+
+		// TODO: Cecilia and Lora Zhang: Start sensor poller thread (add condition to
+		// operate both sensors at the same time, and add state for IDLE)
+
+		// TODO: Choose Falling vs Rising depending on hardware. Execute ultrasonic
+		// localization
 		// ultrasonicLocalizer.fallingEdge();
-		
-		// TODO: Switch to light mode in Sensor Poller 
-		
-		// TODO: Do light snesor correction to navigate to closest point 
-		// i.e. navigate to first line and turn right 90 degrees and stop when detect both lines again, then turn right. 
-		
-		// TODO: Stop and beeps for 3 times 
-		
-		// TODO: Find tunnel entrance and tunnel exit (exX, exY) (i.e. 
-		
+
+		// TODO: Switch to light mode in Sensor Poller
+		sensorPoller.setMode(Mode.LIGHT);
+
+		// TODO: Michael: Do light snesor correction to navigate to closest point
+		// i.e. navigate to first line and turn right 90 degrees and stop when detect
+		// both lines again, then turn right.
+
+		// TODO: Stop and beeps for 3 times
+		stopAndBeep(3);
+
+
 		// TODO: Travel to tunnel
-		
-		// TODO: Pass the tunnel (Go straight until detected 4 lines? (Travel through a certain amount of distance) 
+		navigator.travelTo(wifi.getTunnelEnX(), wifi.getTunnelEnY());
+
+		// TODO: Pass the tunnel (Go straight until detected 4 lines? (Travel through a
+		// certain amount of distance). Think about a way to do it... 
+		navigator.travelTo(wifi.getTunnelExX(), wifi.getTunnelExY());
 		
 		// TODO: Set to BOTH mode (LIGHT and US mode for Sensor Poller)
+		sensorPoller.setMode(Mode.BOTH);
 		
-		// TODO: Start obstacle avoidance thread...? or nah
+		// TODO: Start obstacle avoidance thread...? or nah Should make into a thread or not? 
 		
-		// TODO: Find launch point 
+		// TODO: Find launch point
+		// TODO: Travel to launch point
+		navigator.travelTo(wifi.getlaunchX(), wifi.getlaunchY());
 		
-		// TODO: Travel to launch point 
+
+		// TODO: Start obstacle avoidance
+
 		
-		// TODO: Start obstacle avoidance 
-		
-		// TODO: If object has been detected, trigger object avoidance, during object avoidance, if robot intersects with bin circumferance circle, stop there. Otherwise, finish object avoidance until facing destination point. 
-		
-		// TODO: If no object has been detected, stop and beep for 3 times 
+		// TODO: If object has been detected, trigger object avoidance, during object
+		// avoidance, if robot intersects with bin circumferance circle, stop there.
+		// Otherwise, finish object avoidance until facing destination point.
+
+		// TODO: If no object has been detected, stop and beep for 3 times
+		stopAndBeep(3);
 		
 		// TODO: Launch all five balls
+		BallLauncher ballLauncher = new BallLauncher();
 		
-		// TODO: Travel to tunnel exX and exY 
+		// TODO: Travel to tunnel exX and exY
+		navigator.travelTo(wifi.getTunnelExX(), wifi.getTunnelExY());
 		
-		// TODO: Pass through the tunnel 
-		
-		// TODO: To starting point 
-		
-		// TODO: Stop and beep for 5 times		
-		
-		System.out.println(odometer.getXYT()[2]);
-		navigator.travelTo(1*TILE_SIZE,1*TILE_SIZE);
-		// Do nothing until exit button is pressed, then exit.
-	
-		// public static BallLauncher ballLauncher = new BallLauncher();
-		
+		// TODO: Pass through the tunnel
+		navigator.travelTo(wifi.getTunnelEnX(), wifi.getTunnelEnY());
+
+		// TODO: To starting point
+		navigator.travelTo(wifi.getStartX(), wifi.getStartY());
+
+		// TODO: Stop and beep for 5 times
+		stopAndBeep(5);
+
+		// Do nothing until exit button is pressed, then exit.	
 		while (Button.waitForAnyPress() != Button.ID_ESCAPE)
 			System.exit(0);
+
 	}
 
 	/**
@@ -79,7 +98,7 @@ public class Main {
 	 */
 	private static int waitForPress() {
 		int buttonChoice;
-		
+
 		System.out.println("Press the center button to start.");
 		do {
 			buttonChoice = Button.waitForAnyPress();
@@ -103,4 +122,18 @@ public class Main {
 		}
 	}
 
+	/**
+	 * Method that stops the robot and beeps a specified number of times. 
+	 * 
+	 * @param numberOfTimes: number of times to beep. 
+	 */
+	private static void stopAndBeep(int numberOfTimes) {
+		// Stop robot 
+		navigator.stop();
+		 
+		// Beep for specified number of times
+		for (int i = 0; i < numberOfTimes; i++) {
+			Sound.beep();
+		}
+	}
 }

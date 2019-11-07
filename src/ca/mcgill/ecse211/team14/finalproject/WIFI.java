@@ -2,7 +2,7 @@ package ca.mcgill.ecse211.team14.finalproject;
 
 import static ca.mcgill.ecse211.team14.finalproject.Resources.*;
 
-public class WIFI {
+public class Wifi {
 
 	/**
 	 * Variable target's x coordinate.
@@ -43,6 +43,26 @@ public class WIFI {
 	 * Array that stores the tunnel coordinates.
 	 */
 	private double[] tunnelCoordinates;
+	
+	/**
+	 * Tunnel entrance X coordinate.
+	 */
+	private double tunnelEnX;
+
+	/**
+	 * Tunnel entrance Y coordinate.
+	 */
+	private double tunnelEnY;
+	
+	/**
+	 * Tunnel exit X coordinate.
+	 */
+	private double tunnelExX;
+	
+	/**
+	 * Tunnel exit Y coordinate.
+	 */
+	private double tunnelExY;
 	
 	/**
 	 * This method uses the given target position (binX,binY) to find the
@@ -193,6 +213,38 @@ public class WIFI {
 
 	public void setTunnelCoordinates(double[] tunnelCoordinates) {
 		this.tunnelCoordinates = tunnelCoordinates;
+	}
+
+	public double getTunnelEnX() {
+		return tunnelEnX;
+	}
+
+	public void setTunnelEnX(double tunnelEnX) {
+		this.tunnelEnX = tunnelEnX;
+	}
+
+	public double getTunnelEnY() {
+		return tunnelEnY;
+	}
+
+	public void setTunnelEnY(double tunnelEnY) {
+		this.tunnelEnY = tunnelEnY;
+	}
+
+	public double getTunnelExX() {
+		return tunnelExX;
+	}
+
+	public void setTunnelExX(double tunnelExX) {
+		this.tunnelExX = tunnelExX;
+	}
+
+	public double getTunnelExY() {
+		return tunnelExY;
+	}
+
+	public void setTunnelExY(double tunnelExY) {
+		this.tunnelExY = tunnelExY;
 	}
 
 }
