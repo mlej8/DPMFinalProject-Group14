@@ -152,26 +152,43 @@ public class WIFI {
 	/**
 	 * Method that calculates and returns the coordinates at which the robot needs to travel to in order to enter the tunnel.
 	 */
-	public double[] getTunnelEntrance() {
+	public void getTunnelEntrance() {
+		Region tunnelArea = null;
 		Region startArea = null;
 		if(redTeam == 14){
-			startArea = tnr;
+			tunnelArea = tnr;
+			startArea = red;
 		}else{
-			startArea = tng;
+			tunnelArea = tng;
+			startArea = green;
 		}
-		double x = startArea.width;
-		double y = startArea.height;
+		double tx = tunnelArea.width;
+		double ty = tunnelArea.height;
 
+		double x = 0;
+		double y = 0;
 		if(x <= y){
 			// go vertically
-			if(startY < startArea.ll.y){
-				
-			} else{
-
+			if(startY < tunnelArea.ll.y){	//below
+				x = tunnelArea.ll.x;
+				y = tunnelArea.ll.y - 1;
+			} else{							//upper
+				x = tunnelArea.ur.x;
+				y = tunnelArea.ur.y + 1;
 			}
 		}else{
 			// go horizontally
-
+			if(startX < tunnelArea.ll.x){	//left
+				x = tunnelArea.ll.x - 1;
+				y = tunnelArea.ll.r;
+			} else{
+				x = tunnelArea.ll.x + 1;	//right
+				y = tunnelArea.ll.r; 
+			}
+			// TODO: 1. turn to the same angle every time?
+			//	2. Avoid touching the river/wall in edge cases	
+			tunnelEnX = x;
+			tunnelEnY = y;
 		}
 	}
 
@@ -179,6 +196,7 @@ public class WIFI {
 	 * Method that calculates and returns the coordinates at which the robot needs to travel to in order to exit the tunnel.
 	 */
 	public double[] getTunnelExit() {
+		// TODO: merge into getEntrance
 		System.out.println(" ");
 		return islandCoordinates;
 	}
