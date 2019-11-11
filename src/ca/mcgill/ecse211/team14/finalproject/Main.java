@@ -13,8 +13,11 @@ public class Main {
 	public static void main(String args[]) {
 		
 		// Initiate a WIFI object
-		Wifi wifi = new Wifi();
+		WIFI wifi = new WIFI();
 		// TODO: Tell wifi class to collect data and calculate everything it needs (launch, tunnelEn, tunnelEx, etc.)
+		System.out.println("Fetching map data...");
+		wifi.findStartPoint();
+		wifi.getTunnelEntrance();
 		
 		waitForPress();
 

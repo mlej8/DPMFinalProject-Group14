@@ -276,7 +276,7 @@ public class Resources {
      */
     public static Point bin = new Point(get("BIN_x"), get("BIN_y"));    
     
-    public static Point startP = new Point(x, y));
+    
     
     /**
      * Receives Wi-Fi parameters from the server program.
@@ -336,10 +336,10 @@ public class Resources {
       public Point ur;
       
       /** The width of the region */
-      public int width;
+      public double width;
 
       /** The height of the region */
-      public int height;
+      public double height;
 
       /**
        * Constructs a Region.

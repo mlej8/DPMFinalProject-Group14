@@ -180,10 +180,10 @@ public class WIFI {
 			// go horizontally
 			if(startX < tunnelArea.ll.x){	//left
 				x = tunnelArea.ll.x - 1;
-				y = tunnelArea.ll.r;
+				y = tunnelArea.ll.y;
 			} else{
 				x = tunnelArea.ll.x + 1;	//right
-				y = tunnelArea.ll.r; 
+				y = tunnelArea.ll.y; 
 			}
 			// TODO: 1. turn to the same angle every time?
 			//	2. Avoid touching the river/wall in edge cases	
