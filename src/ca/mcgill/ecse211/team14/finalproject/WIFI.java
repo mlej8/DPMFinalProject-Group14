@@ -2,17 +2,27 @@ package ca.mcgill.ecse211.team14.finalproject;
 
 import static ca.mcgill.ecse211.team14.finalproject.Resources.*;
 
-public class Wifi {
+public class WIFI {
 
 	/**
 	 * Variable target's x coordinate.
 	 */
-	private double binX;
+	private double binX = bin.x;
 
 	/**
 	 * Variable destination's y coordinate.
 	 */
-	private double binY;
+	private double binY = bin.y;
+
+	/**
+	 * Variable start point x coodinate.
+	 */
+	private double startX;
+
+	/**
+	 * Variable start point y coodinate.
+	 */
+	private double startY;
 
 	/**
 	 * Variable destination's x coordinate.
@@ -23,16 +33,6 @@ public class Wifi {
 	 * Variable destination's y coordinate.
 	 */
 	private double launchY;
-	
-	/**
-	 * Variable that tracks starting position X coordinate.
-	 */
-	private double startX;
-	
-	/**
-	 * Variable that tracks starting position Y coordinate.
-	 */
-	private double startY;
 	
 	/**
 	 * Array that stores the lower left and upper right corners of islands.
@@ -96,7 +96,42 @@ public class Wifi {
 			this.launchY = target[1];
 		}
 	}
-	
+
+	/**
+	 * Changes the starting position (x,y).
+	 */
+	public void findStartPoint(){
+		startCorner = 0;
+		if(redTeam == TEAM_NUMBER){
+			startCorner = redCorner;
+		}else{
+			startCorner = greenCorner;
+		}
+		// For beta demo
+		switch (startCorner) {
+			case 0:
+				startX = 0.5*TILE_SIZE; startY = 0.5*TILE_SIZE;
+				break;
+			case 1:
+				startX = (mapWidth-0.5)*TILE_SIZE; startY = 0.5*TILE_SIZE;
+				break;
+			case 2:
+				startX = (mapWidth-0.5)*TILE_SIZE; startY = (mapHeight-0.5)*TILE_SIZE;
+				break;
+			case 3:
+				startX = 0.5*TILE_SIZE; startY = (mapHeight-0.5)*TILE_SIZE;
+				break;
+		}
+	}
+
+	/**
+	 * Returns the double array [startX, startY]
+	 */
+	public double[] getStartPoint(){
+		double[] startPoint = new double[]{startX, startY};
+		return startPoint;
+	}
+
 	/**
 	 * Method that turns the robot to face the bin. 
 	 */
@@ -118,8 +153,26 @@ public class Wifi {
 	 * Method that calculates and returns the coordinates at which the robot needs to travel to in order to enter the tunnel.
 	 */
 	public double[] getTunnelEntrance() {
-		System.out.println("h");
-		return islandCoordinates;
+		Region startArea = null;
+		if(redTeam == 14){
+			startArea = tnr;
+		}else{
+			startArea = tng;
+		}
+		double x = startArea.width;
+		double y = startArea.height;
+
+		if(x <= y){
+			// go vertically
+			if(startY < startArea.ll.y){
+				
+			} else{
+
+			}
+		}else{
+			// go horizontally
+
+		}
 	}
 
 	/**
@@ -157,17 +210,11 @@ public class Wifi {
 		return binX;
 	}
 
-	public void setBinX(double binX) {
-		this.binX = binX;
-	}
 
 	public double getBinY() {
 		return binY;
 	}
 
-	public void setBinY(double binY) {
-		this.binY = binY;
-	}
 	
 	/**
 	 * @return launch point's x coordinate.
@@ -187,32 +234,16 @@ public class Wifi {
 		return startX;
 	}
 
-	public void setStartX(double startX) {
-		this.startX = startX;
-	}
-
 	public double getStartY() {
 		return startY;
-	}
-
-	public void setStartY(double startY) {
-		this.startY = startY;
 	}
 
 	public double[] getIslandCoordinates() {
 		return islandCoordinates;
 	}
 
-	public void setIslandCoordinates(double[] islandCoordinates) {
-		this.islandCoordinates = islandCoordinates;
-	}
-
 	public double[] getTunnelCoordinates() {
 		return tunnelCoordinates;
-	}
-
-	public void setTunnelCoordinates(double[] tunnelCoordinates) {
-		this.tunnelCoordinates = tunnelCoordinates;
 	}
 
 	public double getTunnelEnX() {
