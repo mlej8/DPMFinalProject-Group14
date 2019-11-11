@@ -148,13 +148,13 @@ public class Odometer implements Runnable {
 
 			deltaD = (distL + distR) * 0.5; // compute vehicle displacement (average of distance travelled by left and
 											// right
-											// wheel). Displacement (magnitude): dh ≈ (d1 + d2) / 2
-			deltaT = (distL - distR) / TRACK; // compute change in heading. New heading: θheading = old heading + θ
+											// wheel). Displacement (magnitude): dh = (d1 + d2) / 2
+			deltaT = (distL - distR) / TRACK; // compute change in heading. New heading: heading = old heading + 
 												// where
-												// θ = d/TRACK, where d = distance travelled by left wheel - distance
+												// d/TRACK, where d = distance travelled by left wheel - distance
 												// travelled
 												// by right wheel
-												// Note: θ is in radians
+												// Note: is in radians
 
 			// Determine current position
 			dX = deltaD * Math.sin(Math.toRadians(this.theta)); // compute X component of displacement
@@ -180,7 +180,6 @@ public class Odometer implements Runnable {
 	 * array. {@code odoData[0] =
 	 * x, odoData[1] = y; odoData[2] = theta;}
 	 * 
-	 * @param position the array to store the odometer data
 	 * @return the odometer data.
 	 */
 	public double[] getXYT() {
@@ -205,9 +204,9 @@ public class Odometer implements Runnable {
 	 * Adds dx, dy and dtheta to the current values of x, y and theta, respectively.
 	 * Useful for odometry.
 	 * 
-	 * @param dx
-	 * @param dy
-	 * @param dtheta
+	 * @param dx: the change in x coordinate
+	 * @param dy: the change in y coordinate
+	 * @param dtheta: the change in theta
 	 */
 	public void update(double dx, double dy, double dtheta) {
 		lock.lock();
