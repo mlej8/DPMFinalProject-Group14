@@ -8,7 +8,7 @@ import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
 
-import ca.mcgill.ecse211.wificlient.WifiConnection;
+//import ca.mcgill.ecse211.wificlient.WifiConnection;
 import java.math.BigDecimal;
 import java.util.Map;
 
