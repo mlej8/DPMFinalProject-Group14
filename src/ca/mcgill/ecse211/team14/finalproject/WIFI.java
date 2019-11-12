@@ -18,7 +18,7 @@ public class WIFI {
 	 * Variable start point x coodinate.
 	 */
 	private double startX;
-
+ 
 	/**
 	 * Variable start point y coodinate.
 	 */
@@ -33,17 +33,17 @@ public class WIFI {
 	 * Variable destination's y coordinate.
 	 */
 	private double launchY;
-	
+
 	/**
 	 * Array that stores the lower left and upper right corners of islands.
 	 */
 	private double[] islandCoordinates;
-	
+
 	/**
 	 * Array that stores the tunnel coordinates.
 	 */
 	private double[] tunnelCoordinates;
-	
+
 	/**
 	 * Tunnel entrance X coordinate.
 	 */
@@ -53,112 +53,66 @@ public class WIFI {
 	 * Tunnel entrance Y coordinate.
 	 */
 	private double tunnelEnY;
-	
+
 	/**
-	 * Tunnel exit X coordinate.
-	 */
-	private double tunnelExX;
-	
-	/**
-	 * Tunnel exit Y coordinate.
-	 */
-	private double tunnelExY;
-	
-	/**
-	 * This method uses the given target position (binX,binY) to find the
-	 * ideal launching position.
+	 * This method uses the given target position (binX,binY) to find the ideal
+	 * launching position.
 	 */
 	private void findLaunchPosition() {
-		double currentX = odometer.getXYT()[0];
-		double currentY = odometer.getXYT()[1];
-		double[] curPosition = new double[] { currentX, currentY };
-		double[] throwTo = new double[] { binX, binY };
-
-		double theta = Math.atan2(currentX - binX, currentY - binY);
-
-		double dx, dy;
-		// calculate the intersection of the circle and the line
-		if (theta < 0) { // when the robot is in 2nd/3rd quadrant
-			dy = LAUNCH_RANGE * Math.cos(-theta);
-			dx = -LAUNCH_RANGE * Math.sin(-theta);
-			this.launchY = binY + dy;
-			this.launchX = binX + dx;
-		} else { // in 1st/4th quadrant
-			dy = LAUNCH_RANGE * Math.cos(theta);
-			dx = LAUNCH_RANGE * Math.sin(theta);
-			this.launchY = binY + dy;
-			this.launchX = binX + dx; 
-		}
-
-		if (launchX <= 15 || launchY <= 15) {
-			double[] target = findCircle(curPosition, throwTo);
-			this.launchX = target[0];
-			this.launchY = target[1];
-		}
+		this.launchX = binX;
+		this.launchY = binY;	
 	}
 
 	/**
 	 * Changes the starting position (x,y).
 	 */
-	public void findStartPoint(){
+	public void findStartPoint() {
 		startCorner = 0;
-		if(redTeam == TEAM_NUMBER){
+		if (redTeam == TEAM_NUMBER) {
 			startCorner = redCorner;
-		}else{
+		} else {
 			startCorner = greenCorner;
 		}
 		// For beta demo
 		switch (startCorner) {
-			case 0:
-				startX = 0.5*TILE_SIZE; startY = 0.5*TILE_SIZE;
-				break;
-			case 1:
-				startX = (mapWidth-0.5)*TILE_SIZE; startY = 0.5*TILE_SIZE;
-				break;
-			case 2:
-				startX = (mapWidth-0.5)*TILE_SIZE; startY = (mapHeight-0.5)*TILE_SIZE;
-				break;
-			case 3:
-				startX = 0.5*TILE_SIZE; startY = (mapHeight-0.5)*TILE_SIZE;
-				break;
+		case 0:
+			startX = 0.5 * TILE_SIZE;
+			startY = 0.5 * TILE_SIZE;
+			break;
+		case 1:
+			startX = (mapWidth - 0.5) * TILE_SIZE;
+			startY = 0.5 * TILE_SIZE;
+			break;
+		case 2:
+			startX = (mapWidth - 0.5) * TILE_SIZE;
+			startY = (mapHeight - 0.5) * TILE_SIZE;
+			break;
+		case 3:
+			startX = 0.5 * TILE_SIZE;
+			startY = (mapHeight - 0.5) * TILE_SIZE;
+			break;
 		}
 	}
 
 	/**
 	 * Returns the double array [startX, startY]
 	 */
-	public double[] getStartPoint(){
-		double[] startPoint = new double[]{startX, startY};
+	public double[] getStartPoint() {
+		double[] startPoint = new double[] { startX, startY };
 		return startPoint;
 	}
 
 	/**
-	 * Method that turns the robot to face the bin. 
-	 */
-	private void turnToTarget() {
-
-		// Compute angle towards the destination
-		// Compute displacement
-		double dx = binX - odometer.getXYT()[0];
-		double dy = binY - odometer.getXYT()[1];
-
-		// Compute the angle needed to turn; dx and dy are intentionally switched in
-		// order to compute angle w.r.t. the y-axis and not w.r.t. the x-axis
-		double theta = Math.toDegrees(Math.atan2(dx, dy)) - odometer.getXYT()[2];
-		// Turn to destination
-		navigator.turnTo(theta);
-	}
-
-	/**
-	 * Method that calculates and returns the coordinates at which the robot needs to travel to in order to enter the tunnel.
+	 * Method that calculates and returns the coordinates at which the robot needs
+	 * to travel to in order to enter the tunnel.
 	 */
 	public void getTunnelEntrance() {
 		Region tunnelArea = null;
 		Region startArea = null;
-		if(redTeam == 14){
+		if (redTeam == 14) {
 			tunnelArea = tnr;
 			startArea = red;
-		}else{
+		} else {
 			tunnelArea = tng;
 			startArea = green;
 		}
@@ -167,47 +121,49 @@ public class WIFI {
 
 		double x = 0;
 		double y = 0;
-		if(x <= y){
+		if (x <= y) {
 			// go vertically
-			if(startY < tunnelArea.ll.y){	//below
-				x = tunnelArea.ll.x;
-				y = tunnelArea.ll.y - 1;
-			} else{							//upper
+			if (startY < tunnelArea.ll.y) { // below
+				x = tunnelArea.ll.x + 0.5;
+				y = tunnelArea.ll.y;
+			} else { // upper
 				x = tunnelArea.ur.x;
 				y = tunnelArea.ur.y + 1;
 			}
-		}else{
+		} else {
 			// go horizontally
-			if(startX < tunnelArea.ll.x){	//left
-				x = tunnelArea.ll.x - 1;
-				y = tunnelArea.ll.y;
-			} else{
-				x = tunnelArea.ll.x + 1;	//right
-				y = tunnelArea.ll.y; 
+			if (startX < tunnelArea.ll.x) { // left
+				x = tunnelArea.ll.x;
+				y = tunnelArea.ll.y + 0.5;
+			} else {
+				x = tunnelArea.ur.x + 1; // right
+				y = tunnelArea.ur.y;
 			}
 			// TODO: 1. turn to the same angle every time?
-			//	2. Avoid touching the river/wall in edge cases	
-			tunnelEnX = x;
-			tunnelEnY = y;
+			// 2. Avoid touching the river/wall in edge cases
+			tunnelEnX = x*TILE_SIZE;
+			tunnelEnY = y*TILE_SIZE;
 		}
 	}
 
 	/**
-	 * Method that calculates and returns the coordinates at which the robot needs to travel to in order to exit the tunnel.
+	 * Method that calculates and returns the coordinates at which the robot needs
+	 * to travel to in order to exit the tunnel.
 	 */
 	public double[] getTunnelExit() {
 		// TODO: merge into getEntrance
 		System.out.println(" ");
 		return islandCoordinates;
 	}
-	
+
 	/**
-	 * Method that calculates the intersection between the line formed by the robot's current position and the target bin, 
-	 * and the circumference of the target formed with the launch radius range. 
+	 * Method that calculates the intersection between the line formed by the
+	 * robot's current position and the target bin, and the circumference of the
+	 * target formed with the launch radius range.
 	 * 
 	 * @param curPos: the current position of the robot
 	 * @param center: the target position of the ball
-	 
+	 * 
 	 * @returnThe coordinates that represent the ideal launch point.
 	 */
 	private double[] findCircle(double[] curPos, double[] center) {
@@ -219,21 +175,21 @@ public class WIFI {
 		} else { // lower half
 			double tY = curPos[1];
 			double tX = Math.sqrt(Math.pow(LAUNCH_RANGE, 2) - Math.pow((curPos[1] - center[1]), 2)) + center[0];
-			target = new double[] {tX, tY};
+			target = new double[] { tX, tY };
 		}
 		return target;
 	}
-	
+
+
+
 	public double getBinX() {
 		return binX;
 	}
-
 
 	public double getBinY() {
 		return binY;
 	}
 
-	
 	/**
 	 * @return launch point's x coordinate.
 	 */
@@ -278,22 +234,6 @@ public class WIFI {
 
 	public void setTunnelEnY(double tunnelEnY) {
 		this.tunnelEnY = tunnelEnY;
-	}
-
-	public double getTunnelExX() {
-		return tunnelExX;
-	}
-
-	public void setTunnelExX(double tunnelExX) {
-		this.tunnelExX = tunnelExX;
-	}
-
-	public double getTunnelExY() {
-		return tunnelExY;
-	}
-
-	public void setTunnelExY(double tunnelExY) {
-		this.tunnelExY = tunnelExY;
 	}
 
 }

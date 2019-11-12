@@ -16,7 +16,7 @@ public class Main {
 		WIFI wifi = new WIFI();
 		// TODO: Tell wifi class to collect data and calculate everything it needs (launch, tunnelEn, tunnelEx, etc.)
 		System.out.println("Fetching map data...");
-		wifi.findStartPoint();
+		// wifi.findStartPoint();
 		wifi.getTunnelEntrance();
 		
 		waitForPress();
@@ -32,7 +32,7 @@ public class Main {
 
 		// TODO: Choose Falling vs Rising depending on hardware. Execute ultrasonic
 		// localization
-		// ultrasonicLocalizer.fallingEdge();
+		ultrasonicLocalizer.fallingEdge();
 
 		// TODO: Switch to light mode in Sensor Poller
 		sensorPoller.setMode(Mode.LIGHT);
@@ -51,10 +51,15 @@ public class Main {
 		// TODO: Pass the tunnel (Go straight until detected 4 lines? (Travel through a
 		// certain amount of distance). Think about a way to do it... 
 		navigator.travelTo(wifi.getTunnelExX(), wifi.getTunnelExY());
+
+		// turn off light correction
+		leftMotor.rotate(Converter.convertDistance(2.5*TILE_SIZE));
+		rightMotor.rotate(Converter.convertDistance(2.5*TILE_SIZE));
+		// turn on the light correction
+		leftMotor.rotate(Converter.convertDistance(0.5*TILE_SIZE));
+		rightMotor.rotate(Converter.convertDistance(0.5*TILE_SIZE));
 		
-		// TODO: Set to BOTH mode (LIGHT and US mode for Sensor Poller)
-		sensorPoller.setMode(Mode.BOTH);
-		
+		// TODO: Set to BOTH mode (LIGHT and US mode for Sensor Poller)		
 		// TODO: Start obstacle avoidance thread...? or nah Should make into a thread or not? 
 		
 		// TODO: Find launch point
@@ -76,13 +81,13 @@ public class Main {
 		BallLauncher ballLauncher = new BallLauncher();
 		
 		// TODO: Travel to tunnel exX and exY
-		navigator.travelTo(wifi.getTunnelExX(), wifi.getTunnelExY());
+		// navigator.travelTo(wifi.getTunnelExX(), wifi.getTunnelExY());
 		
 		// TODO: Pass through the tunnel
-		navigator.travelTo(wifi.getTunnelEnX(), wifi.getTunnelEnY());
+		// navigator.travelTo(wifi.getTunnelEnX(), wifi.getTunnelEnY());
 
 		// TODO: To starting point
-		navigator.travelTo(wifi.getStartX(), wifi.getStartY());
+		// navigator.travelTo(wifi.getStartX(), wifi.getStartY());
 
 		// TODO: Stop and beep for 5 times
 		stopAndBeep(5);

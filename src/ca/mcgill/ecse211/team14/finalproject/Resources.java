@@ -264,7 +264,12 @@ public class Resources {
     /**
      * The red tunnel footprint.
      */
-    public static Region tnr = new Region("TNR_LL_x", "TNR_LL_y", "TNR_UR_x", "TNR_UR_y");
+    // public static Region tnr = new Region("TNR_LL_x", "TNR_LL_y", "TNR_UR_x", "TNR_UR_y");
+    
+    /**
+     * Beta-demo: the given rotation angle before launching
+     */
+    public static double targetAngle = Math.max(get("TNR_LL_x"), get("TNR_UR_x"));
 
     /**
      * The green tunnel footprint.
@@ -275,8 +280,6 @@ public class Resources {
      * The location of the target bin.
      */
     public static Point bin = new Point(get("BIN_x"), get("BIN_y"));    
-    
-    
     
     /**
      * Receives Wi-Fi parameters from the server program.
