@@ -129,8 +129,8 @@ public class WIFI {
 		  	tunnelArea = tng;
 		}       
 
-		double x = 0;
-		double y = 0;
+		double x = tunnelArea.width;
+		double y = tunnelArea.height;
 		if (x <= y) {
 			// go vertically
 			if (startY < tunnelArea.ll.y) { // below
