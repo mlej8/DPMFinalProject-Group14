@@ -39,8 +39,8 @@ public class BallLauncher {
       rightLaunchMotor.setSpeed(LAUNCH_MOTOR_SPEED);
   
       // Launch
-      leftLaunchMotor.rotate(Converter.convertAngle(LAUNCH_ANGLE), true);
-      rightLaunchMotor.rotate(Converter.convertAngle(LAUNCH_ANGLE), false);
+      leftLaunchMotor.rotate(Converter.convertAngle(-LAUNCH_ANGLE), true);
+      rightLaunchMotor.rotate(Converter.convertAngle(-LAUNCH_ANGLE), false);
  
       // Stop it
       leftLaunchMotor.stop(true);

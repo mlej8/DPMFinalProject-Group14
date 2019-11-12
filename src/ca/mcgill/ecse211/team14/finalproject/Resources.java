@@ -161,7 +161,7 @@ public class Resources {
     /**
      * Angle that launch motors rotates to shoot the ping-pong ball.
      */
-    public static final double LAUNCH_ANGLE = 200;
+    public static final double LAUNCH_ANGLE = 180;
     
     /**
      * Create light corrector 
