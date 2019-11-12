@@ -58,25 +58,44 @@ public class Navigation {
 		sensorPoller.setMode(Mode.LIGHT);
 		
 		// Go forward until a black line is detected 
-		LEFT_MOTOR.forward();
-		RIGHT_MOTOR.forward();
+		LEFT_MOTOR.rotate(Converter.convertDistance(TILE_SIZE), true);
+		RIGHT_MOTOR.rotate(Converter.convertDistance(TILE_SIZE),true);
 		
+		while(LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
+			Main.sleepFor(SLEEPINT);
+		}
 		// Correct odometer when first line is encountered
-		odometer.setY(TILE_SIZE - LIGHT_SENSOR_DISTANCE);
+		odometer.setY(TILE_SIZE-LIGHT_SENSOR_DISTANCE);
 		odometer.setTheta(0);
+		System.out.println("Corrected Y and Theta " + odometer.getXYT()[0] + " "+ odometer.getXYT()[1] + " "+odometer.getXYT()[2]);
+		lightCorrector.setCorrection(false);
+		LEFT_MOTOR.rotate(Converter.convertDistance(LIGHT_SENSOR_DISTANCE), true);
+		RIGHT_MOTOR.rotate(Converter.convertDistance(LIGHT_SENSOR_DISTANCE),false);
+		lightCorrector.setCorrection(true);
 		
 		// Turn 90 degrees 
-		turnTo(90);
+		turnToExactTheta(90);
+		
 		
 		// Go forward until another black line is detected 
-		LEFT_MOTOR.forward();
-		RIGHT_MOTOR.forward();
-		
+		LEFT_MOTOR.rotate(Converter.convertDistance(TILE_SIZE), true);
+		RIGHT_MOTOR.rotate(Converter.convertDistance(TILE_SIZE),true);
+		while(LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
+			Main.sleepFor(SLEEPINT);
+		}
 		// Correct X 
 		odometer.setX(TILE_SIZE - LIGHT_SENSOR_DISTANCE);
 		
-		// Turn 90 degrees to face forward 
-		turnTo(-90);
+		lightCorrector.setCorrection(false);		
+		LEFT_MOTOR.rotate(Converter.convertDistance(LIGHT_SENSOR_DISTANCE), true);
+		RIGHT_MOTOR.rotate(Converter.convertDistance(LIGHT_SENSOR_DISTANCE),false);
+		lightCorrector.setCorrection(true);
+		
+		// Turn 90 degrees to the left in order to face forward 
+		turnToExactTheta(0);
+		
+		
+		System.out.println("Final coordinates " + odometer.getXYT()[0] + " "+ odometer.getXYT()[1] + " "+odometer.getXYT()[2]);
 	}
 	
 	/**
@@ -89,6 +108,10 @@ public class Navigation {
 	 * @param y: destination y coordinate.
 	 */
 	public void travelShortestPath(double x, double y) {
+
+		// Do not correct x and y while turning 
+		lightCorrector.setCorrection(false);
+		
 		// Traveling
 		this.traveling = true;
 
@@ -99,7 +122,7 @@ public class Navigation {
 		// Calculate the distance to waypoint
 		double distance = Math.hypot(dx, dy);
 
-		// Compute the angle needed to turn; dx and dy are intentionally switched in
+		// Compute the angle needed to turn; dx and dy are intentionally switched in)
 		// order to compute angle w.r.t. the y-axis and not w.r.t. the x-axis
 		double theta = Math.toDegrees(Math.atan2(dx, dy)) - odometer.getXYT()[2];
 
@@ -115,6 +138,7 @@ public class Navigation {
 		// Once the destination is reached, stop both motors
 		stop();
 		this.traveling = false;
+		lightCorrector.setCorrection(true);
 	}
 
 
@@ -221,7 +245,10 @@ public class Navigation {
 	 *
 	 * @param theta
 	 */
-	public void turnToExactTheta(double theta) {
+	public void turnToExactTheta(double theta) {	
+
+		// Do not correct x and y while turning 
+		lightCorrector.setCorrection(false);
 
 		// Set traveling to true when the robot is turning
 		this.traveling = true;
@@ -241,7 +268,10 @@ public class Navigation {
 		LEFT_MOTOR.setSpeed(ROTATE_SPEED);
 		RIGHT_MOTOR.setSpeed(ROTATE_SPEED);
 		LEFT_MOTOR.rotate(Converter.convertAngle(theta), true);
-		RIGHT_MOTOR.rotate(-Converter.convertAngle(theta), false);
+		RIGHT_MOTOR.rotate(-Converter.convertAngle(theta), false);		
+
+		// Set back light correction to true
+		lightCorrector.setCorrection(true);
 	}
 
 	/**

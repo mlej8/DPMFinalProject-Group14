@@ -21,24 +21,21 @@ public class Main {
 	private static BallLauncher ballLauncher;
 
 	// Threads used through out the flow of the application
-	static Thread odometerThread;
-	static Thread sensorPollerThread;
+	static Thread odometerThread= new Thread(odometer);
+	static Thread sensorPollerThread= new Thread(sensorPoller);
 	
 	public static void main(String args[]) {
 	
 		waitForPress();
 		
 		// Start odometer and sensor poller thread
-		odometerThread = new Thread(odometer);
-		sensorPollerThread  = new Thread(sensorPoller);
 		odometerThread.start();
 		sensorPollerThread.start();
 		
 		// TODO: Step 1. Receive parameters from the game controller
-		wifi = new WIFI();
+//		wifi = new WIFI();
 		
 		// TEST if it receives the correct launchX and Y 
-//		System.out.println(wifi.getlaunchX()  + " " + wifi.getlaunchY());
 		
 		// TODO: Falling Edge
 		sensorPoller.setMode(Mode.ULTRASONIC);		
@@ -64,9 +61,9 @@ public class Main {
 //		sensorPoller.setMode(Mode.LIGHT);
 
 		// TODO: Step 6. Launch the ball a minimum distance of 4 tiles, stop and beep 
-		BallLauncher ballLauncher = new BallLauncher();
-		ballLauncher.launch();	
-		stopAndBeep(1);
+//		BallLauncher ballLauncher = new BallLauncher();
+//		ballLauncher.launch();	
+//		stopAndBeep(1);
 		
 		// TODO: Michael: Do light snesor correction to navigate to closest point
 		// i.e. navigate to first line and turn right 90 degrees and stop when detect
@@ -136,10 +133,10 @@ public class Main {
 	private static int waitForPress() {
 		int buttonChoice;
 
-		System.out.println("Press the center button to start.");
+		System.out.println("Press the right button to start.");
 		do {
 			buttonChoice = Button.waitForAnyPress();
-		} while (buttonChoice != Button.ID_ENTER);
+		} while (buttonChoice != Button.ID_RIGHT);
 
 		LCDScreen.clear();
 

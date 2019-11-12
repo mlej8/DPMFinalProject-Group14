@@ -25,6 +25,11 @@ public class UltrasonicLocalizer extends UltrasonicController{
 
 		// Get angle at which the back and left walls are detected.
 		backWall = findFallingEdgeA();
+	
+		// Rotate counterclockwise to get out of noise margin.
+		navigator.turnTo(-RIGHT_ANGLE);
+	
+		// Detect left wall 
 		leftWall = findFallingEdgeB();
 
 		// Get the angle to be added to the heading reported by the odometer to correct
@@ -92,15 +97,10 @@ public class UltrasonicLocalizer extends UltrasonicController{
 	private double findFallingEdgeB() {
 
 		double fallingEdge;
-
-		// Rotate counterclockwise to get out of noise margin.
-		while (readUSDistance() < d) {
-			navigator.rotate(ROTATION_LEFT);
-		}
-
+		
 		// Turn left until the falling edge is detected for the left wall.
 		while (readUSDistance() > d) {
-			navigator.rotate(ROTATION_LEFT);
+			navigator.turnTo(ROTATION_LEFT);
 		}
 
 		// Stop robot when it detects the falling edge.

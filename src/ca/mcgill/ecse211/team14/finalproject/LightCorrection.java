@@ -13,18 +13,34 @@ public class LightCorrection {
 	/**
 	 * Maximum ratio for last intensity compared to current intensity when there is no black line. 
 	 */
-	protected static final double INTENSITY_RATIO = 1.3;
+	protected static final double INTENSITY_RATIO = 1.1;
 	
 	/**
 	 * Boolean to specify if right motor has touched black line.
 	 */
-	protected boolean rightMotorTouched = false; 
+	private boolean rightMotorTouched = false; 
 	
 	/**
 	 * Boolean to specify if left motor has touched black line.
 	 */
-	protected boolean leftMotorTouched = false; 
+	private boolean leftMotorTouched = false; 
 	
+	public boolean isRightMotorTouched() {
+		return rightMotorTouched;
+	}
+
+	public void setRightMotorTouched(boolean rightMotorTouched) {
+		this.rightMotorTouched = rightMotorTouched;
+	}
+
+	public boolean isLeftMotorTouched() {
+		return leftMotorTouched;
+	}
+
+	public void setLeftMotorTouched(boolean leftMotorTouched) {
+		this.leftMotorTouched = leftMotorTouched;
+	}
+
 	/**
 	 * Initial left light sensor intensity.
 	 */
@@ -62,27 +78,34 @@ public class LightCorrection {
 	public void processLightData(double leftCurIntensity, double rightCurIntensity) {
 			
 		if (correction) {
+			
+			double leftDiff = leftLastIntensity / leftCurIntensity;
+			double rightDiff = rightLastIntensity / rightCurIntensity;
+			
 			// See if left motor has touched line. 
-			if (leftLastIntensity / leftCurIntensity > INTENSITY_RATIO) {
+			if (leftDiff > INTENSITY_RATIO) {
 				leftMotorTouched = true;
 			} 
 			leftLastIntensity = leftCurIntensity;
 			
-			if (leftMotorTouched) {
-				// Stop left motor 
-				LEFT_MOTOR.stop();
-				leftMotorTouched = false;
-			}
-			
 			// See if right motor has touched line.
-			if (rightLastIntensity / rightCurIntensity > INTENSITY_RATIO ) {
+			if (rightDiff > INTENSITY_RATIO ) {
 				rightMotorTouched = true; 
 			}
 			rightLastIntensity = rightCurIntensity;
 			
-			if (rightMotorTouched) {
+
+			if (leftMotorTouched && rightMotorTouched) {
+				navigator.stop();
+				leftMotorTouched = false;
+				rightMotorTouched = false;
+			} else if (leftMotorTouched) {
+				// Stop left motor 
+				LEFT_MOTOR.stop(false);
+				leftMotorTouched = false;
+			} else if (rightMotorTouched) {
 				// Stop right motor 
-				RIGHT_MOTOR.stop();
+				RIGHT_MOTOR.stop(false);
 				rightMotorTouched = false;
 				}		
 			}

@@ -22,8 +22,8 @@ public class WheelRadiusTests {
     // Test wheel radius by rotating the robot two tiles forward.
     LEFT_MOTOR.setSpeed(ROTATE_SPEED);
     RIGHT_MOTOR.setSpeed(ROTATE_SPEED);
-    LEFT_MOTOR.rotate(Converter.convertDistance(2*TILE_SIZE),true);
-    RIGHT_MOTOR.rotate(Converter.convertDistance(2*TILE_SIZE),false);
+    LEFT_MOTOR.rotate(Converter.convertDistance(7*TILE_SIZE),true);
+    RIGHT_MOTOR.rotate(Converter.convertDistance(7*TILE_SIZE),false);
   }
   
   
