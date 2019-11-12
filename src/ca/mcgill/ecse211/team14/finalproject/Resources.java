@@ -112,11 +112,6 @@ public class Resources {
 	 * The odometer.
 	 */
 	public static Odometer odometer = Odometer.getOdometer();
-
-	/**
-	 * Error margin from destination waypoint.
-	 */
-	public static final double ERROR_MARGIN = 0.5;
 	
 	/**
 	 * Instance of US Localizer
@@ -127,25 +122,23 @@ public class Resources {
 	 * d constant for ultrasonic localizer representing the threshold distance from the wall 
 	 *
 	 */
-	public static double d = 45.0; 
+	public static final double d = 45.0; 
 	
 	/**
 	 * Degree at which to rotate right when executing US sensor localization.
 	 */
-	public static double ROTATION_RIGHT = 5.0;
+	public static final double ROTATION_RIGHT = 5.0;
 	
 	/**
 	 * Degree at which to rotate left when executing US sensor localization.
 	 */
-	public static double ROTATION_LEFT = -5.0;
+	public static final double ROTATION_LEFT = -5.0;
 
 	/**
      * The distance from the robot's wheelBase center to light sensor.
      */
     public static final double DIST_CENTRE_TO_LIGHT_SENSOR = 13.9;
     
-    
-    // Catapult constants
     /**
      * The rotation speed of launch motor.
      */
@@ -154,17 +147,12 @@ public class Resources {
     /**
      * Acceleration of launch motor.
      */
-    public static final int LAUNCH_MOTOR_ACCELERATOR = 2475; // 2475 
+    public static final int LAUNCH_MOTOR_ACCELERATOR = 2475;  
     
     /**
-     * Launching angle of launch motor
+     * Launch rotation.
      */
-    public static final int LAUNCH_ANGLE = -40;
-
-    /**
-     * Ball launch range;
-     */
-    public static final double LAUNCH_RANGE = 120 + 0.5 * TILE_SIZE;
+    public static final int LAUNCH_ROTATION = 200;
     
     /**
      * Create light corrector 
@@ -172,4 +160,3 @@ public class Resources {
     public static LightCorrection lightCorrector = new LightCorrection();
     
 }
-

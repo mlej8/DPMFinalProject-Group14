@@ -34,6 +34,10 @@ public class LightCorrection {
 	 * Initial right light sensor intensity.
 	 */
 	protected double rightLastIntensity = -1;
+	
+	/**
+	 * Variable to keep track if 
+	 */
 
 	/**
 	 * Perform an action based on the light data input. Method that corrects the robot's position during navigation. 
