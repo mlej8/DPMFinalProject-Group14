@@ -115,7 +115,7 @@ public class WIFI {
 	 * Method that calculates and returns the coordinates at which the robot needs
 	 * to travel to in order to enter the tunnel.
 	 */
-	public void getTunnelEntrance() {
+	public void findTunnelEntrance() {
 		Region tunnelArea = null;
 		Region startArea = null;
 
@@ -130,24 +130,32 @@ public class WIFI {
 			// go vertically
 			if (startY < tunnelArea.ll.y) { // below
 				x = tunnelArea.ll.x + 0.5;
-				y = tunnelArea.ll.y;
+				y = tunnelArea.ll.y - 1.0;
 			} else { // upper
-				x = tunnelArea.ur.x;
-				y = tunnelArea.ur.y + 1;
+				x = tunnelArea.ur.x - 0.5;
+				y = tunnelArea.ur.y + 1.0;
 			}
+			
 		} else {
 			// go horizontally
 			if (startX < tunnelArea.ll.x) { // left
-				x = tunnelArea.ll.x;
+				x = tunnelArea.ll.x - 1.0;
 				y = tunnelArea.ll.y + 0.5;
 			} else {
-				x = tunnelArea.ur.x + 1; // right
-				y = tunnelArea.ur.y;
+				x = tunnelArea.ur.x + 1.0; // right
+				y = tunnelArea.ur.y - 0.5;
 			}
 			// TODO: 1. turn to the same angle every time?
-			// 2. Avoid touching the river/wall in edge cases
-			tunnelEnX = x*TILE_SIZE;
-			tunnelEnY = y*TILE_SIZE;
+			// 2. Avoid touching the river/wall in edge cases	
+		}
+		tunnelEnX = x*TILE_SIZE;
+		tunnelEnY = y*TILE_SIZE;
+		if (x <= y) {
+			tunnelExX = x * TILE_SIZE;
+			tunnelExY = (y + 4) * TILE_SIZE;
+		} else {
+			tunnelExX = (x + 4) * TILE_SIZE;
+			tunnelExY = y;
 		}
 	}
 
