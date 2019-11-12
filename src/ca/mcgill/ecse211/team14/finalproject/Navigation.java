@@ -2,6 +2,8 @@ package ca.mcgill.ecse211.team14.finalproject;
 
 import static ca.mcgill.ecse211.team14.finalproject.Resources.*;
 
+import ca.mcgill.ecse211.team14.finalproject.SensorPoller.Mode;
+
 public class Navigation {
 
 	private static Navigation navigator;
@@ -46,6 +48,75 @@ public class Navigation {
 		LEFT_MOTOR.stop(true);
 		RIGHT_MOTOR.stop(false);
 	}
+	
+	/**
+	 * Method that travels to the closest grid intersection
+	 */
+	public void travelToGridIntersection() {
+		
+		// Ensure sensor poller pools data for light sensor 
+		sensorPoller.setMode(Mode.LIGHT);
+		
+		// Go forward until a black line is detected 
+		LEFT_MOTOR.forward();
+		RIGHT_MOTOR.forward();
+		
+		// Correct odometer when first line is encountered
+		odometer.setY(TILE_SIZE - LIGHT_SENSOR_DISTANCE);
+		odometer.setTheta(0);
+		
+		// Turn 90 degrees 
+		turnTo(90);
+		
+		// Go forward until another black line is detected 
+		LEFT_MOTOR.forward();
+		RIGHT_MOTOR.forward();
+		
+		// Correct X 
+		odometer.setX(TILE_SIZE - LIGHT_SENSOR_DISTANCE);
+		
+		// Turn 90 degrees to face forward 
+		turnTo(-90);
+	}
+	
+	/**
+	 * This method causes the robot to travel to the absolute field location (x, y),
+	 * specified in tile points. This method should continuously call turnTo(double
+	 * theta) and then set the motor speed to forward (straight). This will make
+	 * sure that your heading is updated until you reach your exact goal. This
+	 * method will poll the odometer for information.
+	 * @param x: destination x coordinate.
+	 * @param y: destination y coordinate.
+	 */
+	public void travelShortestPath(double x, double y) {
+		// Traveling
+		this.traveling = true;
+
+		// Compute displacement
+		double dx = x - odometer.getXYT()[0];
+		double dy = y - odometer.getXYT()[1];
+
+		// Calculate the distance to waypoint
+		double distance = Math.hypot(dx, dy);
+
+		// Compute the angle needed to turn; dx and dy are intentionally switched in
+		// order to compute angle w.r.t. the y-axis and not w.r.t. the x-axis
+		double theta = Math.toDegrees(Math.atan2(dx, dy)) - odometer.getXYT()[2];
+
+		// Turn to the correct angle
+		turnTo(theta);
+
+		// Turn on motor
+		LEFT_MOTOR.setSpeed(MOTOR_SPEED);
+		RIGHT_MOTOR.setSpeed(MOTOR_SPEED);
+		LEFT_MOTOR.rotate(Converter.convertDistance(distance), true);
+		RIGHT_MOTOR.rotate(Converter.convertDistance(distance), false);
+
+		// Once the destination is reached, stop both motors
+		stop();
+		this.traveling = false;
+	}
+
 
 	/**
 	 * This method causes the robot to travel to the absolute field location (x, y),
@@ -67,18 +138,18 @@ public class Navigation {
 
 		// First travel along X-axis, then travel along Y-axis
 		if (dx >= 0) {
-			turnTo2(90);			
+			turnToExactTheta(90);			
 		} else {
-			turnTo2(270);
+			turnToExactTheta(270);
 		}
 		
 		navigateForward(dx);
 		
 		// Second travel along Y-axis
 		if (dy >= 0) {
-			turnTo2(0);
+			turnToExactTheta(0);
 		} else {
-			turnTo2(180);
+			turnToExactTheta(180);
 		}
 		
 		navigateForward(dy);
@@ -86,13 +157,11 @@ public class Navigation {
 //		// Compute the angle needed to turn; dx and dy are intentionally switched in
 //		// order to compute angle w.r.t. the y-axis and not w.r.t. the x-axis
 //		double theta = Math.toDegrees(Math.atan2(dx, dy)) - odometer.getXYT()[2];
-
 		// Turn to the correct angle
 //		turnTo(theta);
-
 		// Turn on motor
-
 		// Once the destination is reached, stop both motors
+		
 		stop();
 		this.traveling = false;
 	}
@@ -119,9 +188,12 @@ public class Navigation {
 
 	/**
 	 * This method causes the robot to turn (on point) to the absolute heading
-	 * theta. This method should turn using the MINIMAL angle to its target.
+	 * theta w.r.t. its current orientation. This method should turn using the MINIMAL angle to its target.
 	 */
 	public void turnTo(double theta) {
+		
+		// Do not correct x and y while turning 
+		lightCorrector.setCorrection(false);
 
 		// Set traveling to true when the robot is turning
 		this.traveling = true;
@@ -139,6 +211,9 @@ public class Navigation {
 		RIGHT_MOTOR.setSpeed(ROTATE_SPEED);
 		LEFT_MOTOR.rotate(Converter.convertAngle(theta), true);
 		RIGHT_MOTOR.rotate(-Converter.convertAngle(theta), false);
+		
+		// Set back light correction to true
+		lightCorrector.setCorrection(true);
 	}
 	
 	/**
@@ -146,7 +221,7 @@ public class Navigation {
 	 *
 	 * @param theta
 	 */
-	public void turnTo2(double theta) {
+	public void turnToExactTheta(double theta) {
 
 		// Set traveling to true when the robot is turning
 		this.traveling = true;

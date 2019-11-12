@@ -46,7 +46,4 @@ public class BallLauncher {
       leftLaunchMotor.stop(true);
       rightLaunchMotor.stop(true);
     }
-
-
-
 }

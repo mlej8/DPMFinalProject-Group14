@@ -66,6 +66,15 @@ public class SensorPoller implements Runnable {
               leftLightSensor.getRedMode().fetchSample(leftLightData, 0);
               rightLightSensor.getRedMode().fetchSample(rightLightData, 0);
               lightCorrector.processLightData(leftLightData[0] * 100.0, rightLightData[0] * 100.0);
+            } else if (mode==Mode.BOTH) {
+            	// light correction
+            	leftLightSensor.getRedMode().fetchSample(leftLightData, 0);
+                rightLightSensor.getRedMode().fetchSample(rightLightData, 0);
+                lightCorrector.processLightData(leftLightData[0] * 100.0, rightLightData[0] * 100.0);
+                
+                // ultrasonic detection
+                usSensor.getDistanceMode().fetchSample(usData, 0);
+                ultrasonicLocalizer.processUSData((int) (usData[0] * 100.0));
             }
             Main.sleepFor(SLEEPINT);
         }      

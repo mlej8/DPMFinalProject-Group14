@@ -28,7 +28,7 @@ public class Resources {
 	public static final double TRACK = 15.025; 
 
 	/**
-	 * Turning 90 degrees to start position parallel the wall 
+	 * Turning 90 degrees to start position parallel the wall. 
 	 */
 	public static final double RIGHT_ANGLE = 90.0;
 	
@@ -36,6 +36,11 @@ public class Resources {
 	 * Fixed Motor Speed.
 	 */
 	public static final int MOTOR_SPEED = 100;
+	
+	/**
+	 * Variable that keeps track of the distance between the light sensors and the motors. 
+ 	 */
+	public static final double LIGHT_SENSOR_DISTANCE = 5.3;
 
 	/**
 	 * The speed at which the robot rotates in degrees per second.

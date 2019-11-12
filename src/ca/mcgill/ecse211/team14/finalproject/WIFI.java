@@ -7,12 +7,12 @@ public class WIFI {
 	/**
 	 * Variable target's x coordinate.
 	 */
-	private double binX = bin.x;
+	private double binX;
 
 	/**
 	 * Variable destination's y coordinate.
 	 */
-	private double binY = bin.y;
+	private double binY;
 
 	/**
 	 * Variable start point x coodinate.
@@ -27,12 +27,12 @@ public class WIFI {
 	/**
 	 * Variable destination's x coordinate.
 	 */
-	private double launchX;
+	private double launchX = bin.x;
 
 	/**
 	 * Variable destination's y coordinate.
 	 */
-	private double launchY;
+	private double launchY = bin.y;
 
 	/**
 	 * Array that stores the lower left and upper right corners of islands.

@@ -9,47 +9,79 @@ import lejos.hardware.Sound;
  * The main class controls the flow of the application.
  */
 public class Main {
+	
+	/**
+	 * Global instance of WIFI class
+	 */
+	public static WIFI wifi;
+	
+	/**
+	 * Private class variable for ballLauncher 
+	 */
+	private static BallLauncher ballLauncher;
 
+	// Threads used through out the flow of the application
+	static Thread odometerThread;
+	static Thread sensorPollerThread;
+	
 	public static void main(String args[]) {
-		
-		// Initiate a WIFI object
-		WIFI wifi = new WIFI();
-		// TODO: Tell wifi class to collect data and calculate everything it needs (launch, tunnelEn, tunnelEx, etc.)
-		// wifi.findStartPoint();
-		wifi.getTunnelEntrance();
-		
+	
 		waitForPress();
-
-		// TODO: Cecilia and Lora Zhang - Process WIFI info (starting position, bin,
-		// tunnel, island left bottom corner and right corner -> Create map)
-
-		// TODO: Start odometer thread
-		new Thread(odometer).start();
-
-		// TODO: Cecilia and Lora Zhang: Start sensor poller thread (add condition to
-		// operate both sensors at the same time, and add state for IDLE)
-
-		// TODO: Choose Falling vs Rising depending on hardware. Execute ultrasonic
-		// localization
+		
+		// Start odometer and sensor poller thread
+		odometerThread = new Thread(odometer);
+		sensorPollerThread  = new Thread(sensorPoller);
+		odometerThread.start();
+		sensorPollerThread.start();
+		
+		// TODO: Step 1. Receive parameters from the game controller
+		wifi = new WIFI();
+		
+		// TEST if it receives the correct launchX and Y 
+//		System.out.println(wifi.getlaunchX()  + " " + wifi.getlaunchY());
+		
+		// TODO: Falling Edge
+		sensorPoller.setMode(Mode.ULTRASONIC);		
 		ultrasonicLocalizer.fallingEdge();
-
-		// TODO: Switch to light mode in Sensor Poller
 		sensorPoller.setMode(Mode.LIGHT);
+		// TODO: Navigate to (1,1) within 30 seconds
+		navigator.travelToGridIntersection();
 
+		// TODO: Beep when in place
+		stopAndBeep(1);
+		
+		// TODO: Navigate to the Tunnel entrance 
+				
+		// TODO: Traverse the Tunnel to the Island 
+//		sensorPoller.setMode(Mode.IDLE);
+		// TODO: Navigate to bin x and bin y
+//		navigator.travelTo(wifi.getlaunchX(), wifi.getlaunchY());
+
+		// Turn to exact orientation
+//		navigator.turnToExactTheta(targetAngle); 
+		// TODO: Turn 
+		// TODO: Switch to light mode in Sensor Poller
+//		sensorPoller.setMode(Mode.LIGHT);
+
+		// TODO: Step 6. Launch the ball a minimum distance of 4 tiles, stop and beep 
+		BallLauncher ballLauncher = new BallLauncher();
+		ballLauncher.launch();	
+		stopAndBeep(1);
+		
 		// TODO: Michael: Do light snesor correction to navigate to closest point
 		// i.e. navigate to first line and turn right 90 degrees and stop when detect
 		// both lines again, then turn right.
 
 		// TODO: Stop and beeps for 3 times
-		stopAndBeep(3);
+//		stopAndBeep(3);
 
 
 		// TODO: Travel to tunnel
-		navigator.travelTo(wifi.getTunnelEnX(), wifi.getTunnelEnY());
+//		navigator.travelTo(wifi.getTunnelEnX(), wifi.getTunnelEnY());
 
 		// TODO: Pass the tunnel (Go straight until detected 4 lines? (Travel through a
 		// certain amount of distance). Think about a way to do it...
-		sensorPoller.setMode(Mode.IDLE);
+//		sensorPoller.setMode(Mode.IDLE);
 //		navigator.travelTo(wifi.getTunnelExX(), wifi.getTunnelExY());
 
 		// turn off light correction
@@ -64,8 +96,7 @@ public class Main {
 		
 		// TODO: Find launch point
 		// TODO: Travel to launch point
-		navigator.travelTo(wifi.getlaunchX(), wifi.getlaunchY());
-		navigator.turnTo2(targetAngle); // TODO: what is targetAngle??
+//		navigator.travelTo(wifi.getlaunchX(), wifi.getlaunchY());
 
 		// TODO: Start obstacle avoidance
 
@@ -75,10 +106,8 @@ public class Main {
 		// Otherwise, finish object avoidance until facing destination point.
 
 		// TODO: If no object has been detected, stop and beep for 3 times
-		stopAndBeep(3);
+//		stopAndBeep(3);
 		
-		// TODO: Launch all five balls
-		BallLauncher ballLauncher = new BallLauncher();
 		
 		// TODO: Travel to tunnel exX and exY
 		// navigator.travelTo(wifi.getTunnelExX(), wifi.getTunnelExY());
@@ -90,7 +119,7 @@ public class Main {
 		// navigator.travelTo(wifi.getStartX(), wifi.getStartY());
 
 		// TODO: Stop and beep for 5 times
-		stopAndBeep(5);
+//		stopAndBeep(5);
 
 		// Do nothing until exit button is pressed, then exit.	
 		while (Button.waitForAnyPress() != Button.ID_ESCAPE)

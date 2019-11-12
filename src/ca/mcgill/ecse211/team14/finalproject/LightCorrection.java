@@ -36,8 +36,20 @@ public class LightCorrection {
 	protected double rightLastIntensity = -1;
 	
 	/**
-	 * Variable to keep track if 
+	 * Variable that the x of current tile
 	 */
+	private int currX=0;
+	
+	/**
+	 * Variable that the x of current tile
+	 */
+	private int currY=0;
+
+	/**
+	 * Variable that records if corrections is needed.
+	 */
+	private boolean correction = true;
+
 
 	/**
 	 * Perform an action based on the light data input. Method that corrects the robot's position during navigation. 
@@ -49,6 +61,7 @@ public class LightCorrection {
 	 */
 	public void processLightData(double leftCurIntensity, double rightCurIntensity) {
 			
+		if (correction) {
 			// See if left motor has touched line. 
 			if (leftLastIntensity / leftCurIntensity > INTENSITY_RATIO) {
 				leftMotorTouched = true;
@@ -71,7 +84,32 @@ public class LightCorrection {
 				// Stop right motor 
 				RIGHT_MOTOR.stop();
 				rightMotorTouched = false;
-			}		
-		}			
+				}		
+			}
+		}
+
+	public boolean isCorrection() {
+		return correction;
 	}
+
+	public void setCorrection(boolean correction) {
+		this.correction = correction;
+	}			
+	
+	public int getCurrX() {
+		return currX;
+	}
+
+	public void setCurrX(int currX) {
+		this.currX = currX;
+	}
+
+	public int getCurrY() {
+		return currY;
+	}
+
+	public void setCurrY(int currY) {
+		this.currY = currY;
+	}
+}
 
