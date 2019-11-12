@@ -8,7 +8,7 @@ import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
 
-//import ca.mcgill.ecse211.wificlient.WifiConnection;
+import ca.mcgill.ecse211.wificlient.WifiConnection;
 import java.math.BigDecimal;
 import java.util.Map;
 
@@ -52,15 +52,15 @@ public class Resources {
 	 */
 	public static final int FILTER_OUT = 30;
 
-	/**
-	 * Offset (standoff distance) from the wall (cm).
-	 */
-	public static final int BAND_CENTER = 30;  
-
-	/**
-	 * Width of dead band (cm) i.e. error threshold.
-	 */
-	public static final int BAND_WIDTH = 8;
+//	/**
+//	 * Offset (standoff distance) from the wall (cm).
+//	 */
+//	public static final int BAND_CENTER = 30;  
+//
+//	/**
+//	 * Width of dead band (cm) i.e. error threshold.
+//	 */
+//	public static final int BAND_WIDTH = 8;
 
 	/**
 	 * Sleep interval = 50ms = 20 Hz.
@@ -90,17 +90,17 @@ public class Resources {
 	/**
 	 * The ultrasonic sensor.
 	 */
-	public static final EV3UltrasonicSensor usSensor = new EV3UltrasonicSensor(SensorPort.S1);
+	public static final EV3UltrasonicSensor usSensor = new EV3UltrasonicSensor(SensorPort.S3);
 
 	/**
      * The left light sensor.
      */
-    public static final EV3ColorSensor leftLightSensor = new EV3ColorSensor(SensorPort.S2);
+    public static final EV3ColorSensor leftLightSensor = new EV3ColorSensor(SensorPort.S1);
 
 	/**
      * The left light sensor.
      */
-    public static final EV3ColorSensor rightLightSensor = new EV3ColorSensor(SensorPort.S3);
+    public static final EV3ColorSensor rightLightSensor = new EV3ColorSensor(SensorPort.S4);
     
 	/**
 	 * The ultrasonic poller.
@@ -129,19 +129,14 @@ public class Resources {
 	public static final double d = 45.0; 
 	
 	/**
-	 * Degree at which to rotate right when executing US sensor localization.
+	 * Degree at which to rotate right when executing ultrasonic sensor localization.
 	 */
 	public static final double ROTATION_RIGHT = 5.0;
 	
 	/**
-	 * Degree at which to rotate left when executing US sensor localization.
+	 * Degree at which to rotate left when executing ultrasonic sensor localization.
 	 */
 	public static final double ROTATION_LEFT = -5.0;
-
-	/**
-     * The distance from the robot's wheelBase center to light sensor.
-     */
-    public static final double DIST_CENTRE_TO_LIGHT_SENSOR = 13.9;
     
     /**
      * The rotation speed of launch motor.
@@ -159,11 +154,16 @@ public class Resources {
     public static final int LAUNCH_ROTATION = 200;
     
     /**
+     * Angle that launch motors rotates to shoot the ping-pong ball.
+     */
+    public static final double LAUNCH_ANGLE = 200;
+    
+    /**
      * Create light corrector 
      */
     public static LightCorrection lightCorrector = new LightCorrection();
     
- // Set these as appropriate for your team and current situation
+    // Set these as appropriate for your team and current situation
     /**
      * The default server IP used by the profs and TA's.
      */

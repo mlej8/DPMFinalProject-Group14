@@ -2,6 +2,7 @@ package ca.mcgill.ecse211.team14.finalproject.tests;
 
 import static ca.mcgill.ecse211.team14.finalproject.Resources.*;
 import ca.mcgill.ecse211.team14.finalproject.Converter;
+import ca.mcgill.ecse211.team14.finalproject.SensorPoller.Mode;
 import lejos.hardware.Button;
 
 public class WheelRadiusTests {
@@ -12,6 +13,11 @@ public class WheelRadiusTests {
     while(buttonChoice != Button.ID_RIGHT) {
       buttonChoice = Button.waitForAnyPress();
     }
+    
+    // Set sensor poller mode to Light Sensor
+    sensorPoller.setMode(Mode.LIGHT);
+    
+    // Start sensor poller thread 
     
     // Test wheel radius by rotating the robot two tiles forward.
     LEFT_MOTOR.setSpeed(ROTATE_SPEED);

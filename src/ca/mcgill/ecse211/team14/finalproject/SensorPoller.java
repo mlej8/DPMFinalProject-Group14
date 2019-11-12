@@ -53,17 +53,16 @@ public class SensorPoller implements Runnable {
      * @see java.lang.Thread#run()
      */
     public void run() {
-
-      
+    	
         while (true) {
-            if(mode==Mode.ULTRASONIC) {
+            if (mode==Mode.ULTRASONIC) {
             usSensor.getDistanceMode().fetchSample(usData, 0);  // acquire distance data in meters and store it in
                                                                 // usData (an array of float)
             ultrasonicLocalizer.processUSData((int) (usData[0] * 100.0)); // extract from buffer (region of a physical
                                                                           // memory storage used to
                                                                           // temporarily store data while it is being moved from one place to
                                                                           // another), convert to cm, cast to int
-            }else if(mode==Mode.LIGHT){
+            } else if (mode==Mode.LIGHT) {
               leftLightSensor.getRedMode().fetchSample(leftLightData, 0);
               rightLightSensor.getRedMode().fetchSample(rightLightData, 0);
               lightCorrector.processLightData(leftLightData[0] * 100.0, rightLightData[0] * 100.0);

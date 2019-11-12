@@ -142,7 +142,6 @@ public class Navigation {
 	}
 	
 	/**
-	 *
 	 * Method that causes the robot to turn to an exact angle with respect to the Y axis.
 	 *
 	 * @param theta

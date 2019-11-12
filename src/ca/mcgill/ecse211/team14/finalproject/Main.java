@@ -15,7 +15,6 @@ public class Main {
 		// Initiate a WIFI object
 		WIFI wifi = new WIFI();
 		// TODO: Tell wifi class to collect data and calculate everything it needs (launch, tunnelEn, tunnelEx, etc.)
-		System.out.println("Fetching map data...");
 		// wifi.findStartPoint();
 		wifi.getTunnelEntrance();
 		
@@ -49,15 +48,16 @@ public class Main {
 		navigator.travelTo(wifi.getTunnelEnX(), wifi.getTunnelEnY());
 
 		// TODO: Pass the tunnel (Go straight until detected 4 lines? (Travel through a
-		// certain amount of distance). Think about a way to do it... 
-		navigator.travelTo(wifi.getTunnelExX(), wifi.getTunnelExY());
+		// certain amount of distance). Think about a way to do it...
+		sensorPoller.setMode(Mode.IDLE);
+//		navigator.travelTo(wifi.getTunnelExX(), wifi.getTunnelExY());
 
 		// turn off light correction
-		leftMotor.rotate(Converter.convertDistance(2.5*TILE_SIZE));
-		rightMotor.rotate(Converter.convertDistance(2.5*TILE_SIZE));
+//		LEFT_MOTOR.rotate(Converter.convertDistance(2.5*TILE_SIZE));
+//		RIGHT_MOTOR.rotate(Converter.convertDistance(2.5*TILE_SIZE));
 		// turn on the light correction
-		leftMotor.rotate(Converter.convertDistance(0.5*TILE_SIZE));
-		rightMotor.rotate(Converter.convertDistance(0.5*TILE_SIZE));
+//		LEFT_MOTOR.rotate(Converter.convertDistance(0.5*TILE_SIZE));
+//		RIGHT_MOTOR.rotate(Converter.convertDistance(0.5*TILE_SIZE));
 		
 		// TODO: Set to BOTH mode (LIGHT and US mode for Sensor Poller)		
 		// TODO: Start obstacle avoidance thread...? or nah Should make into a thread or not? 
