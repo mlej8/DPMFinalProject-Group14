@@ -89,9 +89,14 @@ public class Resources {
 	public static final EV3UltrasonicSensor usSensor = new EV3UltrasonicSensor(SensorPort.S1);
 
 	/**
-     * The light sensor.
+     * The left light sensor.
      */
-    public static final EV3ColorSensor lightSensor = new EV3ColorSensor(SensorPort.S2);
+    public static final EV3ColorSensor leftLightSensor = new EV3ColorSensor(SensorPort.S2);
+
+	/**
+     * The left light sensor.
+     */
+    public static final EV3ColorSensor rightLightSensor = new EV3ColorSensor(SensorPort.S3);
     
 	/**
 	 * The ultrasonic poller.
@@ -117,11 +122,6 @@ public class Resources {
 	 * Instance of US Localizer
 	 */
 	public static UltrasonicLocalizer ultrasonicLocalizer = new UltrasonicLocalizer();
-	
-	/** 
-	 * Instance of Light Localizer
-	 */
-	public static LightLocalizer lightLocalizer = new LightLocalizer();
 	
 	/**
 	 * d constant for ultrasonic localizer representing the threshold distance from the wall 
@@ -160,11 +160,16 @@ public class Resources {
      * Launching angle of launch motor
      */
     public static final int LAUNCH_ANGLE = -40;
-    
+
     /**
      * Ball launch range;
      */
     public static final double LAUNCH_RANGE = 120 + 0.5 * TILE_SIZE;
+    
+    /**
+     * Create light corrector 
+     */
+    public static LightCorrection lightCorrector = new LightCorrection();
     
 }
 

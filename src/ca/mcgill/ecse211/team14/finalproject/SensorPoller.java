@@ -13,9 +13,14 @@ public class SensorPoller implements Runnable {
     private float[] usData;
     
     /**
-     * Array to store light sensor data
+     * Array to store left light sensor data
      */
-    private float[] lightData;
+    private float[] leftLightData;
+    
+    /**
+     * Array to store right light sensor data
+     */
+    private float[] rightLightData;
     
     /**
      * Mode indicating current state of Sensor Poller
@@ -36,7 +41,8 @@ public class SensorPoller implements Runnable {
     public SensorPoller() {
         usData = new float[usSensor.sampleSize()]; // create an array of float of size corresponding to the number of
                                                     // elements in a sample. The number of elements does not change.
-        lightData = new float[lightSensor.sampleSize()];                                     
+        leftLightData = new float[leftLightSensor.sampleSize()];                                    
+        rightLightData = new float[rightLightSensor.sampleSize()];                                    
         this.mode = Mode.ULTRASONIC; // the mode is ultrasonic by default
     }
 
@@ -58,8 +64,9 @@ public class SensorPoller implements Runnable {
                                                                           // temporarily store data while it is being moved from one place to
                                                                           // another), convert to cm, cast to int
             }else if(mode==Mode.LIGHT){
-              lightSensor.getRedMode().fetchSample(lightData, 0);
-              lightLocalizer.processData((int) (lightData[0] * 100.0));
+              leftLightSensor.getRedMode().fetchSample(leftLightData, 0);
+              rightLightSensor.getRedMode().fetchSample(rightLightData, 0);
+              lightCorrector.processLightData(leftLightData[0] * 100.0, rightLightData[0] * 100.0);
             }
             Main.sleepFor(SLEEPINT);
         }      
