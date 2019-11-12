@@ -65,7 +65,7 @@ public class Main {
 		// TODO: Find launch point
 		// TODO: Travel to launch point
 		navigator.travelTo(wifi.getlaunchX(), wifi.getlaunchY());
-		
+		navigator.turnTo2(targetAngle); // TODO: what is targetAngle??
 
 		// TODO: Start obstacle avoidance
 
