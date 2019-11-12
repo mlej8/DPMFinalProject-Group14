@@ -64,6 +64,7 @@ public class Navigation {
 		while(LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
 			Main.sleepFor(SLEEPINT);
 		}
+		
 		// Correct odometer when first line is encountered
 		odometer.setY(TILE_SIZE-LIGHT_SENSOR_DISTANCE);
 		odometer.setTheta(0);
@@ -74,8 +75,7 @@ public class Navigation {
 		lightCorrector.setCorrection(true);
 		
 		// Turn 90 degrees 
-		turnToExactTheta(90);
-		
+		turnToExactTheta(90);		
 		
 		// Go forward until another black line is detected 
 		LEFT_MOTOR.rotate(Converter.convertDistance(TILE_SIZE), true);
@@ -85,6 +85,7 @@ public class Navigation {
 		}
 		// Correct X 
 		odometer.setX(TILE_SIZE - LIGHT_SENSOR_DISTANCE);
+		odometer.setTheta(90);
 		
 		lightCorrector.setCorrection(false);		
 		LEFT_MOTOR.rotate(Converter.convertDistance(LIGHT_SENSOR_DISTANCE), true);

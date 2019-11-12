@@ -48,6 +48,7 @@ public class Main {
 		stopAndBeep(1);
 		
 		// TODO: Navigate to the Tunnel entrance 
+		navigator.travelTo(3*TILE_SIZE, 3*TILE_SIZE);
 				
 		// TODO: Traverse the Tunnel to the Island 
 //		sensorPoller.setMode(Mode.IDLE);

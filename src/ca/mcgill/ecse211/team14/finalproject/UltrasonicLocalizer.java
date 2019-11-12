@@ -125,9 +125,9 @@ public class UltrasonicLocalizer extends UltrasonicController{
 	 */
 	public double getCorrectionAngle(double a, double b) {
 		if (a > b) {
-			return (40.75 - ((a + b) / 2.0));
+			return (40 - ((a + b) / 2.0));
 		} else {
-			return (222 - ((a + b) / 2.0));
+			return (220 - ((a + b) / 2.0));
 		}
 	}
 
