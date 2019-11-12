@@ -109,15 +109,16 @@ public class WIFI {
 	public void getTunnelEntrance() {
 		Region tunnelArea = null;
 		Region startArea = null;
-		if (redTeam == 14) {
-			tunnelArea = tnr;
-			startArea = red;
-		} else {
-			tunnelArea = tng;
-			startArea = green;
-		}
-		double tx = tunnelArea.width;
-		double ty = tunnelArea.height;
+//		if (redTeam == 14) {
+//			tunnelArea = tnr;
+//			startArea = red;
+//		} else {
+//			
+//		}
+		if(greenTeam == 14) {
+		  	tunnelArea = tng;
+		  	startArea = green;
+		}       
 
 		double x = 0;
 		double y = 0;
