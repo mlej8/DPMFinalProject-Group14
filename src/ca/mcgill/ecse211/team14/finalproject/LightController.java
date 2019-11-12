@@ -4,12 +4,7 @@ package ca.mcgill.ecse211.team14.finalproject;
  * Controller that controls the robot's movements based on light data.
  */
 public abstract class LightController {
-	
-    /**
-    * Lower bound for non-black line intensity. When intensity falls below this value, black lines are met.
-    */
-	protected static final int MINIMUM_NONBLACK_INTENSITY = 20; 
-	
+
 	/**
 	 * Maximum ratio for last intensity compared to current intensity when there is no black line. 
 	 */
@@ -22,6 +17,14 @@ public abstract class LightController {
 	protected double[] intersectionDegrees = new double[4];
 	
 	/**
+	 * Perform an action based on the light data input.
+	 * 
+	 * @param leftCurIntensity: Intensity measured by left light sensor 
+	 * @param rightCurIntensity: Intensity measured by right light sensor 
+	 */
+	public abstract void processLightData(int leftCurIntensity, int rightCurIntensity);
+	
+	/**
 	 * Index for tracing black lines already intersected by robot up to now.
 	 */
 	protected int lineCount = 0;
@@ -32,9 +35,14 @@ public abstract class LightController {
 	protected boolean lineTouched = false; 
 	
 	/**
-	 * Initial lastIntensity.
+	 * Initial left light sensor intensity.
 	 */
-	protected double lastIntensity = -1;
+	protected double leftLastIntensity = -1;
+	
+	/**
+	 * Initial right light sensor intensity.
+	 */
+	protected double rightLastIntensity = -1;
 	
 	/**
 	 * A boolean to specify if light localization has started.

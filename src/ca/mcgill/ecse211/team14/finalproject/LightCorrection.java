@@ -1,13 +1,15 @@
 package ca.mcgill.ecse211.team14.finalproject;
 
+import static ca.mcgill.ecse211.team14.finalproject.Resources.odometer;
+
 /**
  * Class that implements light correction for navigation using two light
  * sensors.
  * 
  * @author Michael Li
  */
-public class LightCorrection {
-
+public class LightCorrection extends LightController {
+ 
     // Motor-related variables
 	private int leftMotorTachoCount;  // current left wheel's tachometer count
 	private int rightMotorTachoCount; // current right wheel's tachometer count
@@ -21,6 +23,26 @@ public class LightCorrection {
 	 * If both detect the black line within a time threshold, they will continue to travel normally.
 	 */
 	public void correctNavigation() {
-		System.out.println("pass");
+		
 	}
-}
+
+	/**
+	 * Method executed during navigation to continuously correct the robot's position using two light sensors.
+	 */
+	@Override
+	public void processLightData(int leftCurIntensity, int rightCurIntensity) {
+			
+			if (leftLastIntensity / (double) leftCurIntensity > INTENSITY_RATIO) {
+				lineTouched = true;
+			} else {
+				lineTouched = false;
+			}
+
+			leftLastIntensity = leftCurIntensity;
+			leftMotor
+
+			
+		}
+				
+	}
+

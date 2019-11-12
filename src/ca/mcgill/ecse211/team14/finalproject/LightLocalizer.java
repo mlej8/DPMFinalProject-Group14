@@ -1,7 +1,6 @@
 package ca.mcgill.ecse211.team14.finalproject;
 
 import static ca.mcgill.ecse211.team14.finalproject.Resources.*;
-import lejos.hardware.Sound;
 
 /**
  * This class contains methods needed for light sensor localization. These methods guide the robot to travel to the waypoint
@@ -19,7 +18,7 @@ public class LightLocalizer extends LightController {
 	 */
 	public void localize() {
 		
-//		// Set motor speed 
+//		// Set motor speed  
 //		LEFT_MOTOR.setSpeed(ROTATE_SPEED);
 //		RIGHT_MOTOR.setSpeed(ROTATE_SPEED);
 //
@@ -55,12 +54,9 @@ public class LightLocalizer extends LightController {
 	public void processData(int curIntensity) {
 		
 		// Trigger correction when a black line is detected
-		if (curIntensity < MINIMUM_NONBLACK_INTENSITY) {
+
+		if (lastIntensity / (double) curIntensity > INTENSITY_RATIO) {
 			lineTouched = true;
-			Sound.beep();
-		} else if (lastIntensity / (double) curIntensity > INTENSITY_RATIO) {
-			lineTouched = true;
-			Sound.beep();
 		} else {
 			lineTouched = false;
 		}
@@ -77,7 +73,7 @@ public class LightLocalizer extends LightController {
 	}
 
 	/**
-	 * THe input is a double array which stores the odometer's theta reading when
+	 * The input is a double array which stores the odometer's theta reading when
 	 * black lines are met. This method will calculate delta theta, delta x and
 	 * delta y.
 	 * 
@@ -188,5 +184,11 @@ public class LightLocalizer extends LightController {
 	 */
 	public void setlocalizerStarted(boolean input) {
 		this.localizerStarted = input;
+	}
+
+	@Override
+	public void processLightData(int curIntensity) {
+		// TODO Auto-generated method stub
+		
 	}
 }
