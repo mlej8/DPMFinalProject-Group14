@@ -32,7 +32,8 @@ public class Main {
       // TODO: Step 1. Receive parameters from the game controller
 	    wifi = new WIFI();
 	 
-	    System.out.println("Map info: "+ wifi.getTunnelEnX()+", "+ wifi.getTunnelEnY());
+	    System.out.println("Tunnel Entrance: "+ wifi.getTunnelEnX()+", "+ wifi.getTunnelEnY());
+	    System.out.println("Tunnel Exit: "+ wifi.getTunnelExX()+", "+ wifi.getTunnelExY());
 		waitForPress();
 		
 		
