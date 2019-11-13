@@ -68,6 +68,7 @@ public class Navigation {
 		// Correct odometer when first line is encountered
 		odometer.setY(TILE_SIZE-LIGHT_SENSOR_DISTANCE);
 		odometer.setTheta(0);
+		
 		System.out.println("Corrected Y and Theta " + odometer.getXYT()[0] + " "+ odometer.getXYT()[1] + " "+odometer.getXYT()[2]);
 		lightCorrector.setCorrection(false);
 		LEFT_MOTOR.rotate(Converter.convertDistance(LIGHT_SENSOR_DISTANCE), true);
@@ -93,7 +94,7 @@ public class Navigation {
 		lightCorrector.setCorrection(true);
 		
 		// Turn 90 degrees to the left in order to face forward 
-		turnToExactTheta(0);
+//		turnToExactTheta(0);
 		
 		
 		System.out.println("Final coordinates " + odometer.getXYT()[0] + " "+ odometer.getXYT()[1] + " "+odometer.getXYT()[2]);
@@ -169,9 +170,14 @@ public class Navigation {
 		}
 		
 		while (odometer.getXYT()[0] != x) { 
-		  navigateForward(x-odometer.getXYT()[0]);		
+		  lightCorrector.setCorrection(false);
+		  navigateForward(x-odometer.getXYT()[0]);
+		  // wait for certain amount of time, set it to true
 		  while(LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
-            Main.sleepFor(SLEEPINT);
+		    Main.sleepFor(SLEEPINT);
+		    if(!lightCorrector.isCorrection()) {
+            lightCorrector.setCorrection(true);
+            }
 		  }
 		}
 		
@@ -183,9 +189,13 @@ public class Navigation {
 		}
 		
 		while (odometer.getXYT()[1] != y) { 
+          lightCorrector.setCorrection(false);
 	        navigateForward(y-odometer.getXYT()[1]);      
 	        while(LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
 	            Main.sleepFor(SLEEPINT);
+	            if(!lightCorrector.isCorrection()) {
+	            lightCorrector.setCorrection(true);
+	            }
 	        }
 	    }
 		

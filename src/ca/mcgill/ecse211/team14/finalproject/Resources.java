@@ -70,8 +70,13 @@ public class Resources {
 	/**
 	 * Sleep interval = 50ms = 20 Hz.
 	 */
-	public static final int SLEEPINT = 30;
+	public static final int SLEEPINT = 50;
 
+   /**
+     * Sleep interval for light sensor.
+     */
+    public static final int LIGHT_SLEEPINT = 40;
+	
 	/**
 	 * The tile size in centimeters.
 	 */
@@ -141,7 +146,7 @@ public class Resources {
 	/**
 	 * Degree at which to rotate left when executing ultrasonic sensor localization.
 	 */
-	public static final double ROTATION_LEFT = -5.0;
+	public static final double ROTATION_LEFT = -7.5;
     
     /**
      * The rotation speed of launch motor.

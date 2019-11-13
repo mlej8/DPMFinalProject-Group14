@@ -21,8 +21,8 @@ public class Main {
 	private static BallLauncher ballLauncher;
 
 	// Threads used through out the flow of the application
-	static Thread odometerThread= new Thread(odometer);
-	static Thread sensorPollerThread= new Thread(sensorPoller);
+	static Thread odometerThread = new Thread(odometer);
+	static Thread sensorPollerThread = new Thread(sensorPoller);
 	
 	public static void main(String args[]) {
 	
@@ -37,18 +37,19 @@ public class Main {
 		
 		// TEST if it receives the correct launchX and Y 
 		
-		// TODO: Falling Edge
-		sensorPoller.setMode(Mode.ULTRASONIC);		
+		// TODO: Falling Edge	
 		ultrasonicLocalizer.fallingEdge();
 		sensorPoller.setMode(Mode.LIGHT);
+
 		// TODO: Navigate to (1,1) within 30 seconds
 		navigator.travelToGridIntersection();
 
 		// TODO: Beep when in place
 		stopAndBeep(1);
+		sleepFor(5000);
 		
 		// TODO: Navigate to the Tunnel entrance 
-		navigator.travelTo(3*TILE_SIZE, 3*TILE_SIZE); 
+//		navigator.travelTo(3*TILE_SIZE, 3*TILE_SIZE); 
 				
 		// TODO: Traverse the Tunnel to the Island 
 //		sensorPoller.setMode(Mode.IDLE);
