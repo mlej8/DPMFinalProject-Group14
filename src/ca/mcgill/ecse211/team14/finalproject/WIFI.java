@@ -40,9 +40,9 @@ public class WIFI {
 	private double[] tunnelCoordinates;
 	
 	/**
-	 * Variable decides whether go horizontally/vertically
+	 * Variable tracking if tunnel is horizontal or vertical.
 	 */
-	private boolean isHorizontal;
+	private boolean isTunnelHorizontal;
 
 	/**
 	 * Tunnel entrance X coordinate.
@@ -125,7 +125,7 @@ public class WIFI {
 		double x;
 		double y;
 		if (tunnelArea.width <= tunnelArea.height) {
-		  this.isHorizontal = false;
+		  this.isTunnelHorizontal = false;
 			// go vertically
 			if (startY < tunnelArea.ll.y*TILE_SIZE) { // below
 				x = tunnelArea.ll.x + 0.5;
@@ -135,7 +135,7 @@ public class WIFI {
 				y = tunnelArea.ur.y + 1.0;
 			}
 		} else {
-		  this.isHorizontal = true;
+		  this.isTunnelHorizontal = true;
 			// go horizontally
 			if (startX < tunnelArea.ll.x*TILE_SIZE) { // left
 				x = tunnelArea.ll.x - 1.0;
@@ -219,11 +219,11 @@ public class WIFI {
 	public void setTunnelExY(double tunnelExY) {
 		this.tunnelExY = tunnelExY;
 	}
-  public boolean isHorizontal() {
-    return isHorizontal;
+  public boolean isTunnelHorizontal() {
+    return isTunnelHorizontal;
   }
-  public void setHorizontal(boolean isHorizontal) {
-    this.isHorizontal = isHorizontal;
+  public void isTunnelHorizontal (boolean isHorizontal) {
+    this.isTunnelHorizontal = isHorizontal;
   }
 
 }

@@ -12,7 +12,7 @@ import ca.mcgill.ecse211.team14.finalproject.Converter;
 import ca.mcgill.ecse211.team14.finalproject.SensorPoller.Mode;
 import lejos.hardware.Button;
 
-public class LightCorrectionTest {
+public class LightCorrectionTests {
 	public static void main(String args[]) {
 
 		int buttonChoice = -1;

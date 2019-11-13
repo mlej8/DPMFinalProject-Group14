@@ -71,7 +71,7 @@ public class Resources {
 	/**
 	 * The speed at which the robot rotates in degrees per second.
 	 */
-	public static final int ROTATE_SPEED = 100;
+	public static final int ROTATE_SPEED = 120;
 
 	/**
 	 * The acceleration.
@@ -83,15 +83,15 @@ public class Resources {
 	 */
 	public static final int FILTER_OUT = 30;
 
-//	/**
-//	 * Offset (standoff distance) from the wall (cm).
-//	 */
-//	public static final int BAND_CENTER = 30;  
-//
-//	/**
-//	 * Width of dead band (cm) i.e. error threshold.
-//	 */
-//	public static final int BAND_WIDTH = 8;
+	/**
+	 * Offset (standoff distance) from the wall (cm).
+	 */
+	public static final int BAND_CENTER = 30;  
+
+	/**
+	 * Width of dead band (cm) i.e. error threshold.
+	 */
+	public static final int BAND_WIDTH = 8;
 
 	/**
 	 * Error margin at each waypoint.
