@@ -377,15 +377,14 @@ public class Navigation {
         sleepNavigation();
         if (lightCorrector.isLeftMotorTouched() && lightCorrector.isRightMotorTouched()) {
           lightCorrector.setCurrX(lightCorrector.getCurrX() + 3 * xChange);
-          odometer.setX(lightCorrector.getCurrX() * TILE_SIZE - LIGHT_SENSOR_DISTANCE);
-          navigateForward(2 * TILE_SIZE + 0.5*TILE_SIZE, TUNNEL_SPEED);
+          odometer.setX(lightCorrector.getCurrX() * TILE_SIZE - LIGHT_SENSOR_DISTANCE);          
+          travelLightSensorDistance();
+          lightCorrector.setBothMotorsToFalse();
           if (xChange > 0) {
             odometer.setTheta(90);
           } else {
             odometer.setTheta(270);
           }
-          travelLightSensorDistance();
-          lightCorrector.setBothMotorsToFalse();
         }
       }
 
@@ -407,12 +406,12 @@ public class Navigation {
         odometer.setY(lightCorrector.getCurrY() * TILE_SIZE - LIGHT_SENSOR_DISTANCE);
         travelLightSensorDistance();
         lightCorrector.setBothMotorsToFalse();
-        if (lastY > 0) {
+        if (lastY >= 0) {
           odometer.setTheta(0);
         } else {
           odometer.setTheta(180);
         }
-      }    
+      } 
     } else {
       // First travel along X-axis, then travel along Y-axis
       if (dy >= 0) {
@@ -478,9 +477,7 @@ public class Navigation {
 
       // Travel to latest recorded x.
       double lastX = lightCorrector.getCurrX() * TILE_SIZE - odometer.getXYT()[0];
-      System.out.println("Current x:" + odometer.getXYT()[0]);
-      System.out.println("Current theta: " + odometer.getXYT()[2]);
-
+      
       // Turn towards latest y.
       if (lastX >= 0) {
         turnToExactTheta(90);
