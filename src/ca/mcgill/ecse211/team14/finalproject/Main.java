@@ -59,26 +59,24 @@ public class Main {
 		
 		// TODO: Navigate to the Tunnel entrance 
 		navigator.travelTo(wifi.getTunnelEnX(), wifi.getTunnelEnY()); 
+		System.out.println("x: " + lightCorrector.getCurrX() + " y: " + lightCorrector.getCurrY());
 		System.out.println("Travelled to tunnel Entrance");
 		System.out.println("Odometer Reading:"+odometer.getXYT()[0]+","+odometer.getXYT()[1]+","+odometer.getXYT()[2]);
 		// TODO: Traverse the Tunnel to the Island 
-		navigator.stop();
-
-        sleepFor(5000);
-        
+		navigator.stop();     
 		
 		navigator.traverseTunnel(wifi.getTunnelExX(), wifi.getTunnelExY()); 
-		
+		System.out.println("x : " + odometer.getXYT()[0] + " y " + odometer.getXYT()[1] + " theta: " + odometer.getXYT()[2]);
 		// TODO: Navigate to bin x and bin y
-		navigator.travelTo(wifi.getlaunchX(), wifi.getlaunchY());
+//		navigator.travelTo(wifi.getlaunchX(), wifi.getlaunchY());
 
 		// Turn to exact orientation
-		navigator.turnToExactTheta(targetAngle); 
-
-		// TODO: Step 6. Launch the ball a minimum distance of 4 tiles, stop and beep 
-		BallLauncher ballLauncher = new BallLauncher();
-		ballLauncher.launch();	
-		stopAndBeep(1);
+//		navigator.turnToExactTheta(targetAngle); 
+//
+//		// TODO: Step 6. Launch the ball a minimum distance of 4 tiles, stop and beep 
+//		BallLauncher ballLauncher = new BallLauncher();
+//		ballLauncher.launch();	
+//		stopAndBeep(1);
 		
 		// TODO: Michael: Do light snesor correction to navigate to closest point
 		// i.e. navigate to first line and turn right 90 degrees and stop when detect

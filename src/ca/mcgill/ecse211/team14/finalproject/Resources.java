@@ -81,8 +81,8 @@ public class Resources {
 	/**
 	 * Tunnel speed. 
 	 */
-	public static final int TUNNEL_SPEED = 800;
-
+	public static final int TUNNEL_SPEED = 300;
+	
 	/**
 	 * Number of times to filter out (ignore) data.
 	 */
@@ -172,7 +172,7 @@ public class Resources {
 	 * d constant for ultrasonic localizer representing the threshold distance from the wall 
 	 *
 	 */
-	public static final double d = 60.0; 
+	public static final double d = 75.0; 
 	
 	/**
 	 * Degree at which to rotate right when executing ultrasonic sensor localization.

@@ -189,7 +189,7 @@ public class Navigation {
       travelLightSensorDistance();
 
       while (Math.abs(x - odometer.getXYT()[0]) > ERROR_MARGIN) {
-        navigateForward(x - odometer.getXYT()[0]);
+        navigateForward(x - odometer.getXYT()[0], MOTOR_SPEED);
         while (LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
           Main.sleepFor(SLEEPINT);
         }
@@ -220,7 +220,7 @@ public class Navigation {
       travelLightSensorDistance();
 
       while (Math.abs(y - odometer.getXYT()[1]) > ERROR_MARGIN) {
-        navigateForward(y - odometer.getXYT()[1]);
+        navigateForward(y - odometer.getXYT()[1], MOTOR_SPEED);
         while (LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
           Main.sleepFor(SLEEPINT);
         }
@@ -254,7 +254,7 @@ public class Navigation {
       travelLightSensorDistance();
 
       while (Math.abs(y - odometer.getXYT()[1]) > ERROR_MARGIN) {
-        navigateForward(y - odometer.getXYT()[1]);
+        navigateForward(y - odometer.getXYT()[1], MOTOR_SPEED);
         while (LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
           Main.sleepFor(SLEEPINT);
         }
@@ -284,7 +284,7 @@ public class Navigation {
       travelLightSensorDistance();
 
       while (Math.abs(x - odometer.getXYT()[0]) > ERROR_MARGIN) {
-        navigateForward(x - odometer.getXYT()[0]);
+        navigateForward(x - odometer.getXYT()[0], MOTOR_SPEED);
         // wait for certain amount of time, set it to true
         while (LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
           Main.sleepFor(SLEEPINT);
@@ -339,7 +339,7 @@ public class Navigation {
       travelLightSensorDistance();
 
       // Travel one tile
-      navigateForward(x - odometer.getXYT()[0]);
+      navigateForward(x - odometer.getXYT()[0], MOTOR_SPEED);
       sleepNavigation();
 
       // Correct before entering tunnel.
@@ -354,12 +354,6 @@ public class Navigation {
         lightCorrector.setBothMotorsToFalse();
       }
 
-      // Add speed.
-      LEFT_MOTOR.setAcceleration(ACCELERATION);
-      RIGHT_MOTOR.setAcceleration(ACCELERATION);
-      LEFT_MOTOR.setSpeed(TUNNEL_SPEED);
-      RIGHT_MOTOR.setSpeed(TUNNEL_SPEED);
-
       // Travel distance between light sensor and motor.
       travelLightSensorDistance();
 
@@ -367,20 +361,21 @@ public class Navigation {
       sensorPoller.setMode(Mode.IDLE);
 
       // Travel two tiles.
-      navigateForward(2 * TILE_SIZE);
+      navigateForward(2 * TILE_SIZE + 0.5*TILE_SIZE, TUNNEL_SPEED);
       sleepNavigation();
       stop();
-
+      
       // Turn sensor polling on.
       sensorPoller.setMode(Mode.LIGHT);
 
       // Travel to tunnel exit.
       while (Math.abs(x - odometer.getXYT()[0]) > ERROR_MARGIN) {
-        navigateForward(x - odometer.getXYT()[0]);
+        navigateForward(x - odometer.getXYT()[0], MOTOR_SPEED);
         sleepNavigation();
         if (lightCorrector.isLeftMotorTouched() && lightCorrector.isRightMotorTouched()) {
           lightCorrector.setCurrX(lightCorrector.getCurrX() + 3 * xChange);
           odometer.setX(lightCorrector.getCurrX() * TILE_SIZE - LIGHT_SENSOR_DISTANCE);
+          navigateForward(2 * TILE_SIZE + 0.5*TILE_SIZE, TUNNEL_SPEED);
           if (xChange > 0) {
             odometer.setTheta(90);
           } else {
@@ -397,10 +392,10 @@ public class Navigation {
       // Turn towards latest y.
       if (lastY >= 0) {
         turnToExactTheta(0);
-        navigateForward(lightCorrector.getCurrY() * TILE_SIZE - odometer.getXYT()[1]);
+        navigateForward(lightCorrector.getCurrY() * TILE_SIZE - odometer.getXYT()[1], MOTOR_SPEED);
       } else {
         turnToExactTheta(180);
-        navigateForward(odometer.getXYT()[1] - lightCorrector.getCurrY() * TILE_SIZE);
+        navigateForward(odometer.getXYT()[1] - lightCorrector.getCurrY() * TILE_SIZE, MOTOR_SPEED);
       }
 
       sleepNavigation();
@@ -429,7 +424,7 @@ public class Navigation {
       travelLightSensorDistance();
 
       // Travel one tile
-      navigateForward(y - odometer.getXYT()[1]);
+      navigateForward(y - odometer.getXYT()[1], MOTOR_SPEED);
       sleepNavigation();
 
       // Correct before entering tunnel.
@@ -444,12 +439,6 @@ public class Navigation {
         lightCorrector.setBothMotorsToFalse();
       }
 
-      // Add speed.
-      LEFT_MOTOR.setAcceleration(ACCELERATION);
-      RIGHT_MOTOR.setAcceleration(ACCELERATION);
-      LEFT_MOTOR.setSpeed(TUNNEL_SPEED);
-      RIGHT_MOTOR.setSpeed(TUNNEL_SPEED);
-
       // Travel distance between light sensor and motor.
       travelLightSensorDistance();
 
@@ -457,7 +446,7 @@ public class Navigation {
       sensorPoller.setMode(Mode.IDLE);
 
       // Travel two tiles.
-      navigateForward(2 * TILE_SIZE);
+      navigateForward(2 * TILE_SIZE + 0.5*TILE_SIZE, TUNNEL_SPEED);
       sleepNavigation();
       stop();
 
@@ -466,31 +455,32 @@ public class Navigation {
 
       // Travel to tunnel exit.
       while (Math.abs(y - odometer.getXYT()[1]) > ERROR_MARGIN) {
-        navigateForward(y - odometer.getXYT()[1]);
+        navigateForward(y - odometer.getXYT()[1], MOTOR_SPEED);
         sleepNavigation();
         if (lightCorrector.isLeftMotorTouched() && lightCorrector.isRightMotorTouched()) {
           lightCorrector.setCurrY(lightCorrector.getCurrY() + 3 * yChange);
           odometer.setY(lightCorrector.getCurrY() * TILE_SIZE - LIGHT_SENSOR_DISTANCE);
+          travelLightSensorDistance();
+          lightCorrector.setBothMotorsToFalse();
           if (yChange > 0) {
             odometer.setTheta(0);
           } else {
             odometer.setTheta(180);
           }
-          travelLightSensorDistance();
-          lightCorrector.setBothMotorsToFalse();
         }
       }
 
+      System.out.println("In navigation x: " + lightCorrector.getCurrX() + " y: " + lightCorrector.getCurrY());
       // Travel to latest recorded x.
-      double lastX = lightCorrector.getCurrY() * TILE_SIZE - odometer.getXYT()[0];
+      double lastX = lightCorrector.getCurrX() * TILE_SIZE - odometer.getXYT()[0];
 
       // Turn towards latest y.
       if (lastX >= 0) {
         turnToExactTheta(90);
-        navigateForward(lightCorrector.getCurrX() * TILE_SIZE - odometer.getXYT()[0]);
+        navigateForward(lightCorrector.getCurrX() * TILE_SIZE - odometer.getXYT()[0], MOTOR_SPEED);
       } else {
         turnToExactTheta(270);
-        navigateForward(odometer.getXYT()[0] - lightCorrector.getCurrX() * TILE_SIZE);
+        navigateForward(odometer.getXYT()[0] - lightCorrector.getCurrX() * TILE_SIZE, MOTOR_SPEED);
       }
 
       sleepNavigation();
@@ -534,9 +524,9 @@ public class Navigation {
    * 
    * @Param distance: distance to travel.
    */
-  public void navigateForward(double distance) {
-    LEFT_MOTOR.setSpeed(MOTOR_SPEED);
-    RIGHT_MOTOR.setSpeed(MOTOR_SPEED);
+  public void navigateForward(double distance, int speed) {
+    LEFT_MOTOR.setSpeed(speed);
+    RIGHT_MOTOR.setSpeed(speed);
     LEFT_MOTOR.rotate(Converter.convertDistance(distance), true);
     RIGHT_MOTOR.rotate(Converter.convertDistance(distance), true);
   }
