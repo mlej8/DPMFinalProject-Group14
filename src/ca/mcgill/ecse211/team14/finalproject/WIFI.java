@@ -149,12 +149,12 @@ public class WIFI {
 		}
 		tunnelEnX = x*TILE_SIZE;
 		tunnelEnY = y*TILE_SIZE;
-		if (x <= y) {
+		if (tunnelArea.width <= tunnelArea.height) {
 			tunnelExX = x * TILE_SIZE;
 			tunnelExY = (y + 4) * TILE_SIZE;
 		} else {
 			tunnelExX = (x + 4) * TILE_SIZE;
-			tunnelExY = y;
+			tunnelExY = y* TILE_SIZE;
 		}
 	}
 
