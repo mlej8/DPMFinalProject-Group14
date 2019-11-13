@@ -167,7 +167,7 @@ public class Resources {
 	 * d constant for ultrasonic localizer representing the threshold distance from the wall 
 	 *
 	 */
-	public static final double d = 50.0; 
+	public static final double d = 60.0; 
 	
 	/**
 	 * Degree at which to rotate right when executing ultrasonic sensor localization.
