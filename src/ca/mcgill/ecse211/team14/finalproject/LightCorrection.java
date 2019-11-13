@@ -40,12 +40,12 @@ public class LightCorrection {
   protected double rightLastIntensity = -1;
 
   /**
-   * Variable that the x of current tile
+   * Variable that tracks the current tile's x.
    */
   private int currX = 0;
 
   /**
-   * Variable that the x of current tile
+   * Variable that tracks the current tile's y.
    */
   private int currY = 0;
 

@@ -36,10 +36,14 @@ public class Main {
 //		wifi = new WIFI();
 		
 		// TEST if it receives the correct launchX and Y 
-		
+        
 		// TODO: Falling Edge	
 		ultrasonicLocalizer.fallingEdge();
 		sensorPoller.setMode(Mode.LIGHT);
+
+		// Set speed 
+		LEFT_MOTOR.setSpeed(MOTOR_SPEED);
+		RIGHT_MOTOR.setSpeed(MOTOR_SPEED);
 
 		// TODO: Navigate to (1,1) within 30 seconds
 		navigator.travelToGridIntersection();
@@ -49,7 +53,7 @@ public class Main {
 		sleepFor(5000);
 		
 		// TODO: Navigate to the Tunnel entrance 
-//		navigator.travelTo(3*TILE_SIZE, 3*TILE_SIZE); 
+		navigator.travelTo(3*TILE_SIZE, 3*TILE_SIZE); 
 				
 		// TODO: Traverse the Tunnel to the Island 
 //		sensorPoller.setMode(Mode.IDLE);
