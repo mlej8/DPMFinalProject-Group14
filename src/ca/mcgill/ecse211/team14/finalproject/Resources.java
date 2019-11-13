@@ -76,7 +76,12 @@ public class Resources {
 	/**
 	 * The acceleration.
 	 */
-	public static final int ACCELERATION = 3000;
+	public static final int ACCELERATION = 1000;
+	
+	/**
+	 * Tunnel speed. 
+	 */
+	public static final int TUNNEL_SPEED = 200;
 
 	/**
 	 * Number of times to filter out (ignore) data.

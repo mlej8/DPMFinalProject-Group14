@@ -355,8 +355,10 @@ public class Navigation {
       }
 
       // Add speed.
-      LEFT_MOTOR.setSpeed(ROTATE_SPEED);
-      RIGHT_MOTOR.setSpeed(ROTATE_SPEED);
+      LEFT_MOTOR.setAcceleration(ACCELERATION);
+      RIGHT_MOTOR.setAcceleration(ACCELERATION);
+      LEFT_MOTOR.setSpeed(TUNNEL_SPEED);
+      RIGHT_MOTOR.setSpeed(TUNNEL_SPEED);
 
       // Travel distance between light sensor and motor.
       travelLightSensorDistance();
@@ -443,8 +445,10 @@ public class Navigation {
       }
 
       // Add speed.
-      LEFT_MOTOR.setSpeed(ROTATE_SPEED);
-      RIGHT_MOTOR.setSpeed(ROTATE_SPEED);
+      LEFT_MOTOR.setAcceleration(ACCELERATION);
+      RIGHT_MOTOR.setAcceleration(ACCELERATION);
+      LEFT_MOTOR.setSpeed(TUNNEL_SPEED);
+      RIGHT_MOTOR.setSpeed(TUNNEL_SPEED);
 
       // Travel distance between light sensor and motor.
       travelLightSensorDistance();
