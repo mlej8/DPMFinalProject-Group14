@@ -48,7 +48,7 @@ public class Main {
 		stopAndBeep(1);
 		
 		// TODO: Navigate to the Tunnel entrance 
-		navigator.travelTo(3*TILE_SIZE, 3*TILE_SIZE);
+		navigator.travelTo(3*TILE_SIZE, 3*TILE_SIZE); 
 				
 		// TODO: Traverse the Tunnel to the Island 
 //		sensorPoller.setMode(Mode.IDLE);
@@ -106,6 +106,9 @@ public class Main {
 		// TODO: If no object has been detected, stop and beep for 3 times
 //		stopAndBeep(3);
 		
+		// Launch the ball.
+//	    ballLauncher = new BallLauncher();
+//	    ballLauncher.launch();
 		
 		// TODO: Travel to tunnel exX and exY
 		// navigator.travelTo(wifi.getTunnelExX(), wifi.getTunnelExY());

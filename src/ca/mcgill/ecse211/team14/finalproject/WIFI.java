@@ -118,19 +118,19 @@ public class WIFI {
 
 	/**
 	 * Method that calculates and returns the coordinates at which the robot needs
-	 * to travel to in order to enter the tunnel.
+	 * to travel to in order to enter the tunnel and exit the tunnel. 
+	 * In final competition, we might split it into getTunnelEntrance and getTunnelExit
 	 */
-	public void findTunnelEntrance() {
+	public void findTunnelEnEx() {
 		Region tunnelArea = null;
-		Region startArea = null;
+		Region startArea = green; // assume green team in beta-demo
 
 		if(greenTeam == 14) {
 		  	tunnelArea = tng;
-		  	startArea = green;
 		}       
 
-		double x = 0;
-		double y = 0;
+		double x = tunnelArea.width;
+		double y = tunnelArea.height;
 		if (x <= y) {
 			// go vertically
 			if (startY < tunnelArea.ll.y) { // below
@@ -150,7 +150,7 @@ public class WIFI {
 				x = tunnelArea.ur.x + 1.0; // right
 				y = tunnelArea.ur.y - 0.5;
 			}
-			// TODO: 1. turn to the same angle every time?
+			// 1. turn to the same angle every time?
 			// 2. Avoid touching the river/wall in edge cases	
 		}
 		tunnelEnX = x*TILE_SIZE;
@@ -167,12 +167,14 @@ public class WIFI {
 	/**
 	 * Method that calculates and returns the coordinates at which the robot needs
 	 * to travel to in order to exit the tunnel.
+	 * 
+	 * In beta-demo, this is combined with findTunnelEntrance method
 	 */
-	public double[] getTunnelExit() {
-		// TODO: merge into getEntrance
-		System.out.println(" ");
-		return islandCoordinates;
-	}
+//	public double[] getTunnelExit() {
+//		// TODO: merge into getEntrance
+//		System.out.println(" ");
+//		return islandCoordinates;
+//	}
 
 	public double getBinX() {
 		return binX;
