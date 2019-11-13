@@ -85,16 +85,16 @@ public class LightCorrection {
 
       if (leftMotorTouched && rightMotorTouched) {
         navigator.stop();
-        leftMotorTouched = false;
-        rightMotorTouched = false;
+//        leftMotorTouched = false;
+//        rightMotorTouched = false;
       } else if (leftMotorTouched) {
         // Stop left motor
         LEFT_MOTOR.stop(false);
-        leftMotorTouched = false;
+//        leftMotorTouched = false;
       } else if (rightMotorTouched) {
         // Stop right motor
         RIGHT_MOTOR.stop(false);
-        rightMotorTouched = false;
+//        rightMotorTouched = false;
       }
     }
   }
@@ -137,6 +137,11 @@ public class LightCorrection {
 
   public void setLeftMotorTouched(boolean leftMotorTouched) {
     this.leftMotorTouched = leftMotorTouched;
+  }
+  
+  public void setBothMotorsToFalse() {
+    setRightMotorTouched(false);
+    setLeftMotorTouched(false);
   }
 }
 

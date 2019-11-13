@@ -67,7 +67,6 @@ public class Navigation {
 		
 		// Correct odometer when first line is encountered
 		lightCorrector.setCurrY(1);
-		System.out.println("Current y" +  lightCorrector.getCurrY());
 		odometer.setY(lightCorrector.getCurrY()*TILE_SIZE-LIGHT_SENSOR_DISTANCE);
 		odometer.setTheta(0);
 		
@@ -76,7 +75,10 @@ public class Navigation {
 		travelLightSensorDistance();
 		
 		// Turn 90 degrees 
-		turnToExactTheta(90);		
+		turnToExactTheta(90);	
+		
+		// Set both line touched boolean variables to false
+		lightCorrector.setBothMotorsToFalse();
 		
 		// Go forward until another black line is detected 
 		LEFT_MOTOR.rotate(Converter.convertDistance(TILE_SIZE), true);
@@ -90,6 +92,9 @@ public class Navigation {
 		odometer.setTheta(90);
 		
 		travelLightSensorDistance();
+
+		// Set both line touched boolean variables to false
+        lightCorrector.setBothMotorsToFalse();
 		
 		System.out.println("Final coordinates x " + odometer.getXYT()[0] + " y "+ odometer.getXYT()[1] + " theta "+odometer.getXYT()[2]);
 	}
@@ -169,7 +174,7 @@ public class Navigation {
 		double dx = x - odometer.getXYT()[0];
 		double dy = y - odometer.getXYT()[1];
 		
-		if(wifi.isHorizontal()) {
+		if(Main.wifi.isHorizontal()) {
 		  
 		
 		// First travel along X-axis, then travel along Y-axis
@@ -191,9 +196,13 @@ public class Navigation {
               lightCorrector.setCorrection(true);
             }
 		  }
-//		  lightCorrector.setCurrX(lightCorrector.getCurrX()+xChange);
-//		  odometer.setX(lightCorrector.getCurrX()*TILE_SIZE-LIGHT_SENSOR_DISTANCE);
+		  
+		  if(lightCorrector.isLeftMotorTouched() && lightCorrector.isRightMotorTouched()) {
+		  lightCorrector.setCurrX(lightCorrector.getCurrX()+xChange);
+		  odometer.setX(lightCorrector.getCurrX()*TILE_SIZE-LIGHT_SENSOR_DISTANCE);
 		  travelLightSensorDistance();
+	        lightCorrector.setBothMotorsToFalse();
+		  }
 		}
 		
 		// Second travel along Y-axis
@@ -214,9 +223,13 @@ public class Navigation {
 	            lightCorrector.setCorrection(true);
 	            }
 	        }
-//	        lightCorrector.setCurrY(lightCorrector.getCurrY()+yChange);
-//	        odometer.setY(lightCorrector.getCurrY()*TILE_SIZE-LIGHT_SENSOR_DISTANCE);
+	        if(lightCorrector.isLeftMotorTouched() && lightCorrector.isRightMotorTouched()) {
+	        lightCorrector.setCurrY(lightCorrector.getCurrY()+yChange);
+	        odometer.setY(lightCorrector.getCurrY()*TILE_SIZE-LIGHT_SENSOR_DISTANCE);
 	        travelLightSensorDistance();
+	        lightCorrector.setBothMotorsToFalse();
+	        }
+	        
 	    }
 	} else {
 	  
@@ -238,9 +251,12 @@ public class Navigation {
               lightCorrector.setCorrection(true);
               }
           }
-//          lightCorrector.setCurrY(lightCorrector.getCurrY()+yChange);
-//          odometer.setY(lightCorrector.getCurrY()*TILE_SIZE-LIGHT_SENSOR_DISTANCE);
+          if(lightCorrector.isLeftMotorTouched() && lightCorrector.isRightMotorTouched()) {
+          lightCorrector.setCurrY(lightCorrector.getCurrY()+yChange);
+          odometer.setY(lightCorrector.getCurrY()*TILE_SIZE-LIGHT_SENSOR_DISTANCE);
           travelLightSensorDistance();
+          lightCorrector.setBothMotorsToFalse();
+          }
       }
       
       // First travel along X-axis, then travel along Y-axis
@@ -262,9 +278,12 @@ public class Navigation {
             lightCorrector.setCorrection(true);
           }
         }
-//        lightCorrector.setCurrX(lightCorrector.getCurrX()+xChange);
-//        odometer.setX(lightCorrector.getCurrX()*TILE_SIZE-LIGHT_SENSOR_DISTANCE);
+        if(lightCorrector.isLeftMotorTouched() && lightCorrector.isRightMotorTouched()) {
+        lightCorrector.setCurrX(lightCorrector.getCurrX()+xChange);
+        odometer.setX(lightCorrector.getCurrX()*TILE_SIZE-LIGHT_SENSOR_DISTANCE);
         travelLightSensorDistance();
+        lightCorrector.setBothMotorsToFalse();
+        }
       }
 	}		
 		stop();
