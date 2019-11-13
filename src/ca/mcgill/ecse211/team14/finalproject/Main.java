@@ -10,26 +10,35 @@ import lejos.hardware.Sound;
  * The main class controls the flow of the application.
  */
 public class Main {
-
 	/**
 	 * Private class variable for ballLauncher 
 	 */
 	private static BallLauncher ballLauncher;
+	
+
+    /**
+     * Global instance of WIFI class
+     */
+    public static WIFI wifi;
+    
 
 	// Threads used through out the flow of the application
 	static Thread odometerThread = new Thread(odometer);
 	static Thread sensorPollerThread = new Thread(sensorPoller);
 	
 	public static void main(String args[]) {
+	    
+
+      // TODO: Step 1. Receive parameters from the game controller
 	    wifi = new WIFI();
+	 
+	    System.out.println("Map info: "+ wifi.getTunnelEnX()+", "+ wifi.getTunnelEnY());
 		waitForPress();
+		
 		
 		// Start odometer and sensor poller thread
 		odometerThread.start();
 		sensorPollerThread.start();
-		
-		// TODO: Step 1. Receive parameters from the game controller
-//		wifi = new WIFI();
 		
 		// TEST if it receives the correct launchX and Y 
         

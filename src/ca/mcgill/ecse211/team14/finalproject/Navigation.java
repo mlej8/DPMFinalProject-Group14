@@ -168,7 +168,10 @@ public class Navigation {
 		// Compute displacement
 		double dx = x - odometer.getXYT()[0];
 		double dy = y - odometer.getXYT()[1];
-
+		
+		if(wifi.isHorizontal()) {
+		  
+		
 		// First travel along X-axis, then travel along Y-axis
 		if (dx >= 0) {
 			turnToExactTheta(90);	
@@ -188,8 +191,8 @@ public class Navigation {
               lightCorrector.setCorrection(true);
             }
 		  }
-		  lightCorrector.setCurrX(lightCorrector.getCurrX()+xChange);
-		  odometer.setX(lightCorrector.getCurrX()*TILE_SIZE-LIGHT_SENSOR_DISTANCE);
+//		  lightCorrector.setCurrX(lightCorrector.getCurrX()+xChange);
+//		  odometer.setX(lightCorrector.getCurrX()*TILE_SIZE-LIGHT_SENSOR_DISTANCE);
 		  travelLightSensorDistance();
 		}
 		
@@ -211,11 +214,59 @@ public class Navigation {
 	            lightCorrector.setCorrection(true);
 	            }
 	        }
-	        lightCorrector.setCurrY(lightCorrector.getCurrY()+yChange);
-	        odometer.setY(lightCorrector.getCurrY()*TILE_SIZE-LIGHT_SENSOR_DISTANCE);
+//	        lightCorrector.setCurrY(lightCorrector.getCurrY()+yChange);
+//	        odometer.setY(lightCorrector.getCurrY()*TILE_SIZE-LIGHT_SENSOR_DISTANCE);
 	        travelLightSensorDistance();
 	    }
-		
+	} else {
+	  
+	  // Travel along Y-axis
+      if (dy >= 0) {
+          turnToExactTheta(0);
+          yChange = 1;
+      } else {
+          turnToExactTheta(180);
+          yChange = -1;
+      }
+      
+      while (Math.abs(y - odometer.getXYT()[1]) > ERROR_MARGIN) { 
+        lightCorrector.setCorrection(false);
+          navigateForward(y-odometer.getXYT()[1]);      
+          while(LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
+              Main.sleepFor(SLEEPINT);
+              if(!lightCorrector.isCorrection()) {
+              lightCorrector.setCorrection(true);
+              }
+          }
+//          lightCorrector.setCurrY(lightCorrector.getCurrY()+yChange);
+//          odometer.setY(lightCorrector.getCurrY()*TILE_SIZE-LIGHT_SENSOR_DISTANCE);
+          travelLightSensorDistance();
+      }
+      
+      // First travel along X-axis, then travel along Y-axis
+      if (dx >= 0) {
+          turnToExactTheta(90);   
+          xChange = 1;
+      } else {
+          turnToExactTheta(270);
+          xChange = -1;
+      }
+      
+      while (Math.abs(x - odometer.getXYT()[0]) > ERROR_MARGIN) { 
+        lightCorrector.setCorrection(false);
+        navigateForward(x-odometer.getXYT()[0]);
+        // wait for certain amount of time, set it to true
+        while(LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
+          Main.sleepFor(SLEEPINT);
+          if(!lightCorrector.isCorrection()) {
+            lightCorrector.setCorrection(true);
+          }
+        }
+//        lightCorrector.setCurrX(lightCorrector.getCurrX()+xChange);
+//        odometer.setX(lightCorrector.getCurrX()*TILE_SIZE-LIGHT_SENSOR_DISTANCE);
+        travelLightSensorDistance();
+      }
+	}		
 		stop();
 		this.traveling = false;
 	}

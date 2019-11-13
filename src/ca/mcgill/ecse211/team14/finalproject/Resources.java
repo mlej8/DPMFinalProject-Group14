@@ -61,7 +61,7 @@ public class Resources {
 	/**
 	 * Fixed Motor Speed.
 	 */
-	public static final int MOTOR_SPEED = 70;
+	public static final int MOTOR_SPEED = 75;
 	
 	/**
 	 * Variable that keeps track of the distance between the light sensors and the motors. 
@@ -162,6 +162,11 @@ public class Resources {
 	 * Instance of US Localizer
 	 */
 	public static UltrasonicLocalizer ultrasonicLocalizer = new UltrasonicLocalizer();
+	
+    /**
+     * Global instance of WIFI class
+     */
+    public static WIFI wifi = new WIFI();
 	
 	/**
      * Global instance of WIFI class
