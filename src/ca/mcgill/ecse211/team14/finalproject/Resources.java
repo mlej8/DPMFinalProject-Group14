@@ -84,19 +84,24 @@ public class Resources {
 	public static final int TUNNEL_SPEED = 300;
 	
 	/**
+	 * Tunnel sleep.
+	 */
+	public static final int TUNNEL_SLEEP= 3000;
+    
+	/**
 	 * Number of times to filter out (ignore) data.
 	 */
 	public static final int FILTER_OUT = 30;
 
-//	/**
-//	 * Offset (standoff distance) from the wall (cm).
-//	 */
-//	public static final int BAND_CENTER = 30;  
-//
-//	/**
-//	 * Width of dead band (cm) i.e. error threshold.
-//	 */
-//	public static final int BAND_WIDTH = 8;
+	/**
+	 * Offset (standoff distance) from the wall (cm).
+	 */
+	public static final int BAND_CENTER = 30;  
+
+	/**
+	 * Width of dead band (cm) i.e. error threshold.
+	 */
+	public static final int BAND_WIDTH = 8;
 
 	/**
 	 * Error margin at each waypoint.

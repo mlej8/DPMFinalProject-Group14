@@ -364,6 +364,9 @@ public class Navigation {
       navigateForward(2 * TILE_SIZE + 0.5*TILE_SIZE, TUNNEL_SPEED);
       sleepNavigation();
       stop();
+
+      // Sleep thread.
+      Main.sleepFor(TUNNEL_SLEEP);
       
       // Turn sensor polling on.
       sensorPoller.setMode(Mode.LIGHT);
@@ -409,7 +412,7 @@ public class Navigation {
         } else {
           odometer.setTheta(180);
         }
-      }
+      }    
     } else {
       // First travel along X-axis, then travel along Y-axis
       if (dy >= 0) {
@@ -450,6 +453,9 @@ public class Navigation {
       sleepNavigation();
       stop();
 
+      // Sleep thread.
+      Main.sleepFor(TUNNEL_SLEEP);
+      
       // Turn sensor polling on.
       sensorPoller.setMode(Mode.LIGHT);
 
@@ -470,15 +476,17 @@ public class Navigation {
         }
       }
 
-      System.out.println("In navigation x: " + lightCorrector.getCurrX() + " y: " + lightCorrector.getCurrY());
       // Travel to latest recorded x.
       double lastX = lightCorrector.getCurrX() * TILE_SIZE - odometer.getXYT()[0];
+      System.out.println("Current x:" + odometer.getXYT()[0]);
+      System.out.println("Current theta: " + odometer.getXYT()[2]);
 
       // Turn towards latest y.
       if (lastX >= 0) {
         turnToExactTheta(90);
         navigateForward(lightCorrector.getCurrX() * TILE_SIZE - odometer.getXYT()[0], MOTOR_SPEED);
       } else {
+        System.out.println("Turned 270");
         turnToExactTheta(270);
         navigateForward(odometer.getXYT()[0] - lightCorrector.getCurrX() * TILE_SIZE, MOTOR_SPEED);
       }
@@ -489,7 +497,7 @@ public class Navigation {
         odometer.setX(lightCorrector.getCurrX() * TILE_SIZE - LIGHT_SENSOR_DISTANCE);
         travelLightSensorDistance();
         lightCorrector.setBothMotorsToFalse();
-        if (lastX > 0) {
+        if (lastX >= 0) {
           odometer.setTheta(90);
         } else {
           odometer.setTheta(270);
@@ -546,7 +554,7 @@ public class Navigation {
     // If theta is bigger than 180 or smaller than -180, set it to smallest minimal
     // turning angle
     if (theta > 180.0) {
-      theta = 360.0 - theta;
+      theta = -(360.0 - theta);
     } else if (theta < -180.0) {
       theta = 360.0 + theta;
     }
@@ -580,7 +588,7 @@ public class Navigation {
     // If theta is bigger than 180 or smaller than -180, set it to smallest minimal
     // turning angle
     if (theta > 180.0) {
-      theta = 360.0 - theta;
+      theta = -(360.0 - theta);
     } else if (theta < -180.0) {
       theta = 360.0 + theta;
     }
