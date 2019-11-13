@@ -75,7 +75,7 @@ public class Resources {
    /**
      * Sleep interval for light sensor.
      */
-    public static final int LIGHT_SLEEPINT = 40;
+    public static final int LIGHT_SLEEPINT = 35;
 	
 	/**
 	 * The tile size in centimeters.
