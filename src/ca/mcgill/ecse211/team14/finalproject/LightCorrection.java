@@ -107,7 +107,7 @@ public class LightCorrection {
 				// Stop right motor 
 				RIGHT_MOTOR.stop(false);
 				rightMotorTouched = false;
-				}		
+				}
 			}
 		}
 
