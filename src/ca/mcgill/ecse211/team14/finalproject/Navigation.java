@@ -232,10 +232,12 @@ public class Navigation {
 	  
 	  // Travel along Y-axis
       if (dy >= 0) {
+        System.out.println("Turned to 0");
           turnToExactTheta(0);
           yChange = 1;
       } else {
-          turnToExactTheta(180);
+        System.out.println("Turned to 180");
+        turnToExactTheta(180);
           yChange = -1;
       }
       
