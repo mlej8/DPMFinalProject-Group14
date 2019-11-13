@@ -168,7 +168,12 @@ public class Navigation {
 			turnToExactTheta(270);
 		}
 		
-		navigateForward(dx);
+		while (odometer.getXYT()[0] != x) { 
+		  navigateForward(x-odometer.getXYT()[0]);		
+		  while(LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
+            Main.sleepFor(SLEEPINT);
+		  }
+		}
 		
 		// Second travel along Y-axis
 		if (dy >= 0) {
@@ -177,7 +182,12 @@ public class Navigation {
 			turnToExactTheta(180);
 		}
 		
-		navigateForward(dy);
+		while (odometer.getXYT()[1] != y) { 
+	        navigateForward(y-odometer.getXYT()[1]);      
+	        while(LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
+	            Main.sleepFor(SLEEPINT);
+	        }
+	    }
 		
 //		// Compute the angle needed to turn; dx and dy are intentionally switched in
 //		// order to compute angle w.r.t. the y-axis and not w.r.t. the x-axis
@@ -207,8 +217,10 @@ public class Navigation {
 	public void navigateForward(double distance) {
 		LEFT_MOTOR.setSpeed(MOTOR_SPEED);
 		RIGHT_MOTOR.setSpeed(MOTOR_SPEED);
+//		LEFT_MOTOR.forward();
+//		RIGHT_MOTOR.forward();
 		LEFT_MOTOR.rotate(Converter.convertDistance(distance), true);
-		RIGHT_MOTOR.rotate(Converter.convertDistance(distance), false);
+		RIGHT_MOTOR.rotate(Converter.convertDistance(distance), true);
 	}
 
 	/**
