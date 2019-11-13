@@ -60,8 +60,13 @@ public class Main {
 		
 		// TODO: Navigate to the Tunnel entrance 
 		navigator.travelTo(wifi.getTunnelEnX(), wifi.getTunnelEnY()); 
-		System.out.println("Travelled to tunnel");
+		System.out.println("Travelled to tunnel Entrance");
+		System.out.println("Odometer Reading:"+odometer.getXYT()[0]+","+odometer.getXYT()[1]+","+odometer.getXYT()[2]);
 		// TODO: Traverse the Tunnel to the Island 
+		navigator.stop();
+		LEFT_MOTOR.setSpeed(200);
+        RIGHT_MOTOR.setSpeed(200);
+
 		sensorPoller.setMode(Mode.IDLE);
 		navigator.travelTo(wifi.getTunnelExX(), wifi.getTunnelExY()); 
 		
