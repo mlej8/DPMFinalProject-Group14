@@ -74,8 +74,8 @@ public class WIFI {
 	 * launching position.
 	 */
 	private void findLaunchPosition() {
-		this.launchX = bin.x;
-		this.launchY = bin.y;	
+		this.launchX = bin.x * TILE_SIZE;
+		this.launchY = bin.y * TILE_SIZE;	
 	}
 
 	/**
