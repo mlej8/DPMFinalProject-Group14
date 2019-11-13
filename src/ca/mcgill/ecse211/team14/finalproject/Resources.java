@@ -1,6 +1,7 @@
 package ca.mcgill.ecse211.team14.finalproject;
 
 import ca.mcgill.ecse211.team14.finalproject.Odometer;
+import lejos.hardware.Wifi;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.lcd.TextLCD;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
@@ -162,6 +163,10 @@ public class Resources {
 	 */
 	public static UltrasonicLocalizer ultrasonicLocalizer = new UltrasonicLocalizer();
 	
+	/**
+     * Global instance of WIFI class
+     */
+    public static WIFI wifi;
 	/**
 	 * d constant for ultrasonic localizer representing the threshold distance from the wall 
 	 *
