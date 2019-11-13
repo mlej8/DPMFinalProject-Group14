@@ -168,7 +168,7 @@ public class Navigation {
 		// Compute displacement
 		double dx = x - odometer.getXYT()[0];
 		double dy = y - odometer.getXYT()[1];
-
+		
 		// First travel along X-axis, then travel along Y-axis
 		if (dx >= 0) {
 			turnToExactTheta(90);	
