@@ -3,7 +3,7 @@ package ca.mcgill.ecse211.team14.finalproject.tests;
 import static ca.mcgill.ecse211.team14.finalproject.Resources.*;
 import ca.mcgill.ecse211.team14.finalproject.WIFI;
 
-public class wifiParameterTest {
+public class WifiParameterTests {
  
   public static void main(String args[]) {
      System.out.println("Running ");
