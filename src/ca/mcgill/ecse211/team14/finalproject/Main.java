@@ -151,6 +151,7 @@ public class Main {
 		System.out.println("Press the right button to start.");
 		do {
 			buttonChoice = Button.waitForAnyPress();
+			RECEIVE_WIFI_PARAMS = true;
 		} while (buttonChoice != Button.ID_RIGHT);
 
 		LCDScreen.clear();
