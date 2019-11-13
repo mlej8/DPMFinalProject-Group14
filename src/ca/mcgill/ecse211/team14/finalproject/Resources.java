@@ -105,7 +105,7 @@ public class Resources {
    /**
      * Sleep interval for light sensor.
      */
-    public static final int LIGHT_SLEEPINT = 40;
+    public static final int LIGHT_SLEEPINT = 35;
 	
 	/**
 	 * The tile size in centimeters.
@@ -161,6 +161,11 @@ public class Resources {
 	 * Instance of US Localizer
 	 */
 	public static UltrasonicLocalizer ultrasonicLocalizer = new UltrasonicLocalizer();
+	
+    /**
+     * Global instance of WIFI class
+     */
+    public static WIFI wifi = new WIFI();
 	
 	/**
 	 * d constant for ultrasonic localizer representing the threshold distance from the wall 

@@ -10,16 +10,6 @@ import ca.mcgill.ecse211.wificlient.WifiConnection;
 public class WIFI {
 
 	/**
-	 * Variable target's x coordinate.
-	 */
-	private double binX;
-
-	/**
-	 * Variable destination's y coordinate.
-	 */
-	private double binY;
-
-	/**
 	 * Variable start point x coodinate.
 	 */
 	private double startX;
@@ -32,12 +22,12 @@ public class WIFI {
 	/**
 	 * Variable destination's x coordinate.
 	 */
-	private double launchX = bin.x;
+	private double launchX;
 
 	/**
 	 * Variable destination's y coordinate.
 	 */
-	private double launchY = bin.y;
+	private double launchY;
 
 	/**
 	 * Array that stores the lower left and upper right corners of islands.
@@ -48,6 +38,11 @@ public class WIFI {
 	 * Array that stores the tunnel coordinates.
 	 */
 	private double[] tunnelCoordinates;
+	
+	/**
+	 * Variable decides whether go horizontally/vertically
+	 */
+	private boolean isHorizontal;
 
 	/**
 	 * Tunnel entrance X coordinate.
@@ -68,19 +63,25 @@ public class WIFI {
 	 * Tunnel exit Y coordinate.
 	 */
 	private double tunnelExY;
+	
+	public WIFI() {
+	  findLaunchPosition();
+	  findStartPoint();
+	  findTunnelEnEx();
+	}
 	/**
 	 * This method uses the given target position (binX,binY) to find the ideal
 	 * launching position.
 	 */
 	private void findLaunchPosition() {
-		this.launchX = binX;
-		this.launchY = binY;	
+		this.launchX = bin.x;
+		this.launchY = bin.y;	
 	}
 
 	/**
 	 * Changes the starting position (x,y).
 	 */
-	public void findStartPoint() {
+	private void findStartPoint() {
 		startCorner = 0;
 		if (redTeam == TEAM_NUMBER) {
 			startCorner = redCorner;
@@ -109,19 +110,11 @@ public class WIFI {
 	}
 
 	/**
-	 * Returns the double array [startX, startY]
-	 */
-	public double[] getStartPoint() {
-		double[] startPoint = new double[] { startX, startY };
-		return startPoint;
-	}
-
-	/**
 	 * Method that calculates and returns the coordinates at which the robot needs
 	 * to travel to in order to enter the tunnel and exit the tunnel. 
 	 * In final competition, we might split it into getTunnelEntrance and getTunnelExit
 	 */
-	public void findTunnelEnEx() {
+	private void findTunnelEnEx() {
 		Region tunnelArea = null;
 		Region startArea = green; // assume green team in beta-demo
 
@@ -132,8 +125,9 @@ public class WIFI {
 		double x;
 		double y;
 		if (tunnelArea.width <= tunnelArea.height) {
+		  this.isHorizontal = false;
 			// go vertically
-			if (startY < tunnelArea.ll.y) { // below
+			if (startY < tunnelArea.ll.y*TILE_SIZE) { // below
 				x = tunnelArea.ll.x + 0.5;
 				y = tunnelArea.ll.y - 1.0;
 			} else { // upper
@@ -141,8 +135,9 @@ public class WIFI {
 				y = tunnelArea.ur.y + 1.0;
 			}
 		} else {
+		  this.isHorizontal = true;
 			// go horizontally
-			if (startX < tunnelArea.ll.x) { // left
+			if (startX < tunnelArea.ll.x*TILE_SIZE) { // left
 				x = tunnelArea.ll.x - 1.0;
 				y = tunnelArea.ll.y + 0.5;
 			} else {
@@ -161,26 +156,6 @@ public class WIFI {
 			tunnelExX = (x + 4) * TILE_SIZE;
 			tunnelExY = y;
 		}
-	}
-
-	/**
-	 * Method that calculates and returns the coordinates at which the robot needs
-	 * to travel to in order to exit the tunnel.
-	 * 
-	 * In beta-demo, this is combined with findTunnelEntrance method
-	 */
-//	public double[] getTunnelExit() {
-//		// TODO: merge into getEntrance
-//		System.out.println(" ");
-//		return islandCoordinates;
-//	}
-
-	public double getBinX() {
-		return binX;
-	}
-
-	public double getBinY() {
-		return binY;
 	}
 
 	/**
@@ -244,5 +219,11 @@ public class WIFI {
 	public void setTunnelExY(double tunnelExY) {
 		this.tunnelExY = tunnelExY;
 	}
+  public boolean isHorizontal() {
+    return isHorizontal;
+  }
+  public void setHorizontal(boolean isHorizontal) {
+    this.isHorizontal = isHorizontal;
+  }
 
 }
