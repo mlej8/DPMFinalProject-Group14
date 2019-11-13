@@ -101,7 +101,7 @@ public class UltrasonicLocalizer extends UltrasonicController{
 		
 		// Turn left until the falling edge is detected for the left wall.
 		while (readUSDistance() > d) {
-			navigator.rotate(ROTATION_LEFT);
+			navigator.turnTo(ROTATION_LEFT);
 		}
 
 		// Stop robot when it detects the falling edge.
