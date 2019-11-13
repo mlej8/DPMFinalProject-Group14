@@ -45,21 +45,21 @@ public class Main {
 		// TODO: Falling Edge	
 		ultrasonicLocalizer.fallingEdge();
 		sensorPoller.setMode(Mode.LIGHT);
-
+		 
 		// Set speed 
 		LEFT_MOTOR.setSpeed(MOTOR_SPEED);
 		RIGHT_MOTOR.setSpeed(MOTOR_SPEED);
 
 		// TODO: Navigate to (1,1) within 30 seconds
 		navigator.travelToGridIntersection();
-
+		System.out.println("Finished Localization");
 		// TODO: Beep when in place
 		stopAndBeep(1);
 		sleepFor(5000);
 		
 		// TODO: Navigate to the Tunnel entrance 
 		navigator.travelTo(wifi.getTunnelEnX(), wifi.getTunnelEnY()); 
-				
+		System.out.println("Travelled to tunnel");
 		// TODO: Traverse the Tunnel to the Island 
 		sensorPoller.setMode(Mode.IDLE);
 		navigator.travelTo(wifi.getTunnelExX(), wifi.getTunnelExY()); 
