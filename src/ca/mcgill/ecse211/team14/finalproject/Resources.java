@@ -60,7 +60,7 @@ public class Resources {
 	/**
 	 * Fixed Motor Speed.
 	 */
-	public static final int MOTOR_SPEED = 100;
+	public static final int MOTOR_SPEED = 90;
 	
 	/**
 	 * Variable that keeps track of the distance between the light sensors and the motors. 
@@ -92,6 +92,11 @@ public class Resources {
 //	 */
 //	public static final int BAND_WIDTH = 8;
 
+	/**
+	 * Error margin at each waypoint.
+	 */
+	public static final double ERROR_MARGIN = 0.5;
+	
 	/**
 	 * Sleep interval = 50ms = 20 Hz.
 	 */

@@ -40,10 +40,14 @@ public class Main {
 //		wifi = new WIFI();
 		
 		// TEST if it receives the correct launchX and Y 
-		
+        
 		// TODO: Falling Edge	
 		ultrasonicLocalizer.fallingEdge();
 		sensorPoller.setMode(Mode.LIGHT);
+
+		// Set speed 
+		LEFT_MOTOR.setSpeed(MOTOR_SPEED);
+		RIGHT_MOTOR.setSpeed(MOTOR_SPEED);
 
 		// TODO: Navigate to (1,1) within 30 seconds
 		navigator.travelToGridIntersection();
