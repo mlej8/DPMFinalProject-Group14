@@ -53,11 +53,9 @@ public class Main {
 
 		// TODO: Navigate to (1,1) within 30 seconds
 		navigator.travelToGridIntersection();
-		navigator.travelTo(3*TILE_SIZE, 0);
 
 		// TODO: Beep when in place
 		stopAndBeep(1);
-		sleepFor(5000);
 		
 		// TODO: Navigate to the Tunnel entrance 
 		navigator.travelTo(wifi.getTunnelEnX(), wifi.getTunnelEnY()); 
