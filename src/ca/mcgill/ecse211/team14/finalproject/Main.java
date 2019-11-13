@@ -28,8 +28,9 @@ public class Main {
 	public static void main(String args[]) {
 
 	    System.out.println("Running Wifi Class");
-	    System.out.println("Map info: "+ wifiParameters);
-	    wifi = new WIFI();
+	   
+	    wifi = new WIFI(); 
+	    System.out.println("Map info: "+wifi.getTunnelEnX()+", "+ wifi.getTunnelEnY());
 		waitForPress();
 		
 		// Start odometer and sensor poller thread
