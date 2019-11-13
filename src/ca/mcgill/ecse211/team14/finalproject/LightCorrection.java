@@ -17,7 +17,7 @@ public class LightCorrection {
   /**
    * Maximum ratio for last intensity compared to current intensity when there is no black line.
    */
-  protected static final double RIGHT_INTENSITY_RATIO = 1.125;
+  protected static final double RIGHT_INTENSITY_RATIO = 1.1;
 
   /**
    * Boolean to specify if right motor has touched black line.
