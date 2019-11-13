@@ -52,7 +52,7 @@ public class Main {
 
 		// TODO: Navigate to (1,1) within 30 seconds
 		navigator.travelToGridIntersection();
-		System.out.println("Finished Localization");
+		
 		// TODO: Beep when in place
 		stopAndBeep(1);
 		
@@ -62,19 +62,17 @@ public class Main {
 		// TODO: Traverse the Tunnel to the Island 
 		sensorPoller.setMode(Mode.IDLE);
 		navigator.travelTo(wifi.getTunnelExX(), wifi.getTunnelExY()); 
+		
 		// TODO: Navigate to bin x and bin y
-//		navigator.travelTo(wifi.getlaunchX(), wifi.getlaunchY());
+		navigator.travelTo(wifi.getlaunchX(), wifi.getlaunchY());
 
 		// Turn to exact orientation
-//		navigator.turnToExactTheta(targetAngle); 
-		// TODO: Turn 
-		// TODO: Switch to light mode in Sensor Poller
-//		sensorPoller.setMode(Mode.LIGHT);
+		navigator.turnToExactTheta(targetAngle); 
 
 		// TODO: Step 6. Launch the ball a minimum distance of 4 tiles, stop and beep 
-//		BallLauncher ballLauncher = new BallLauncher();
-//		ballLauncher.launch();	
-//		stopAndBeep(1);
+		BallLauncher ballLauncher = new BallLauncher();
+		ballLauncher.launch();	
+		stopAndBeep(1);
 		
 		// TODO: Michael: Do light snesor correction to navigate to closest point
 		// i.e. navigate to first line and turn right 90 degrees and stop when detect
