@@ -11,7 +11,7 @@ public class wifiParameterTest {
      WIFI wifi = new WIFI();
      System.out.println("Finished");
      System.out.println("WIFI class launch point is ("+wifi.getlaunchX()+", "+wifi.getlaunchY()+")");
-     if(wifi.getlaunchX()==wifi.getBinX()&&wifi.getlaunchY()==wifi.getBinY()) {
+     if(wifi.getlaunchX()==bin.x&&wifi.getlaunchY()==bin.y) {
        System.out.println("Correct");
      }
      System.out.println("WIFI class start point is ("+wifi.getStartX()+", "+wifi.getStartY()+")");

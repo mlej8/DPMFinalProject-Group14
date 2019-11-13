@@ -1,6 +1,7 @@
 package ca.mcgill.ecse211.team14.finalproject;
 
 import static ca.mcgill.ecse211.team14.finalproject.Resources.*;
+import static ca.mcgill.ecse211.team14.finalproject.WIFI.*;
 import ca.mcgill.ecse211.team14.finalproject.SensorPoller.Mode;
 import lejos.hardware.Button;
 import lejos.hardware.Sound;
@@ -25,7 +26,11 @@ public class Main {
 	static Thread sensorPollerThread = new Thread(sensorPoller);
 	
 	public static void main(String args[]) {
-	
+
+	    System.out.println("Running Wifi Class");
+	   
+	    wifi = new WIFI(); 
+	    System.out.println("Map info: "+wifi.getTunnelEnX()+", "+ wifi.getTunnelEnY());
 		waitForPress();
 		
 		// Start odometer and sensor poller thread
@@ -36,10 +41,14 @@ public class Main {
 //		wifi = new WIFI();
 		
 		// TEST if it receives the correct launchX and Y 
-		
+        
 		// TODO: Falling Edge	
 		ultrasonicLocalizer.fallingEdge();
 		sensorPoller.setMode(Mode.LIGHT);
+
+		// Set speed 
+		LEFT_MOTOR.setSpeed(MOTOR_SPEED);
+		RIGHT_MOTOR.setSpeed(MOTOR_SPEED);
 
 		// TODO: Navigate to (1,1) within 30 seconds
 		navigator.travelToGridIntersection();
@@ -50,10 +59,11 @@ public class Main {
 		sleepFor(5000);
 		
 		// TODO: Navigate to the Tunnel entrance 
-//		navigator.travelTo(3*TILE_SIZE, 3*TILE_SIZE); 
+		navigator.travelTo(wifi.getTunnelEnX(), wifi.getTunnelEnY()); 
 				
 		// TODO: Traverse the Tunnel to the Island 
-//		sensorPoller.setMode(Mode.IDLE);
+		sensorPoller.setMode(Mode.IDLE);
+		navigator.travelTo(wifi.getTunnelExX(), wifi.getTunnelExY()); 
 		// TODO: Navigate to bin x and bin y
 //		navigator.travelTo(wifi.getlaunchX(), wifi.getlaunchY());
 

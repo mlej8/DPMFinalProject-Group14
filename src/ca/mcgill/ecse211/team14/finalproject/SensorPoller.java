@@ -65,7 +65,6 @@ public class SensorPoller implements Runnable {
             } else if (mode==Mode.LIGHT) {
               leftLightSensor.getRedMode().fetchSample(leftLightData, 0);
               rightLightSensor.getRedMode().fetchSample(rightLightData, 0);
-              System.out.println("Left sensor " + leftLightData[0] * 100.0 + " Right sensor: " + rightLightData[0]*100.0);
               lightCorrector.processLightData(leftLightData[0] * 100.0, rightLightData[0] * 100.0);
             } else if (mode==Mode.BOTH) {
             	// light correction
