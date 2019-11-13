@@ -10,7 +10,6 @@ import lejos.hardware.Sound;
  * The main class controls the flow of the application.
  */
 public class Main {
-	
 	/**
 	 * Private class variable for ballLauncher 
 	 */
