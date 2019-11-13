@@ -67,9 +67,9 @@ public class UltrasonicLocalizer extends UltrasonicController{
 
 		// Rotate counter clockwise until the robot is out of the noise margin zone to
 		// not be facing the wall
-//		while (readUSDistance() < d) {
-//			navigator.rotate(ROTATION_LEFT);
-//		}
+		while (readUSDistance() < d) {
+			navigator.rotate(ROTATION_LEFT);
+		}
 
 		// Turn right until the robot detects the falling edge for the back wall.
 		while (readUSDistance() > d) {
