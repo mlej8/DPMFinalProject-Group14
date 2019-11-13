@@ -11,7 +11,7 @@ public class Navigation {
 	/**
 	 * {@code true} when robot is traveling.
 	 */
-	private boolean traveling = false; // false by default
+	private boolean traveling = false; 
 	
 	/**
 	 * Current destination's x coordinate.
@@ -53,9 +53,6 @@ public class Navigation {
 	 * Method that travels to the closest grid intersection
 	 */
 	public void travelToGridIntersection() {
-		
-		// Ensure sensor poller pools data for light sensor 
-		sensorPoller.setMode(Mode.LIGHT);
 		
 		// Go forward until a black line is detected 
 		LEFT_MOTOR.rotate(Converter.convertDistance(TILE_SIZE), true);
