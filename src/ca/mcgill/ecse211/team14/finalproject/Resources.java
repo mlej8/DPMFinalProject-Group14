@@ -81,7 +81,7 @@ public class Resources {
 	/**
 	 * Tunnel speed. 
 	 */
-	public static final int TUNNEL_SPEED = 200;
+	public static final int TUNNEL_SPEED = 800;
 
 	/**
 	 * Number of times to filter out (ignore) data.
