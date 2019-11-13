@@ -163,15 +163,6 @@ public class Resources {
 	 */
 	public static UltrasonicLocalizer ultrasonicLocalizer = new UltrasonicLocalizer();
 	
-    /**
-     * Global instance of WIFI class
-     */
-    public static WIFI wifi = new WIFI();
-	
-	/**
-     * Global instance of WIFI class
-     */
-    public static WIFI wifi;
 	/**
 	 * d constant for ultrasonic localizer representing the threshold distance from the wall 
 	 *
