@@ -63,11 +63,11 @@ public class Main {
 		System.out.println("Odometer Reading:"+odometer.getXYT()[0]+","+odometer.getXYT()[1]+","+odometer.getXYT()[2]);
 		// TODO: Traverse the Tunnel to the Island 
 		navigator.stop();
-		LEFT_MOTOR.setSpeed(200);
-        RIGHT_MOTOR.setSpeed(200);
 
-		sensorPoller.setMode(Mode.IDLE);
-		navigator.travelTo(wifi.getTunnelExX(), wifi.getTunnelExY()); 
+        sleepFor(5000);
+        
+		
+		navigator.traverseTunnel(wifi.getTunnelExX(), wifi.getTunnelExY()); 
 		
 		// TODO: Navigate to bin x and bin y
 		navigator.travelTo(wifi.getlaunchX(), wifi.getlaunchY());
