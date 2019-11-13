@@ -69,6 +69,7 @@ public class Navigation {
 		
 		System.out.println("Corrected Y and Theta " + odometer.getXYT()[0] + " "+ odometer.getXYT()[1] + " "+odometer.getXYT()[2]);
 		
+		// Travel light sensor distance
 		travelLightSensorDistance();
 		
 		// Turn 90 degrees 
@@ -83,11 +84,13 @@ public class Navigation {
 		while(LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
 			Main.sleepFor(SLEEPINT);
 		}
+		
 		// Correct X 
 		lightCorrector.setCurrX(1);
 		odometer.setX(lightCorrector.getCurrX()*TILE_SIZE - LIGHT_SENSOR_DISTANCE);
 		odometer.setTheta(90);
 		
+		// Travel light sensor distance
 		travelLightSensorDistance();
 
 		// Set both line touched boolean variables to false
@@ -183,22 +186,25 @@ public class Navigation {
 			xChange = -1;
 		}
 		
+        // Travel light sensor distance. 
+        travelLightSensorDistance();
+		
 		while (Math.abs(x - odometer.getXYT()[0]) > ERROR_MARGIN) { 
-		  lightCorrector.setCorrection(false);
 		  navigateForward(x-odometer.getXYT()[0]);
-		  // wait for certain amount of time, set it to true
 		  while(LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
 		    Main.sleepFor(SLEEPINT);
-		    if(!lightCorrector.isCorrection()) {
-              lightCorrector.setCorrection(true);
-            }
 		  }
 		  
 		  if(lightCorrector.isLeftMotorTouched() && lightCorrector.isRightMotorTouched()) {
-		  lightCorrector.setCurrX(lightCorrector.getCurrX()+xChange);
-		  odometer.setX(lightCorrector.getCurrX()*TILE_SIZE-LIGHT_SENSOR_DISTANCE);
-		  travelLightSensorDistance();
-	        lightCorrector.setBothMotorsToFalse();
+  		    lightCorrector.setCurrX(lightCorrector.getCurrX()+xChange);
+  		    odometer.setX(lightCorrector.getCurrX()*TILE_SIZE-LIGHT_SENSOR_DISTANCE);
+  		    if (xChange > 0) {
+  	          odometer.setTheta(90);
+  	        } else {
+  	          odometer.setTheta(270);
+  	        }
+  		    travelLightSensorDistance();
+  	        lightCorrector.setBothMotorsToFalse();  	        
 		  }
 		}
 		
@@ -211,20 +217,24 @@ public class Navigation {
 			yChange = -1;
 		}
 		
+		// Travel light sensor distance. 
+        travelLightSensorDistance();
+        
 		while (Math.abs(y - odometer.getXYT()[1]) > ERROR_MARGIN) { 
-          lightCorrector.setCorrection(false);
-	        navigateForward(y-odometer.getXYT()[1]);      
+            navigateForward(y-odometer.getXYT()[1]);      
 	        while(LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
 	            Main.sleepFor(SLEEPINT);
-	            if(!lightCorrector.isCorrection()) {
-	            lightCorrector.setCorrection(true);
-	            }
 	        }
 	        if(lightCorrector.isLeftMotorTouched() && lightCorrector.isRightMotorTouched()) {
 	        lightCorrector.setCurrY(lightCorrector.getCurrY()+yChange);
 	        odometer.setY(lightCorrector.getCurrY()*TILE_SIZE-LIGHT_SENSOR_DISTANCE);
 	        travelLightSensorDistance();
 	        lightCorrector.setBothMotorsToFalse();
+	        if (yChange > 0) {
+	          odometer.setTheta(0);
+	        } else {
+	          odometer.setTheta(180);
+	        }
 	        }
 	        
 	    }
@@ -238,19 +248,23 @@ public class Navigation {
           turnToExactTheta(180);
           yChange = -1;
       }
+
+      // Travel light sensor distance. 
+      travelLightSensorDistance();
       
-      while (Math.abs(y - odometer.getXYT()[1]) > ERROR_MARGIN) { 
-        lightCorrector.setCorrection(false);
+      while (Math.abs(y - odometer.getXYT()[1]) > ERROR_MARGIN) {
           navigateForward(y-odometer.getXYT()[1]);      
           while(LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
               Main.sleepFor(SLEEPINT);
-              if(!lightCorrector.isCorrection()) {
-              lightCorrector.setCorrection(true);
-              }
           }
           if(lightCorrector.isLeftMotorTouched() && lightCorrector.isRightMotorTouched()) {
           lightCorrector.setCurrY(lightCorrector.getCurrY()+yChange);
           odometer.setY(lightCorrector.getCurrY()*TILE_SIZE-LIGHT_SENSOR_DISTANCE);
+          if (yChange > 0) {
+            odometer.setTheta(0);
+          } else {
+            odometer.setTheta(180);
+          }
           travelLightSensorDistance();
           lightCorrector.setBothMotorsToFalse();
           }
@@ -263,21 +277,25 @@ public class Navigation {
       } else {
           turnToExactTheta(270);
           xChange = -1;
-      }
+      }      
+
+      // Travel light sensor distance. 
+      travelLightSensorDistance();
       
       while (Math.abs(x - odometer.getXYT()[0]) > ERROR_MARGIN) { 
-        lightCorrector.setCorrection(false);
         navigateForward(x-odometer.getXYT()[0]);
         // wait for certain amount of time, set it to true
         while(LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
           Main.sleepFor(SLEEPINT);
-          if(!lightCorrector.isCorrection()) {
-            lightCorrector.setCorrection(true);
-          }
         }
         if(lightCorrector.isLeftMotorTouched() && lightCorrector.isRightMotorTouched()) {
         lightCorrector.setCurrX(lightCorrector.getCurrX()+xChange);
         odometer.setX(lightCorrector.getCurrX()*TILE_SIZE-LIGHT_SENSOR_DISTANCE);
+        if (xChange > 0) {
+          odometer.setTheta(90);
+        } else {
+          odometer.setTheta(270);
+        }
         travelLightSensorDistance();
         lightCorrector.setBothMotorsToFalse();
         }
