@@ -210,6 +210,11 @@ public class Resources {
     public static final double LAUNCH_ANGLE = 180;
     
     /**
+     * Launch range of the ball launcher
+     */
+    public static final double LAUNCH_RANGE = 5.5;
+    
+    /**
      * Create light corrector 
      */
     public static LightCorrection lightCorrector = new LightCorrection();
