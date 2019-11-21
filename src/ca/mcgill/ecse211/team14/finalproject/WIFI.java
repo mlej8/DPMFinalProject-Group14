@@ -69,6 +69,7 @@ public class WIFI {
 	  findStartPoint();
 	  findTunnelEnEx();
 	}
+	
 	/**
 	 * This method uses the given target position (binX,binY) to find the ideal
 	 * launching position.

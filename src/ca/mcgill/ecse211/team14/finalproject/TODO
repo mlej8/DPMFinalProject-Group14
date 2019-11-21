@@ -1,3 +1,13 @@
 Put motors instantiation (especially launch motors) in constructor, not taking any ressources to avoid starving threads
 Fix tests in test package
 Test for wheelbase and wheel radius to ensure odometer is working fine. 
+
+Meeting 14 November 2019
+Fix Light Sensor  
+Travel fast TILE_SIZE - 10cm then go very slow to slow (slow down to 
+Try use the difference 
+Add an elastic between the two motors
+
+Change how tunnel is recognized horizontal or vertical use coordinates of playground  
+
+Reloading problem

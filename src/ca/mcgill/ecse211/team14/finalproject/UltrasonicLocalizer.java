@@ -26,8 +26,9 @@ public class UltrasonicLocalizer extends UltrasonicController{
 		// Get angle at which the back and left walls are detected.
 		backWall = findFallingEdgeA();
 	
+		Main.sleepFor(SLEEPINT);
 		// Rotate counterclockwise to get out of noise margin.
-		navigator.turnTo(-2*RIGHT_ANGLE);
+//		navigator.turnTo(-2*RIGHT_ANGLE);
 	
 		// Detect left wall 
 		leftWall = findFallingEdgeB();
@@ -97,6 +98,11 @@ public class UltrasonicLocalizer extends UltrasonicController{
 	private double findFallingEdgeB() {
 
 		double fallingEdge;
+		
+		// Rotate counterclockwise to get out of noise margin.
+        while (readUSDistance() < d) {
+            navigator.rotate(ROTATION_LEFT);
+        }
 		
 		// Turn left until the falling edge is detected for the left wall.
 		while (readUSDistance() > d) {

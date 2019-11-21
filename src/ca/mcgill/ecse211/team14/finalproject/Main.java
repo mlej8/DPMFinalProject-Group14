@@ -10,11 +10,11 @@ import lejos.hardware.Sound;
  * The main class controls the flow of the application.
  */
 public class Main {
+  
 	/**
 	 * Private class variable for ballLauncher 
 	 */
 	private static BallLauncher ballLauncher;
-	
 
     /**
      * Global instance of WIFI class
@@ -26,10 +26,9 @@ public class Main {
 	static Thread odometerThread = new Thread(odometer);
 	static Thread sensorPollerThread = new Thread(sensorPoller);
 	
-	public static void main(String args[]) {
-	    
+	public static void main(String args[]) {  
 
-      // TODO: Step 1. Receive parameters from the game controller
+	    // TODO: Step 1. Receive parameters from the game controller
 	    wifi = new WIFI();
 	 
 	    System.out.println("Tunnel Entrance: "+ wifi.getTunnelEnX()+", "+ wifi.getTunnelEnY());
@@ -61,6 +60,7 @@ public class Main {
 		System.out.println("x: " + lightCorrector.getCurrX() + " y: " + lightCorrector.getCurrY());
 		System.out.println("Travelled to tunnel Entrance");
 		System.out.println("Odometer Reading:"+odometer.getXYT()[0]+","+odometer.getXYT()[1]+","+odometer.getXYT()[2]);
+		
 		// TODO: Traverse the Tunnel to the Island 
 		navigator.stop();     
 		
