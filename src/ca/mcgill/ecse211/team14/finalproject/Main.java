@@ -42,7 +42,7 @@ public class Main {
 		
 		// TEST if it receives the correct launchX and Y 
         
-		// TODO: Falling Edge	
+		// Falling Edge	
 		ultrasonicLocalizer.fallingEdge();
 		sensorPoller.setMode(Mode.LIGHT);
 		 
@@ -52,6 +52,9 @@ public class Main {
 
 		// TODO: Navigate to (1,1) within 30 seconds
 		navigator.travelToGridIntersection();
+		
+		// Set startPoint (x,y,t) to odometer (e.g. at corner 0, the angle is 90)
+		odometer.setXYT(wifi.getStartX(), wifi.getStartY(), wifi.getStartT());
 		
 		// TODO: Beep when in place
 		stopAndBeep(1);

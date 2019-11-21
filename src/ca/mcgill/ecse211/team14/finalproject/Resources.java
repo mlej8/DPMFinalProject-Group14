@@ -277,7 +277,7 @@ public class Resources {
     /**
      * The red tunnel footprint.
      */
-    // public static Region tnr = new Region("TNR_LL_x", "TNR_LL_y", "TNR_UR_x", "TNR_UR_y");
+     public static Region tnr = new Region("TNR_LL_x", "TNR_LL_y", "TNR_UR_x", "TNR_UR_y");
     
     /**
      * Beta-demo: the given rotation angle before launching

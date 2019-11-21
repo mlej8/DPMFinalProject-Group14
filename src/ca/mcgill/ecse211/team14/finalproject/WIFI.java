@@ -1,228 +1,265 @@
 package ca.mcgill.ecse211.team14.finalproject;
 
 import static ca.mcgill.ecse211.team14.finalproject.Resources.*;
-
 import java.math.BigDecimal;
 import java.util.Map;
-
 import ca.mcgill.ecse211.wificlient.WifiConnection;
 
 public class WIFI {
 
-	/**
-	 * Variable start point x coodinate.
-	 */
-	private double startX;
- 
-	/**
-	 * Variable start point y coodinate.
-	 */
-	private double startY;
+  /**
+   * Variable start point x coodinate.
+   */
+  private double startX;
 
-	/**
-	 * Variable destination's x coordinate.
-	 */
-	private double launchX;
+  /**
+   * Variable start point y coodinate.
+   */
+  private double startY;
 
-	/**
-	 * Variable destination's y coordinate.
-	 */
-	private double launchY;
+  /**
+   * Variable start point angle theta.
+   */
+  private double startT;
 
-	/**
-	 * Array that stores the lower left and upper right corners of islands.
-	 */
-	private double[] islandCoordinates;
+  /**
+   * Variable destination's x coordinate.
+   */
+  private double launchX;
 
-	/**
-	 * Array that stores the tunnel coordinates.
-	 */
-	private double[] tunnelCoordinates;
-	
-	/**
-	 * Variable tracking if tunnel is horizontal or vertical.
-	 */
-	private boolean isTunnelHorizontal;
+  /**
+   * Variable destination's y coordinate.
+   */
+  private double launchY;
 
-	/**
-	 * Tunnel entrance X coordinate.
-	 */
-	private double tunnelEnX;
+  /**
+   * Array that stores the lower left and upper right corners of islands.
+   */
+  private double[] islandCoordinates;
 
-	/**
-	 * Tunnel entrance Y coordinate.
-	 */
-	private double tunnelEnY;
+  /**
+   * Array that stores the tunnel coordinates.
+   */
+  private double[] tunnelCoordinates;
 
-	/**
-	 * Tunnel exit X coordinate.
-	 */
-	private double tunnelExX;
-	
-	/**
-	 * Tunnel exit Y coordinate.
-	 */
-	private double tunnelExY;
-	
-	public WIFI() {
-	  findLaunchPosition();
-	  findStartPoint();
-	  findTunnelEnEx();
-	}
-	/**
-	 * This method uses the given target position (binX,binY) to find the ideal
-	 * launching position.
-	 */
-	private void findLaunchPosition() {
-		this.launchX = bin.x * TILE_SIZE;
-		this.launchY = bin.y * TILE_SIZE;	
-	}
+  /**
+   * Variable tracking if tunnel is horizontal or vertical.
+   */
+  private boolean isTunnelHorizontal;
 
-	/**
-	 * Changes the starting position (x,y).
-	 */
-	private void findStartPoint() {
-		startCorner = 0;
-		if (redTeam == TEAM_NUMBER) {
-			startCorner = redCorner;
-		} else {
-			startCorner = greenCorner;
-		}
-		// For beta demo
-		switch (startCorner) {
-		case 0:
-			startX = 0.5 * TILE_SIZE;
-			startY = 0.5 * TILE_SIZE;
-			break;
-		case 1:
-			startX = (mapWidth - 0.5) * TILE_SIZE;
-			startY = 0.5 * TILE_SIZE;
-			break;
-		case 2:
-			startX = (mapWidth - 0.5) * TILE_SIZE;
-			startY = (mapHeight - 0.5) * TILE_SIZE;
-			break;
-		case 3:
-			startX = 0.5 * TILE_SIZE;
-			startY = (mapHeight - 0.5) * TILE_SIZE;
-			break;
-		}
-	}
+  /**
+   * Tunnel entrance X coordinate.
+   */
+  private double tunnelEnX;
 
-	/**
-	 * Method that calculates and returns the coordinates at which the robot needs
-	 * to travel to in order to enter the tunnel and exit the tunnel. 
-	 * In final competition, we might split it into getTunnelEntrance and getTunnelExit
-	 */
-	private void findTunnelEnEx() {
-		Region tunnelArea = null;
-		Region startArea = green; // assume green team in beta-demo
+  /**
+   * Tunnel entrance Y coordinate.
+   */
+  private double tunnelEnY;
 
-		if(greenTeam == 14) {
-		  	tunnelArea = tng;
-		}       
+  /**
+   * Tunnel exit X coordinate.
+   */
+  private double tunnelExX;
 
-		double x;
-		double y;
-		if (tunnelArea.width <= tunnelArea.height) {
-		  this.isTunnelHorizontal = false;
-			// go vertically
-			if (startY < tunnelArea.ll.y*TILE_SIZE) { // below
-				x = tunnelArea.ll.x + 0.5;
-				y = tunnelArea.ll.y - 1.0;
-			} else { // upper
-				x = tunnelArea.ur.x - 0.5;
-				y = tunnelArea.ur.y + 1.0;
-			}
-		} else {
-		  this.isTunnelHorizontal = true;
-			// go horizontally
-			if (startX < tunnelArea.ll.x*TILE_SIZE) { // left
-				x = tunnelArea.ll.x - 1.0;
-				y = tunnelArea.ll.y + 0.5;
-			} else {
-				x = tunnelArea.ur.x + 1.0; // right
-				y = tunnelArea.ur.y - 0.5;
-			}
-			// 1. turn to the same angle every time?
-			// 2. Avoid touching the river/wall in edge cases	
-		}
-		tunnelEnX = x*TILE_SIZE;
-		tunnelEnY = y*TILE_SIZE;
-		if (tunnelArea.width <= tunnelArea.height) {
-			tunnelExX = x * TILE_SIZE;
-			tunnelExY = (y + 4) * TILE_SIZE;
-		} else {
-			tunnelExX = (x + 4) * TILE_SIZE;
-			tunnelExY = y* TILE_SIZE;
-		}
-	}
+  /**
+   * Tunnel exit Y coordinate.
+   */
+  private double tunnelExY;
 
-	/**
-	 * @return launch point's x coordinate.
-	 */
-	public double getlaunchX() {
-		return this.launchX;
-	}
+  public WIFI() {
+    findLaunchPosition();
+    findStartPoint();
+    findTunnelEnEx();
+  }
 
-	/**
-	 * @return launch point's y coordinate.
-	 */
-	public double getlaunchY() {
-		return this.launchY;
-	}
+  /**
+   * This method uses the given target position (binX,binY) to find the ideal launching position.
+   */
+  private void findLaunchPosition() {
+    this.launchX = bin.x * TILE_SIZE;
+    this.launchY = bin.y * TILE_SIZE;
+  }
 
-	public double getStartX() {
-		return startX;
-	}
+  /**
+   * Changes the starting position (x,y).
+   */
+  private void findStartPoint() {
 
-	public double getStartY() {
-		return startY;
-	}
+    if (redTeam == TEAM_NUMBER) {
+      startCorner = redCorner;
+    } else {
+      startCorner = greenCorner;
+    }
+    // For beta demo
+    switch (startCorner) {
+      case 0:
+//        startX = 0.5 * TILE_SIZE;
+//        startY = 0.5 * TILE_SIZE;
+        startX = TILE_SIZE;
+        startY = TILE_SIZE;                         // (1,1)
+        startT = 90;
+        break;
+      case 1:
+//        startX = (mapWidth - 0.5) * TILE_SIZE;
+//        startY = 0.5 * TILE_SIZE;
+        startX = (mapWidth - 1) * TILE_SIZE;
+        startY = TILE_SIZE;                         // (14, 1)
+        startT = 0;
+        break;
+      case 2:
+//        startX = (mapWidth - 0.5) * TILE_SIZE;
+//        startY = (mapHeight - 0.5) * TILE_SIZE;
+        startX = (mapWidth - 1) * TILE_SIZE;
+        startY = (mapHeight - 1) * TILE_SIZE;       // (14, 8)
+        startT = 180;
+        break;
+      case 3:
+//        startX = 0.5 * TILE_SIZE;
+//        startY = (mapHeight - 0.5) * TILE_SIZE;
+        startX = TILE_SIZE;
+        startY = (mapHeight - 1) * TILE_SIZE;       // (1, 8)
+        startT = 270;
+        break;
+    }
+  }
 
-	public double[] getIslandCoordinates() {
-		return islandCoordinates;
-	}
+  /**
+   * Method that calculates and returns the coordinates at which the robot needs to travel to in order to enter the
+   * tunnel and exit the tunnel. In final competition, we might split it into getTunnelEntrance and getTunnelExit
+   */
+  private void findTunnelEnEx() {
+    Region tunnelArea = null;
+    Region startArea = null; // assume green team in beta-demo
 
-	public double[] getTunnelCoordinates() {
-		return tunnelCoordinates;
-	}
+    if (redTeam == TEAM_NUMBER) {
+      startCorner = redCorner;
+      tunnelArea = tnr;
+      startArea = red;
+    } else if (greenTeam == TEAM_NUMBER){
+      startCorner = greenCorner;
+      tunnelArea = tng;
+      startArea = green;
+    } else {
+      // do nothing as no data received (?)
+    }
+    
+    double width = 0;   // go vertically if w<h, else horizontally
+    double height = 0;
 
-	public double getTunnelEnX() {
-		return tunnelEnX;
-	}
+    switch (startCorner) {
+      case 0:
+        width = island.ll.x - startX;
+        height = island.ll.y - startY;
+        if(width < height) {
+          // Go vertically
+          tunnelEnX = (tunnelArea.ll.x + 0.5)*TILE_SIZE;
+          tunnelEnY = (tunnelArea.ll.y - 1) * TILE_SIZE;
+          tunnelExX = (tunnelEnX) * TILE_SIZE;
+          tunnelExY = (tunnelEnY + tunnelArea.ur.y - tunnelArea.ll.y)*TILE_SIZE;
+        } else {
+          // Go horizontally
+          tunnelEnX = (tunnelArea.ll.x - 1) * TILE_SIZE;
+          tunnelEnY = (tunnelArea.ll.y + 0.5)*TILE_SIZE;
+          tunnelExX = (tunnelEnX + tunnelArea.ur.x - tunnelArea.ll.x)*TILE_SIZE;
+          tunnelExY = (tunnelEnY) * TILE_SIZE;
+        }
+        
+      case 1:
+        width = island.ur.x - startX;
+        height = island.ll.y - startY;
+        if(width < height) {
+          // Go vertically
+          tunnelEnX = (tunnelArea.ll.x + 1)*TILE_SIZE;
+          tunnelEnY = (tunnelArea.ll.y - 1) * TILE_SIZE;
+          tunnelExX = (tunnelEnX) * TILE_SIZE;
+          tunnelExY = (tunnelEnY + tunnelArea.ur.y - tunnelArea.ll.y)*TILE_SIZE;
+        } else {
+          // Go horizontally
+          tunnelEnX = (tunnelArea.ur.x + 1) * TILE_SIZE;
+          tunnelEnY = (tunnelArea.ll.y + 0.5)*TILE_SIZE;
+          tunnelExX = (tunnelEnX - tunnelArea.ur.x + tunnelArea.ll.x)*TILE_SIZE;
+          tunnelExY = (tunnelEnY) * TILE_SIZE;
+        }
+        
+      case 2:
+       
+      case 3:
+    }
+   
+  }
 
-	public void setTunnelEnX(double tunnelEnX) {
-		this.tunnelEnX = tunnelEnX;
-	}
+  /**
+   * @return launch point's x coordinate.
+   */
+  public double getlaunchX() {
+    return this.launchX;
+  }
 
-	public double getTunnelEnY() {
-		return tunnelEnY;
-	}
+  /**
+   * @return launch point's y coordinate.
+   */
+  public double getlaunchY() {
+    return this.launchY;
+  }
 
-	public void setTunnelEnY(double tunnelEnY) {
-		this.tunnelEnY = tunnelEnY;
-	}
+  public double getStartX() {
+    return startX;
+  }
 
-	public double getTunnelExX() {
-		return tunnelExX;
-	}
+  public double getStartY() {
+    return startY;
+  }
 
-	public void setTunnelExX(double tunnelExX) {
-		this.tunnelExX = tunnelExX;
-	}
+  public double getStartT() {
+    return startT;
+  }
 
-	public double getTunnelExY() {
-		return tunnelExY;
-	}
+  public double[] getIslandCoordinates() {
+    return islandCoordinates;
+  }
 
-	public void setTunnelExY(double tunnelExY) {
-		this.tunnelExY = tunnelExY;
-	}
+  public double[] getTunnelCoordinates() {
+    return tunnelCoordinates;
+  }
+
+  public double getTunnelEnX() {
+    return tunnelEnX;
+  }
+
+  public void setTunnelEnX(double tunnelEnX) {
+    this.tunnelEnX = tunnelEnX;
+  }
+
+  public double getTunnelEnY() {
+    return tunnelEnY;
+  }
+
+  public void setTunnelEnY(double tunnelEnY) {
+    this.tunnelEnY = tunnelEnY;
+  }
+
+  public double getTunnelExX() {
+    return tunnelExX;
+  }
+
+  public void setTunnelExX(double tunnelExX) {
+    this.tunnelExX = tunnelExX;
+  }
+
+  public double getTunnelExY() {
+    return tunnelExY;
+  }
+
+  public void setTunnelExY(double tunnelExY) {
+    this.tunnelExY = tunnelExY;
+  }
+
   public boolean isTunnelHorizontal() {
     return isTunnelHorizontal;
   }
-  public void isTunnelHorizontal (boolean isHorizontal) {
+
+  public void isTunnelHorizontal(boolean isHorizontal) {
     this.isTunnelHorizontal = isHorizontal;
   }
 
