@@ -242,12 +242,12 @@ public class Resources {
     /**
      * Height of the whole map. Currently fits beta demo: 15 for competition.
      */
-    public static int mapWidth = 8;
+    public static int mapWidth = 15;
 
     /**
      * Width of the whole map. Currently fits beta demo: 9 for competition.
      */
-    public static int mapHeight = 8;
+    public static int mapHeight = 9;
 
     /**
      * Green team number.
@@ -295,9 +295,14 @@ public class Resources {
     public static Region tng = new Region("TNG_LL_x", "TNG_LL_y", "TNG_UR_x", "TNG_UR_y");
 
     /**
-     * The location of the target bin.
+     * The location of the red target bin.
      */
-    public static Point bin = new Point(get("BIN_x"), get("BIN_y"));    
+    public static Point redBin = new Point(get("Red_BIN_x"), get("Red_BIN_y"));
+
+    /**
+     * The location of the green target bin.
+     */
+    public static Point greenBin = new Point(get("Green_BIN_x"), get("Green_BIN_y")); 
     
     /**
      * Receives Wi-Fi parameters from the server program.

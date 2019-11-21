@@ -55,6 +55,7 @@ public class Main {
 		// Set startPoint (x,y,t) to odometer (e.g. at corner 0, the angle is 90)
 		odometer.setXYT(wifi.getStartX(), wifi.getStartY(), wifi.getStartT());
 		
+		
 		// TODO: Beep when in place
 		stopAndBeep(1);
 		
@@ -68,6 +69,9 @@ public class Main {
 		navigator.stop();     
 		
 		navigator.traverseTunnel(wifi.getTunnelExX(), wifi.getTunnelExY()); 
+		
+		// Set launch position
+		wifi.findLaunchPosition();
 		
 		// TODO: Navigate to bin x and bin y
 		navigator.travelTo(wifi.getlaunchX(), wifi.getlaunchY());

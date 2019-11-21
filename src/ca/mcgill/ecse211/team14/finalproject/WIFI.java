@@ -33,6 +33,17 @@ public class WIFI {
   private double launchY;
 
   /**
+   * Variable target launch position x coordinate.
+   */
+  
+  private double binX;
+  
+  /**
+   * Variable target launch position y coordinate.
+   */
+  private double binY;
+  
+  /**
    * Variable tracking if tunnel is horizontal or vertical.
    */
   private boolean isTunnelHorizontal;
@@ -56,49 +67,70 @@ public class WIFI {
    * Tunnel exit Y coordinate.
    */
   private double tunnelExY;
-
+  
+  /**
+   * Tunnel width.
+   */
+  private int tunnelWidth;
+  
+  /**
+   * Tunnel height.
+   */
+  private int tunnelHeight;
+  
   public WIFI() {
-    findLaunchPosition();
+    setBinPosition();
     findStartPoint();
     findTunnelEnEx();
+  }
+  
+  /**
+   * This methods sets the bin of current run.
+   */
+  private void setBinPosition() {
+    if (redTeam == TEAM_NUMBER) {
+      binX = redBin.x;
+      binY = redBin.y;
+    } else if(greenTeam == TEAM_NUMBER) {
+      binX = greenBin.x;
+      binY = greenBin.y;
+    } 
   }
 
   /**
    * This method uses the given target position (binX,binY) to find the ideal launching position.
    */
-  private void findLaunchPosition() {
+  public void findLaunchPosition() {
     
     double currentX = odometer.getXYT()[0];
     double currentY = odometer.getXYT()[1];
-    double[] curPosition = new double[] { currentX, currentY };
-    double[] throwTo = new double[] { bin.x, bin.y };
 
-    double theta = Math.atan2(currentX - bin.x, currentY - bin.y);
+    double theta = Math.atan2(currentX - binX, currentY - binY);
 
     double dx, dy;
     // calculate the intersection of the circle and the line
     if (theta < 0) { // when the robot is in 2nd/3rd quadrant
         dy = LAUNCH_RANGE * Math.cos(-theta);
         dx = -LAUNCH_RANGE * Math.sin(-theta);
-        this.launchY = bin.y + dy;
-        this.launchX = bin.x + dx;
+        this.launchY = binY + dy;
+        this.launchX = binX + dx;
     } else { // in 1st/4th quadrant
         dy = LAUNCH_RANGE * Math.cos(theta);
         dx = LAUNCH_RANGE * Math.sin(theta);
-        this.launchY = bin.y + dy;
-        this.launchX = bin.x + dx; 
+        this.launchY = binY + dy;
+        this.launchX = binX + dx; 
     }
 
-    double left = island.ll.x;
-    double right = island.ur.x;
-    double top = island.ur.y;
-    double bottom = island.ll.y;
+//    double left = island.ll.x;
+//    double right = island.ur.x;
+//    double top = island.ur.y;
+//    double bottom = island.ll.y;
     
-    if (launchX <= left || launchX >= right || launchY <= bottom || launchY >= top) {
-        double[] target = findCircle(curPosition, throwTo);
-        this.launchX = target[0];
-        this.launchY = target[1];
-    } //TODO: keep this?
+//    if (launchX <= left || launchX >= right || launchY <= bottom || launchY >= top) {
+//        double[] target = findCircle(curPosition, throwTo);
+//        this.launchX = target[0];
+//        this.launchY = target[1];
+//    } //TODO: keep this?
     
   }
   
@@ -149,12 +181,12 @@ public class WIFI {
       case 2:
         startX = (mapWidth - 1) * TILE_SIZE;
         startY = (mapHeight - 1) * TILE_SIZE;       // (14, 8)
-        startT = 180;
+        startT = 270;
         break;
       case 3:
         startX = TILE_SIZE;
         startY = (mapHeight - 1) * TILE_SIZE;       // (1, 8)
-        startT = 270;
+        startT = 180;
         break;
     }
   }
@@ -175,10 +207,11 @@ public class WIFI {
       startCorner = greenCorner;
       tunnelArea = tng;
       startArea = green;
-    } else {
-      // do nothing as no data received (?)
     }
     
+    // TODO: Considering current block's corner's coordinate and tunnel's coordinates, compute wheter tunnel is horizontal or vertical
+    // TODO: Compute tunnel's width and tunnel's height
+    // TODO: Correct Tunnel Exit 
     double width = 0;   // go vertically if w<h, else horizontally
     double height = 0;
 
@@ -192,12 +225,14 @@ public class WIFI {
           tunnelEnY = (tunnelArea.ll.y - 1) * TILE_SIZE;
           tunnelExX = (tunnelEnX) * TILE_SIZE;
           tunnelExY = (tunnelEnY + tunnelArea.ur.y - tunnelArea.ll.y + 1)*TILE_SIZE;
+          isTunnelHorizontal = false;
         } else {
           // Go horizontally
           tunnelEnX = (tunnelArea.ll.x - 1) * TILE_SIZE;
           tunnelEnY = (tunnelArea.ll.y + 0.5)*TILE_SIZE;
           tunnelExX = (tunnelEnX + tunnelArea.ur.x - tunnelArea.ll.x + 1)*TILE_SIZE;
           tunnelExY = (tunnelEnY) * TILE_SIZE;
+          isTunnelHorizontal = true;
         }
         
       case 1:
@@ -209,12 +244,14 @@ public class WIFI {
           tunnelEnY = (tunnelArea.ll.y - 1) * TILE_SIZE;
           tunnelExX = (tunnelEnX) * TILE_SIZE;
           tunnelExY = (tunnelEnY + tunnelArea.ur.y - tunnelArea.ll.y + 1)*TILE_SIZE;
+          isTunnelHorizontal = false;
         } else {
           // Go horizontally
           tunnelEnX = (tunnelArea.ur.x + 1) * TILE_SIZE;
           tunnelEnY = (tunnelArea.ll.y + 0.5)*TILE_SIZE;
           tunnelExX = (tunnelEnX - tunnelArea.ur.x + tunnelArea.ll.x - 1)*TILE_SIZE;
           tunnelExY = (tunnelEnY) * TILE_SIZE;
+          isTunnelHorizontal = true;
         }
         
       case 2:
@@ -226,12 +263,14 @@ public class WIFI {
           tunnelEnY = (tunnelArea.ur.y + 1) * TILE_SIZE;
           tunnelExX = (tunnelEnX) * TILE_SIZE;
           tunnelExY = (tunnelEnY - tunnelArea.ur.y + tunnelArea.ll.y - 1)*TILE_SIZE;
+          isTunnelHorizontal = false;
         } else {
           // Go horizontally
           tunnelEnX = (tunnelArea.ur.x + 1) * TILE_SIZE;
           tunnelEnY = (tunnelArea.ll.y + 0.5)*TILE_SIZE;
           tunnelExX = (tunnelEnX - tunnelArea.ur.x + tunnelArea.ll.x - 1)*TILE_SIZE;
           tunnelExY = (tunnelEnY) * TILE_SIZE;
+          isTunnelHorizontal = true;
         }
        
       case 3:
@@ -243,12 +282,14 @@ public class WIFI {
           tunnelEnY = (tunnelArea.ur.y + 1) * TILE_SIZE;
           tunnelExX = (tunnelEnX) * TILE_SIZE;
           tunnelExY = (tunnelEnY - tunnelArea.ur.y + tunnelArea.ll.y - 1)*TILE_SIZE;
+          isTunnelHorizontal = false;
         } else {
           // Go horizontally
           tunnelEnX = (tunnelArea.ll.x - 1) * TILE_SIZE;
           tunnelEnY = (tunnelArea.ll.y + 0.5)*TILE_SIZE;
           tunnelExX = (tunnelEnX + tunnelArea.ur.x - tunnelArea.ll.x + 1)*TILE_SIZE;
           tunnelExY = (tunnelEnY) * TILE_SIZE;
+          isTunnelHorizontal = true;
         }
     }
    
@@ -318,6 +359,14 @@ public class WIFI {
 
   public void isTunnelHorizontal(boolean isHorizontal) {
     this.isTunnelHorizontal = isHorizontal;
+  }
+
+  public int getTunnelHeight() {
+    return tunnelHeight;
+  }
+  
+  public int getTunnelWidth() {
+    return tunnelWidth;
   }
 
 }
