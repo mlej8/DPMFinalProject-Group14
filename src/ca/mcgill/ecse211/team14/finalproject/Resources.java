@@ -27,7 +27,7 @@ public class Resources {
    * The IP address of the server that transmits data to the robot. Set this to the default for the
    * beta demo and competition.
    */
-  public static final String SERVER_IP = "192.168.43.5"; //TODO: change when testing
+  public static final String SERVER_IP = "192.168.2.53"; //TODO: change when testing
   
   /**
    * Your team number.
@@ -42,7 +42,7 @@ public class Resources {
   /**
    * Enable this to attempt to receive Wi-Fi parameters at the start of the program.
    */
-  public static final boolean RECEIVE_WIFI_PARAMS = true;
+  public static boolean RECEIVE_WIFI_PARAMS = false;
 	/**
 	 * The wheel radius in centimeters.
 	 */
