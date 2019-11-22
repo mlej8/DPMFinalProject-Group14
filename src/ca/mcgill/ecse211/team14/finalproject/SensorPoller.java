@@ -10,7 +10,12 @@ public class SensorPoller implements Runnable {
 	/**
 	 * Array to store ultrasonic data
 	 */
-    private float[] usData;
+    private float[] usDataFront;
+    
+    /**
+     * Array to store ultrasonic data
+     */
+    private float[] usDataLeft;
     
     /**
      * Array to store left light sensor data
@@ -35,15 +40,15 @@ public class SensorPoller implements Runnable {
      */
     public enum Mode 
     { 
-        ULTRASONIC, LIGHT, BOTH, IDLE; 
+        US_LOCALIZATION, ULTRASONIC_LEFT, LIGHT, BOTH, IDLE; 
     } 
       
     public SensorPoller() {
-        usData = new float[usSensor.sampleSize()]; // create an array of float of size corresponding to the number of
-                                                    // elements in a sample. The number of elements does not change.
+        usDataFront = new float[usSensorFront.sampleSize()]; 
+        usDataLeft= new float[usSensorLeft.sampleSize()]; 
         leftLightData = new float[leftLightSensor.sampleSize()];                                    
         rightLightData = new float[rightLightSensor.sampleSize()];                                    
-        this.mode = Mode.ULTRASONIC; // the mode is ultrasonic by default
+        this.mode = Mode.LIGHT; // the mode is ultrasonic by default
     }
 
     /*
@@ -55,10 +60,10 @@ public class SensorPoller implements Runnable {
     public void run() {
     	
         while (true) {
-            if (mode==Mode.ULTRASONIC) {
-            usSensor.getDistanceMode().fetchSample(usData, 0);  // acquire distance data in meters and store it in
+            if (mode==Mode.US_LOCALIZATION) {
+            usSensorFront.getDistanceMode().fetchSample(usDataFront, 0);  // acquire distance data in meters and store it in
                                                                 // usData (an array of float)
-            ultrasonicLocalizer.processUSData((int) (usData[0] * 100.0)); // extract from buffer (region of a physical
+            ultrasonicLocalizer.processUSData((int) (usDataFront[0] * 100.0)); // extract from buffer (region of a physical
                                                                           // memory storage used to
                                                                           // temporarily store data while it is being moved from one place to
                                                                           // another), convert to cm, cast to int
@@ -73,8 +78,9 @@ public class SensorPoller implements Runnable {
                 lightCorrector.processLightData(leftLightData[0] * 100.0, rightLightData[0] * 100.0);
                 
                 // ultrasonic detection
-                usSensor.getDistanceMode().fetchSample(usData, 0);
-                ultrasonicLocalizer.processUSData((int) (usData[0] * 100.0));
+                usSensorFront.getDistanceMode().fetchSample(usDataFront, 0);
+                usSensorLeft.getDistanceMode().fetchSample(usDataLeft, 0);
+                pController.processTwoUSData((int) (usDataFront[0] * 100.0), (int) (usDataLeft[0] * 100.0));
             }
             if (mode==Mode.LIGHT) {
               Main.sleepFor(LIGHT_SLEEPINT);
