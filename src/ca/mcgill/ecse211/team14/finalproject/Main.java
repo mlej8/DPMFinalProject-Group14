@@ -66,6 +66,9 @@ public class Main {
 		
 		navigator.traverseTunnel(wifi.getTunnelExX(), wifi.getTunnelExY()); 	
 		
+		// Set launch position
+		wifi.findLaunchPosition();
+		
 		// TODO: Navigate to bin x and bin y
 		navigator.travelTo(wifi.getlaunchX(), wifi.getlaunchY());
 

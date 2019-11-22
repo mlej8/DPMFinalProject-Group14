@@ -33,15 +33,16 @@ public class WIFI {
   private double launchY;
 
   /**
-   * Array that stores the lower left and upper right corners of islands.
+   * Variable target launch position x coordinate.
    */
-  private double[] islandCoordinates;
-
+  
+  private double binX;
+  
   /**
-   * Array that stores the tunnel coordinates.
+   * Variable target launch position y coordinate.
    */
-  private double[] tunnelCoordinates;
-
+  private double binY;
+  
   /**
    * Variable tracking if tunnel is horizontal or vertical.
    */
@@ -66,20 +67,83 @@ public class WIFI {
    * Tunnel exit Y coordinate.
    */
   private double tunnelExY;
-
+  
+  /**
+   * Tunnel width.
+   */
+  private int tunnelWidth;
+  
+  /**
+   * Tunnel height.
+   */
+  private int tunnelHeight;
+  
   public WIFI() {
-    findLaunchPosition();
+    setBinPosition();
     findStartPoint();
     findTunnelEnEx();
+  }
+  
+  /**
+   * This methods sets the bin of current run.
+   */
+  private void setBinPosition() {
+    if (redTeam == TEAM_NUMBER) {
+      binX = redBin.x;
+      binY = redBin.y;
+    } else if(greenTeam == TEAM_NUMBER) {
+      binX = greenBin.x;
+      binY = greenBin.y;
+    } 
   }
 
   /**
    * This method uses the given target position (binX,binY) to find the ideal launching position.
    */
-  private void findLaunchPosition() {
-//    this.launchX = bin.x * TILE_SIZE;
-//    this.launchY = bin.y * TILE_SIZE;
+  public void findLaunchPosition() {
+    
+    double currentX = odometer.getXYT()[0];
+    double currentY = odometer.getXYT()[1];
+
+    double theta = Math.atan2(currentX - binX, currentY - binY);
+
+    double dx, dy;
+    // calculate the intersection of the circle and the line
+    if (theta < 0) { // when the robot is in 2nd/3rd quadrant
+        dy = LAUNCH_RANGE * Math.cos(-theta);
+        dx = -LAUNCH_RANGE * Math.sin(-theta);
+        this.launchY = binY + dy;
+        this.launchX = binX + dx;
+    } else { // in 1st/4th quadrant
+        dy = LAUNCH_RANGE * Math.cos(theta);
+        dx = LAUNCH_RANGE * Math.sin(theta);
+        this.launchY = binY + dy;
+        this.launchX = binX + dx; 
+    }
+    
   }
+  
+  
+  /**
+   * 
+   * @param curPos
+   * @param center
+   * @return a point on the circle centered at center.
+   */
+  private static double[] findCircle(double[] curPos, double[] center) {
+      double[] target = new double[2];
+      if (center[0] > center[1]) { // upper half
+          double tX = curPos[0];
+          double tY = Math.sqrt(Math.pow(LAUNCH_RANGE, 2) - Math.pow((curPos[0] - center[0]), 2)) + center[1];
+          target = new double[] { tX, tY };
+      } else { // lower half
+          double tY = curPos[1];
+          double tX = Math.sqrt(Math.pow(LAUNCH_RANGE, 2) - Math.pow((curPos[1] - center[1]), 2)) + center[0];
+          target = new double[] { tX, tY };
+      }
+      return target;
+  }
+  
 
   /**
    * Changes the starting position (x,y).
@@ -94,15 +158,11 @@ public class WIFI {
     // For beta demo
     switch (startCorner) {
       case 0:
-//        startX = 0.5 * TILE_SIZE;
-//        startY = 0.5 * TILE_SIZE;
         startX = 1;
         startY = 1;                         // (1,1)
         startT = 90;
         break;
       case 1:
-//        startX = (mapWidth - 0.5) * TILE_SIZE;
-//        startY = 0.5 * TILE_SIZE;
         startX = (mapWidth - 1);
         startY = 1;                         // (14, 1)
         startT = 0;
@@ -133,58 +193,100 @@ public class WIFI {
     Region startArea = null; // assume green team in beta-demo
 
     if (redTeam == TEAM_NUMBER) {
-      startCorner = redCorner;
       tunnelArea = tnr;
       startArea = red;
     } else if (greenTeam == TEAM_NUMBER){
-      startCorner = greenCorner;
       tunnelArea = tng;
       startArea = green;
-    } else {
-      // do nothing as no data received (?)
     }
     
-    double width = 0;   // go vertically if w<h, else horizontally
-    double height = 0;
+    // TODO: Considering current start area corner's coordinate and tunnel's coordinates, compute wheter tunnel is horizontal or vertical
+    // TODO: Compute tunnel's width and tunnel's height
 
     switch (startCorner) {
       case 0:
-        width = island.ll.x - startX;
-        height = island.ll.y - startY;
-        if(width < height) {
+        if(tunnelArea.ur.y == island.ll.y) {
           // Go vertically
           tunnelEnX = (tunnelArea.ll.x + 0.5)*TILE_SIZE;
           tunnelEnY = (tunnelArea.ll.y - 1) * TILE_SIZE;
           tunnelExX = (tunnelEnX) * TILE_SIZE;
-          tunnelExY = (tunnelEnY + tunnelArea.ur.y - tunnelArea.ll.y)*TILE_SIZE;
-        } else {
+          tunnelExY = (tunnelEnY + tunnelArea.ur.y - tunnelArea.ll.y + 1)*TILE_SIZE;
+          tunnelWidth = (int) (tunnelArea.ur.x - tunnelArea.ll.x);     
+          tunnelHeight = (int) (tunnelArea.ur.y - tunnelArea.ll.y);
+          isTunnelHorizontal = false;
+        } else if(tunnelArea.ur.x == island.ll.x){
           // Go horizontally
           tunnelEnX = (tunnelArea.ll.x - 1) * TILE_SIZE;
           tunnelEnY = (tunnelArea.ll.y + 0.5)*TILE_SIZE;
-          tunnelExX = (tunnelEnX + tunnelArea.ur.x - tunnelArea.ll.x)*TILE_SIZE;
+          tunnelExX = (tunnelEnX + tunnelArea.ur.x - tunnelArea.ll.x + 1)*TILE_SIZE;
           tunnelExY = (tunnelEnY) * TILE_SIZE;
+          tunnelWidth = (int) (tunnelArea.ur.y - tunnelArea.ll.y);    
+          tunnelHeight = (int) (tunnelArea.ur.x - tunnelArea.ll.x);
+          isTunnelHorizontal = true;
         }
         
       case 1:
-        width = island.ur.x - startX;
-        height = island.ll.y - startY;
-        if(width < height) {
+        if(tunnelArea.ur.y == island.ll.y) {
           // Go vertically
-          tunnelEnX = (tunnelArea.ll.x + 1)*TILE_SIZE;
+          tunnelEnX = (tunnelArea.ll.x + 0.5)*TILE_SIZE;
           tunnelEnY = (tunnelArea.ll.y - 1) * TILE_SIZE;
           tunnelExX = (tunnelEnX) * TILE_SIZE;
-          tunnelExY = (tunnelEnY + tunnelArea.ur.y - tunnelArea.ll.y)*TILE_SIZE;
-        } else {
+          tunnelExY = (tunnelEnY + tunnelArea.ur.y - tunnelArea.ll.y + 1)*TILE_SIZE;
+          tunnelWidth = (int) (tunnelArea.ur.y - tunnelArea.ll.y);     
+          tunnelHeight = (int) (tunnelArea.ur.x - tunnelArea.ll.x);
+          isTunnelHorizontal = false;
+        } else if(tunnelArea.ll.x == island.ur.x) {
           // Go horizontally
           tunnelEnX = (tunnelArea.ur.x + 1) * TILE_SIZE;
           tunnelEnY = (tunnelArea.ll.y + 0.5)*TILE_SIZE;
-          tunnelExX = (tunnelEnX - tunnelArea.ur.x + tunnelArea.ll.x)*TILE_SIZE;
+          tunnelExX = (tunnelEnX - tunnelArea.ur.x + tunnelArea.ll.x - 1)*TILE_SIZE;
           tunnelExY = (tunnelEnY) * TILE_SIZE;
+          tunnelWidth = (int) (tunnelArea.ur.y - tunnelArea.ll.y);      
+          tunnelHeight = (int) (tunnelArea.ur.x - tunnelArea.ll.x);
+          isTunnelHorizontal = true;
         }
         
       case 2:
+        if(tunnelArea.ll.y == island.ur.y) {
+          // Go vertically
+          tunnelEnX = (tunnelArea.ll.x + 0.5)*TILE_SIZE;
+          tunnelEnY = (tunnelArea.ur.y + 1) * TILE_SIZE;
+          tunnelExX = (tunnelEnX) * TILE_SIZE;
+          tunnelExY = (tunnelEnY - tunnelArea.ur.y + tunnelArea.ll.y - 1)*TILE_SIZE;
+          tunnelWidth = (int) (tunnelArea.ur.y - tunnelArea.ll.y);      
+          tunnelHeight = (int) (tunnelArea.ur.x - tunnelArea.ll.x);
+          isTunnelHorizontal = false;
+        } else if(tunnelArea.ll.x == island.ur.x){
+          // Go horizontally
+          tunnelEnX = (tunnelArea.ur.x + 1) * TILE_SIZE;
+          tunnelEnY = (tunnelArea.ll.y + 0.5)*TILE_SIZE;
+          tunnelExX = (tunnelEnX - tunnelArea.ur.x + tunnelArea.ll.x - 1)*TILE_SIZE;
+          tunnelExY = (tunnelEnY) * TILE_SIZE;
+          tunnelWidth = (int) (tunnelArea.ur.y - tunnelArea.ll.y);      // TODO: 1.change "Point" x,y to int? 2.width negative?
+          tunnelHeight = (int) (tunnelArea.ur.x - tunnelArea.ll.x);
+          isTunnelHorizontal = true;
+        }
        
       case 3:
+        if(tunnelArea.ll.y == island.ur.y) {
+          // Go vertically
+          tunnelEnX = (tunnelArea.ll.x + 0.5)*TILE_SIZE;
+          tunnelEnY = (tunnelArea.ur.y + 1) * TILE_SIZE;
+          tunnelExX = (tunnelEnX) * TILE_SIZE;
+          tunnelExY = (tunnelEnY - tunnelArea.ur.y + tunnelArea.ll.y - 1)*TILE_SIZE;
+          tunnelWidth = (int) (tunnelArea.ur.y - tunnelArea.ll.y);      // TODO: 1.change "Point" x,y to int? 2.height negative if goint down?
+          tunnelHeight = (int) (tunnelArea.ur.x - tunnelArea.ll.x);
+          isTunnelHorizontal = false;
+        } else if(tunnelArea.ur.x == startArea.ll.x) {
+          // Go horizontally
+          tunnelEnX = (tunnelArea.ll.x - 1) * TILE_SIZE;
+          tunnelEnY = (tunnelArea.ll.y + 0.5)*TILE_SIZE;
+          tunnelExX = (tunnelEnX + tunnelArea.ur.x - tunnelArea.ll.x + 1)*TILE_SIZE;
+          tunnelExY = (tunnelEnY) * TILE_SIZE;
+          tunnelWidth = (int) (tunnelArea.ur.y - tunnelArea.ll.y);     
+          tunnelHeight = (int) (tunnelArea.ur.x - tunnelArea.ll.x);
+          isTunnelHorizontal = true;
+        }
     }
    
   }
@@ -213,14 +315,6 @@ public class WIFI {
 
   public double getStartT() {
     return startT;
-  }
-
-  public double[] getIslandCoordinates() {
-    return islandCoordinates;
-  }
-
-  public double[] getTunnelCoordinates() {
-    return tunnelCoordinates;
   }
 
   public double getTunnelEnX() {
@@ -258,4 +352,17 @@ public class WIFI {
   public boolean isTunnelHorizontal() {
     return isTunnelHorizontal;
   }
+
+  public void isTunnelHorizontal(boolean isHorizontal) {
+    this.isTunnelHorizontal = isHorizontal;
+  }
+
+  public int getTunnelHeight() {
+    return tunnelHeight;
+  }
+  
+  public int getTunnelWidth() {
+    return tunnelWidth;
+  }
+
 }
