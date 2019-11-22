@@ -116,7 +116,7 @@ public class Resources {
    /**
      * Sleep interval for light sensor.
      */
-    public static final int LIGHT_SLEEPINT = 35;
+    public static final int LIGHT_SLEEPINT = 40;
 	
 	/**
 	 * The tile size in centimeters.
@@ -139,9 +139,14 @@ public class Resources {
 	public static final EV3LargeRegulatedMotor RIGHT_MOTOR = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("D"));
 		
 	/**
-	 * The ultrasonic sensor.
+	 * The front ultrasonic sensor.
 	 */
-	public static final EV3UltrasonicSensor usSensor = new EV3UltrasonicSensor(SensorPort.S3);
+	public static final EV3UltrasonicSensor usSensorFront = new EV3UltrasonicSensor(SensorPort.S3);
+	
+	/**
+     * The left ultrasonic sensor.
+     */
+    public static final EV3UltrasonicSensor usSensorLeft= new EV3UltrasonicSensor(SensorPort.S2);
 
 	/**
      * The left light sensor.
@@ -172,6 +177,16 @@ public class Resources {
 	 * Instance of US Localizer
 	 */
 	public static UltrasonicLocalizer ultrasonicLocalizer = new UltrasonicLocalizer();
+	
+	/**
+     * Instance of US Localizer
+     */
+    public static PController pController = new PController();
+    
+    /**
+     * Threshold to activate object avoidance.
+     */
+    public static double THRESHOLD = 30;
 	
 	/**
 	 * d constant for ultrasonic localizer representing the threshold distance from the wall 

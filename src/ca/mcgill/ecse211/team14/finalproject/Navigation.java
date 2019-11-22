@@ -51,6 +51,10 @@ public class Navigation {
    * Method that travels to the closest grid intersection
    */
   public void travelToGridIntersection() {
+    
+    // Set motor speed 
+    LEFT_MOTOR.setSpeed(MOTOR_SPEED);
+    RIGHT_MOTOR.setSpeed(MOTOR_SPEED);
 
     // Go forward until a black line is detected
     LEFT_MOTOR.rotate(Converter.convertDistance(TILE_SIZE), true);
@@ -61,9 +65,7 @@ public class Navigation {
     }
 
     // Correct odometer when first line is encountered
-    lightCorrector.setCurrY(1);
-    odometer.setY(lightCorrector.getCurrY() * TILE_SIZE - LIGHT_SENSOR_DISTANCE);
-    odometer.setTheta(0);
+   
 
     System.out.println(
         "Corrected Y and Theta " + odometer.getXYT()[0] + " " + odometer.getXYT()[1] + " " + odometer.getXYT()[2]);
@@ -191,9 +193,14 @@ public class Navigation {
       while (Math.abs(x - odometer.getXYT()[0]) > ERROR_MARGIN) {
         navigateForward(x - odometer.getXYT()[0], MOTOR_SPEED);
         while (LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
-          Main.sleepFor(SLEEPINT);
+//          Main.sleepFor(SLEEPINT);
+          // TODO : OBSTACLE BOI
+          
+          boolean obstacle  = true;
+          break;
         }
-
+        
+        
         if (lightCorrector.isLeftMotorTouched() && lightCorrector.isRightMotorTouched()) {
           lightCorrector.setCurrX(lightCorrector.getCurrX() + xChange);
           odometer.setX(lightCorrector.getCurrX() * TILE_SIZE - LIGHT_SENSOR_DISTANCE);
@@ -399,6 +406,8 @@ public class Navigation {
         turnToExactTheta(180);
         navigateForward(odometer.getXYT()[1] - lightCorrector.getCurrY() * TILE_SIZE, MOTOR_SPEED);
       }
+      
+      
 
       sleepNavigation();
 

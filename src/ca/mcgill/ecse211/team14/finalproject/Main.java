@@ -27,34 +27,31 @@ public class Main {
 	static Thread sensorPollerThread = new Thread(sensorPoller);
 	
 	public static void main(String args[]) {  
+	    
+	    waitForPress();		
 
 	    // TODO: Step 1. Receive parameters from the game controller
 	    wifi = new WIFI();
-	 
+
 	    System.out.println("Tunnel Entrance: "+ wifi.getTunnelEnX()+", "+ wifi.getTunnelEnY());
 	    System.out.println("Tunnel Exit: "+ wifi.getTunnelExX()+", "+ wifi.getTunnelExY());
-		waitForPress();		
-		
+	    
 		// Start odometer and sensor poller thread
 		odometerThread.start();
 		sensorPollerThread.start();
-		
-		// TEST if it receives the correct launchX and Y 
         
 		// Falling Edge	
 		ultrasonicLocalizer.fallingEdge();
 		sensorPoller.setMode(Mode.LIGHT);
-		 
-		// Set speed 
-		LEFT_MOTOR.setSpeed(MOTOR_SPEED);
-		RIGHT_MOTOR.setSpeed(MOTOR_SPEED);
 
 		// TODO: Navigate to (1,1) within 30 seconds
 		navigator.travelToGridIntersection();
 		
 		// Set startPoint (x,y,t) to odometer (e.g. at corner 0, the angle is 90)
-		odometer.setXYT(wifi.getStartX(), wifi.getStartY(), wifi.getStartT());
-		
+		odometer.setXYT(wifi.getStartX()*TILE_SIZE, wifi.getStartY()*TILE_SIZE, wifi.getStartT());
+		lightCorrector.setCurrY(wifi.getStartY());
+		lightCorrector.setCurrX(wifi.getStartX());
+		   
 		// TODO: Beep when in place
 		stopAndBeep(1);
 		
@@ -67,7 +64,7 @@ public class Main {
 		// TODO: Traverse the Tunnel to the Island 
 		navigator.stop();     
 		
-		navigator.traverseTunnel(wifi.getTunnelExX(), wifi.getTunnelExY()); 
+		navigator.traverseTunnel(wifi.getTunnelExX(), wifi.getTunnelExY()); 	
 		
 		// TODO: Navigate to bin x and bin y
 		navigator.travelTo(wifi.getlaunchX(), wifi.getlaunchY());

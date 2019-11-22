@@ -10,12 +10,12 @@ public class WIFI {
   /**
    * Variable start point x coodinate.
    */
-  private double startX;
+  private int startX;
 
   /**
    * Variable start point y coodinate.
    */
-  private double startY;
+  private int startY;
 
   /**
    * Variable start point angle theta.
@@ -77,8 +77,8 @@ public class WIFI {
    * This method uses the given target position (binX,binY) to find the ideal launching position.
    */
   private void findLaunchPosition() {
-    this.launchX = bin.x * TILE_SIZE;
-    this.launchY = bin.y * TILE_SIZE;
+//    this.launchX = bin.x * TILE_SIZE;
+//    this.launchY = bin.y * TILE_SIZE;
   }
 
   /**
@@ -96,29 +96,29 @@ public class WIFI {
       case 0:
 //        startX = 0.5 * TILE_SIZE;
 //        startY = 0.5 * TILE_SIZE;
-        startX = TILE_SIZE;
-        startY = TILE_SIZE;                         // (1,1)
+        startX = 1;
+        startY = 1;                         // (1,1)
         startT = 90;
         break;
       case 1:
 //        startX = (mapWidth - 0.5) * TILE_SIZE;
 //        startY = 0.5 * TILE_SIZE;
-        startX = (mapWidth - 1) * TILE_SIZE;
-        startY = TILE_SIZE;                         // (14, 1)
+        startX = (mapWidth - 1);
+        startY = 1;                         // (14, 1)
         startT = 0;
         break;
       case 2:
 //        startX = (mapWidth - 0.5) * TILE_SIZE;
 //        startY = (mapHeight - 0.5) * TILE_SIZE;
-        startX = (mapWidth - 1) * TILE_SIZE;
-        startY = (mapHeight - 1) * TILE_SIZE;       // (14, 8)
+        startX = (mapWidth - 1);
+        startY = (mapHeight - 1);       // (14, 8)
         startT = 180;
         break;
       case 3:
 //        startX = 0.5 * TILE_SIZE;
 //        startY = (mapHeight - 0.5) * TILE_SIZE;
-        startX = TILE_SIZE;
-        startY = (mapHeight - 1) * TILE_SIZE;       // (1, 8)
+        startX = 1;
+        startY = (mapHeight - 1);       // (1, 8)
         startT = 270;
         break;
     }
@@ -203,11 +203,11 @@ public class WIFI {
     return this.launchY;
   }
 
-  public double getStartX() {
+  public int getStartX() {
     return startX;
   }
 
-  public double getStartY() {
+  public int getStartY() {
     return startY;
   }
 
@@ -258,9 +258,4 @@ public class WIFI {
   public boolean isTunnelHorizontal() {
     return isTunnelHorizontal;
   }
-
-  public void isTunnelHorizontal(boolean isHorizontal) {
-    this.isTunnelHorizontal = isHorizontal;
-  }
-
 }
