@@ -199,90 +199,25 @@ public class WIFI {
     // TODO: Considering current start area corner's coordinate and tunnel's coordinates, compute wheter tunnel is horizontal or vertical
     // TODO: Compute tunnel's width and tunnel's height
 
-    switch (startCorner) {
-      case 0:
-        if(tunnelArea.ur.y == island.ll.y) {
-          // Go vertically
-          tunnelEnX = (tunnelArea.ll.x + 0.5)*TILE_SIZE;
-          tunnelEnY = (tunnelArea.ll.y - 1) * TILE_SIZE;
-          tunnelExX = (tunnelEnX) * TILE_SIZE;
-          tunnelExY = (tunnelEnY + tunnelArea.ur.y - tunnelArea.ll.y + 1)*TILE_SIZE;
-          tunnelWidth = (int) (tunnelArea.ur.x - tunnelArea.ll.x);     
-          tunnelHeight = (int) (tunnelArea.ur.y - tunnelArea.ll.y);
-          isTunnelHorizontal = false;
-        } else if(tunnelArea.ur.x == island.ll.x){
-          // Go horizontally
-          tunnelEnX = (tunnelArea.ll.x - 1) * TILE_SIZE;
-          tunnelEnY = (tunnelArea.ll.y + 0.5)*TILE_SIZE;
-          tunnelExX = (tunnelEnX + tunnelArea.ur.x - tunnelArea.ll.x + 1)*TILE_SIZE;
-          tunnelExY = (tunnelEnY) * TILE_SIZE;
-          tunnelWidth = (int) (tunnelArea.ur.y - tunnelArea.ll.y);    
-          tunnelHeight = (int) (tunnelArea.ur.x - tunnelArea.ll.x);
-          isTunnelHorizontal = true;
-        }
-        
-      case 1:
-        if(tunnelArea.ur.y == island.ll.y) {
-          // Go vertically
-          tunnelEnX = (tunnelArea.ll.x + 0.5)*TILE_SIZE;
-          tunnelEnY = (tunnelArea.ll.y - 1) * TILE_SIZE;
-          tunnelExX = (tunnelEnX) * TILE_SIZE;
-          tunnelExY = (tunnelEnY + tunnelArea.ur.y - tunnelArea.ll.y + 1)*TILE_SIZE;
-          tunnelWidth = (int) (tunnelArea.ur.y - tunnelArea.ll.y);     
-          tunnelHeight = (int) (tunnelArea.ur.x - tunnelArea.ll.x);
-          isTunnelHorizontal = false;
-        } else if(tunnelArea.ll.x == island.ur.x) {
-          // Go horizontally
-          tunnelEnX = (tunnelArea.ur.x + 1) * TILE_SIZE;
-          tunnelEnY = (tunnelArea.ll.y + 0.5)*TILE_SIZE;
-          tunnelExX = (tunnelEnX - tunnelArea.ur.x + tunnelArea.ll.x - 1)*TILE_SIZE;
-          tunnelExY = (tunnelEnY) * TILE_SIZE;
-          tunnelWidth = (int) (tunnelArea.ur.y - tunnelArea.ll.y);      
-          tunnelHeight = (int) (tunnelArea.ur.x - tunnelArea.ll.x);
-          isTunnelHorizontal = true;
-        }
-        
-      case 2:
-        if(tunnelArea.ll.y == island.ur.y) {
-          // Go vertically
-          tunnelEnX = (tunnelArea.ll.x + 0.5)*TILE_SIZE;
-          tunnelEnY = (tunnelArea.ur.y + 1) * TILE_SIZE;
-          tunnelExX = (tunnelEnX) * TILE_SIZE;
-          tunnelExY = (tunnelEnY - tunnelArea.ur.y + tunnelArea.ll.y - 1)*TILE_SIZE;
-          tunnelWidth = (int) (tunnelArea.ur.y - tunnelArea.ll.y);      
-          tunnelHeight = (int) (tunnelArea.ur.x - tunnelArea.ll.x);
-          isTunnelHorizontal = false;
-        } else if(tunnelArea.ll.x == island.ur.x){
-          // Go horizontally
-          tunnelEnX = (tunnelArea.ur.x + 1) * TILE_SIZE;
-          tunnelEnY = (tunnelArea.ll.y + 0.5)*TILE_SIZE;
-          tunnelExX = (tunnelEnX - tunnelArea.ur.x + tunnelArea.ll.x - 1)*TILE_SIZE;
-          tunnelExY = (tunnelEnY) * TILE_SIZE;
-          tunnelWidth = (int) (tunnelArea.ur.y - tunnelArea.ll.y);      // TODO: 1.change "Point" x,y to int? 2.width negative?
-          tunnelHeight = (int) (tunnelArea.ur.x - tunnelArea.ll.x);
-          isTunnelHorizontal = true;
-        }
-       
-      case 3:
-        if(tunnelArea.ll.y == island.ur.y) {
-          // Go vertically
-          tunnelEnX = (tunnelArea.ll.x + 0.5)*TILE_SIZE;
-          tunnelEnY = (tunnelArea.ur.y + 1) * TILE_SIZE;
-          tunnelExX = (tunnelEnX) * TILE_SIZE;
-          tunnelExY = (tunnelEnY - tunnelArea.ur.y + tunnelArea.ll.y - 1)*TILE_SIZE;
-          tunnelWidth = (int) (tunnelArea.ur.y - tunnelArea.ll.y);      // TODO: 1.change "Point" x,y to int? 2.height negative if goint down?
-          tunnelHeight = (int) (tunnelArea.ur.x - tunnelArea.ll.x);
-          isTunnelHorizontal = false;
-        } else if(tunnelArea.ur.x == startArea.ll.x) {
-          // Go horizontally
-          tunnelEnX = (tunnelArea.ll.x - 1) * TILE_SIZE;
-          tunnelEnY = (tunnelArea.ll.y + 0.5)*TILE_SIZE;
-          tunnelExX = (tunnelEnX + tunnelArea.ur.x - tunnelArea.ll.x + 1)*TILE_SIZE;
-          tunnelExY = (tunnelEnY) * TILE_SIZE;
-          tunnelWidth = (int) (tunnelArea.ur.y - tunnelArea.ll.y);     
-          tunnelHeight = (int) (tunnelArea.ur.x - tunnelArea.ll.x);
-          isTunnelHorizontal = true;
-        }
+
+    double w = tunnelArea.ur.x - tunnelArea.ll.x;
+    double h = tunnelArea.ur.y - tunnelArea.ll.y;
+    if(w != h) {
+      // 2*1 tunnel
+      switch (startCorner) {
+        case 0:
+          
+        case 1:
+          
+        case 2:
+          
+        case 3:
+          
+      }
+
+    }else {
+      // 1*1 tunnel
+      
     }
    
   }
