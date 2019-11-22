@@ -37,7 +37,7 @@ public class Resources {
   /** 
    * Enables printing of debug info from the WiFi class. 
    */
-  public static final boolean ENABLE_DEBUG_WIFI_PRINT = true;
+  public static final boolean ENABLE_DEBUG_WIFI_PRINT = false;
   
   /**
    * Enable this to attempt to receive Wi-Fi parameters at the start of the program.
@@ -181,7 +181,7 @@ public class Resources {
 	/**
      * Instance of US Localizer
      */
-    public static PController pController = new PController();
+//    public static PController pController = new PController();
     
     /**
      * Threshold to activate object avoidance.

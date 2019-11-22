@@ -104,13 +104,14 @@ public class UltrasonicLocalizer extends UltrasonicController{
 		// Rotate counterclockwise to get out of noise margin.
         while (readUSDistance() < d) {
             navigator.rotate(ROTATION_LEFT);
+            Main.sleepFor(2*SLEEPINT);
         }
 		
         Main.sleepFor(2*SLEEPINT);
         
 		// Turn left until the falling edge is detected for the left wall.
 		while (readUSDistance() > d) {
-			navigator.turnTo(ROTATION_LEFT);
+			navigator.rotate(ROTATION_LEFT);
 		}
 
 		// Stop robot when it detects the falling edge.
