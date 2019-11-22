@@ -196,7 +196,7 @@ public class WIFI {
       startArea = green;
     }
     
-    // TODO: Considering current island corner's coordinate and tunnel's coordinates, compute wheter tunnel is horizontal or vertical
+    // TODO: Considering current start area corner's coordinate and tunnel's coordinates, compute wheter tunnel is horizontal or vertical
     // TODO: Compute tunnel's width and tunnel's height
 
     switch (startCorner) {
