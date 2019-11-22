@@ -81,7 +81,7 @@ public class SensorPoller implements Runnable {
                 // ultrasonic detection
                 usSensorFront.getDistanceMode().fetchSample(usDataFront, 0);
                 usSensorLeft.getDistanceMode().fetchSample(usDataLeft, 0);
-//                pController.processTwoUSData((int) (usDataFront[0] * 100.0), (int) (usDataLeft[0] * 100.0));
+                pController.processTwoUSData((int) (usDataFront[0] * 100.0), (int) (usDataLeft[0] * 100.0));
             }
             if (mode==Mode.LIGHT) {
               Main.sleepFor(LIGHT_SLEEPINT);

@@ -109,17 +109,10 @@ public class WIFI {
 
     double dx, dy;
     // calculate the intersection of the circle and the line
-    if (theta < 0) { // when the robot is in 2nd/3rd quadrant
         dy = LAUNCH_RANGE * Math.cos(-theta);
-        dx = -LAUNCH_RANGE * Math.sin(-theta);
-        this.launchY = binY + dy;
-        this.launchX = binX + dx;
-    } else { // in 1st/4th quadrant
-        dy = LAUNCH_RANGE * Math.cos(theta);
         dx = LAUNCH_RANGE * Math.sin(theta);
         this.launchY = binY + dy;
-        this.launchX = binX + dx; 
-    }
+        this.launchX = binX + dx;
     
   }
   
@@ -200,8 +193,8 @@ public class WIFI {
       startArea = green;
     }
     
-    // TODO: Considering current start area corner's coordinate and tunnel's coordinates, compute wheter tunnel is horizontal or vertical
-    // TODO: Compute tunnel's width and tunnel's height
+    // TODO: Considering current start area corner's coordinate and tunnel's coordinates, compute whether tunnel is horizontal or vertical
+    // TODO: Compute tunnel's width and tunnel's height: width = 1, height = 2?
 
 
     double w = tunnelArea.ur.x - tunnelArea.ll.x;
@@ -210,18 +203,131 @@ public class WIFI {
       // 2*1 tunnel
       switch (startCorner) {
         case 0:
-          
+          if(w > h) {
+            isTunnelHorizontal = true;
+            tunnelEnX = (tunnelArea.ll.x - 1)*TILE_SIZE;
+            tunnelEnY = (tunnelArea.ll.y + 0.5)*TILE_SIZE;
+            tunnelExX = (tunnelArea.ur.x + 1)*TILE_SIZE;
+            tunnelExY = tunnelEnY;
+          }else {
+            isTunnelHorizontal = false;
+            tunnelEnX = (tunnelArea.ll.x + 0.5)*TILE_SIZE;
+            tunnelEnY = (tunnelArea.ll.y - 1)*TILE_SIZE;
+            tunnelExX = tunnelEnX;
+            tunnelExY = (tunnelArea.ur.y + 1)*TILE_SIZE;
+          }
+          break;
         case 1:
-          
+          if(w > h) {
+            isTunnelHorizontal = true;
+            tunnelEnX = (tunnelArea.ur.x + 1)*TILE_SIZE;
+            tunnelEnY = (tunnelArea.ll.y + 0.5)*TILE_SIZE;
+            tunnelExX = (tunnelArea.ll.x - 1)*TILE_SIZE;
+            tunnelExY = tunnelEnY;
+          }else {
+            isTunnelHorizontal = false;
+            tunnelEnX = (tunnelArea.ll.x + 0.5)*TILE_SIZE;
+            tunnelEnY = (tunnelArea.ll.y - 1)*TILE_SIZE;
+            tunnelExX = tunnelEnX;
+            tunnelExY = (tunnelArea.ur.y + 1)*TILE_SIZE;
+          }
+          break;
         case 2:
-          
+          if(w > h) {
+            isTunnelHorizontal = true;
+            tunnelEnX = (tunnelArea.ur.x + 1)*TILE_SIZE;
+            tunnelEnY = (tunnelArea.ll.y + 0.5)*TILE_SIZE;
+            tunnelExX = (tunnelArea.ll.x - 1)*TILE_SIZE;
+            tunnelExY = tunnelEnY;
+          }else {
+            isTunnelHorizontal = false;
+            tunnelEnX = (tunnelArea.ll.x + 0.5)*TILE_SIZE;
+            tunnelEnY = (tunnelArea.ur.y + 1)*TILE_SIZE;
+            tunnelExX = tunnelEnX;
+            tunnelExY = (tunnelArea.ll.y - 1)*TILE_SIZE;
+          }
+          break;
         case 3:
-          
+          if(w > h) {
+            isTunnelHorizontal = true;
+            tunnelEnX = (tunnelArea.ll.x - 1)*TILE_SIZE;
+            tunnelEnY = (tunnelArea.ll.y + 0.5)*TILE_SIZE;
+            tunnelExX = (tunnelArea.ur.x + 1)*TILE_SIZE;
+            tunnelExY = tunnelEnY;
+          }else {
+            isTunnelHorizontal = false;
+            tunnelEnX = (tunnelArea.ll.x + 0.5)*TILE_SIZE;
+            tunnelEnY = (tunnelArea.ur.y + 1)*TILE_SIZE;
+            tunnelExX = tunnelEnX;
+            tunnelExY = (tunnelArea.ll.y - 1)*TILE_SIZE;
+          }
+          break;
       }
 
     }else {
       // 1*1 tunnel
-      
+      switch (startCorner) {
+        case 0:
+          if(tunnelArea.ll.x == startArea.ur.x) {
+            isTunnelHorizontal = true;
+            tunnelEnX = (tunnelArea.ll.x - 1)*TILE_SIZE;
+            tunnelEnY = (tunnelArea.ll.y + 0.5)*TILE_SIZE;
+            tunnelExX = (tunnelArea.ur.x + 1)*TILE_SIZE;
+            tunnelExY = tunnelEnY;
+          }else if(tunnelArea.ll.y == startArea.ur.y) {
+            isTunnelHorizontal = false;
+            tunnelEnX = (tunnelArea.ll.x + 0.5)*TILE_SIZE;
+            tunnelEnY = (tunnelArea.ll.y - 1)*TILE_SIZE;
+            tunnelExX = tunnelEnX;
+            tunnelExY = (tunnelArea.ur.y + 1)*TILE_SIZE;
+          }
+          break;
+        case 1:
+          if(tunnelArea.ur.x == startArea.ll.x) {
+            isTunnelHorizontal = true;
+            tunnelEnX = (tunnelArea.ur.x + 1)*TILE_SIZE;
+            tunnelEnY = (tunnelArea.ll.y + 0.5)*TILE_SIZE;
+            tunnelExX = (tunnelArea.ll.x - 1)*TILE_SIZE;
+            tunnelExY = tunnelEnY;
+          }else if(tunnelArea.ll.y == startArea.ur.y) {
+            isTunnelHorizontal = false;
+            tunnelEnX = (tunnelArea.ll.x + 0.5)*TILE_SIZE;
+            tunnelEnY = (tunnelArea.ll.y - 1)*TILE_SIZE;
+            tunnelExX = tunnelEnX;
+            tunnelExY = (tunnelArea.ur.y + 1)*TILE_SIZE;
+          }
+          break;
+        case 2:
+          if(tunnelArea.ur.x == startArea.ll.x) {
+            isTunnelHorizontal = true;
+            tunnelEnX = (tunnelArea.ur.x + 1)*TILE_SIZE;
+            tunnelEnY = (tunnelArea.ll.y + 0.5)*TILE_SIZE;
+            tunnelExX = (tunnelArea.ll.x - 1)*TILE_SIZE;
+            tunnelExY = tunnelEnY;
+          }else if(tunnelArea.ur.y == startArea.ll.y) {
+            isTunnelHorizontal = false;
+            tunnelEnX = (tunnelArea.ll.x + 0.5)*TILE_SIZE;
+            tunnelEnY = (tunnelArea.ur.y + 1)*TILE_SIZE;
+            tunnelExX = tunnelEnX;
+            tunnelExY = (tunnelArea.ll.y - 1)*TILE_SIZE;
+          }
+          break;
+        case 3:
+          if(tunnelArea.ll.x == startArea.ur.x) {
+            isTunnelHorizontal = true;
+            tunnelEnX = (tunnelArea.ll.x - 1)*TILE_SIZE;
+            tunnelEnY = (tunnelArea.ll.y + 0.5)*TILE_SIZE;
+            tunnelExX = (tunnelArea.ur.x + 1)*TILE_SIZE;
+            tunnelExY = tunnelEnY;
+          }else if(tunnelArea.ur.y == startArea.ll.x) {
+            isTunnelHorizontal = false;
+            tunnelEnX = (tunnelArea.ll.x + 0.5)*TILE_SIZE;
+            tunnelEnY = (tunnelArea.ur.y + 1)*TILE_SIZE;
+            tunnelExX = tunnelEnX;
+            tunnelExY = (tunnelArea.ll.y - 1)*TILE_SIZE;
+          }
+          break;
+      }
     }
    
   }

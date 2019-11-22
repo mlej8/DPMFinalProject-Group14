@@ -181,7 +181,7 @@ public class Resources {
 	/**
      * Instance of US Localizer
      */
-//    public static PController pController = new PController();
+    public static PController pController = new PController();
     
     /**
      * Threshold to activate object avoidance.
