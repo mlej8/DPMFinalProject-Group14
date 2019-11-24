@@ -59,16 +59,7 @@ public class Navigation {
     // Go forward until a black line is detected
     LEFT_MOTOR.rotate(Converter.convertDistance(TILE_SIZE), true);
     RIGHT_MOTOR.rotate(Converter.convertDistance(TILE_SIZE), true);
-
-    while (LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
-      Main.sleepFor(SLEEPINT);
-    }
-
-    // Correct odometer when first line is encountered
-   
-
-    System.out.println(
-        "Corrected Y and Theta " + odometer.getXYT()[0] + " " + odometer.getXYT()[1] + " " + odometer.getXYT()[2]);
+    sleepNavigation();   
 
     // Travel light sensor distance
     travelLightSensorDistance();
@@ -82,24 +73,14 @@ public class Navigation {
     // Go forward until another black line is detected
     LEFT_MOTOR.rotate(Converter.convertDistance(TILE_SIZE), true);
     RIGHT_MOTOR.rotate(Converter.convertDistance(TILE_SIZE), true);
-    while (LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
-      Main.sleepFor(SLEEPINT);
-    }
-
-    // Correct X
-    lightCorrector.setCurrX(1);
-    odometer.setX(lightCorrector.getCurrX() * TILE_SIZE - LIGHT_SENSOR_DISTANCE);
-    odometer.setTheta(90);
+    sleepNavigation();
 
     // Travel light sensor distance
     travelLightSensorDistance();
 
     // Set both line touched boolean variables to false
     lightCorrector.setBothMotorsToFalse();
-
-    System.out.println("Final coordinates x " + odometer.getXYT()[0] + " y " + odometer.getXYT()[1] + " theta "
-        + odometer.getXYT()[2]);
-  }
+    }
 
 
   /**
@@ -228,9 +209,8 @@ public class Navigation {
 
       while (Math.abs(y - odometer.getXYT()[1]) > ERROR_MARGIN) {
         navigateForward(y - odometer.getXYT()[1], MOTOR_SPEED);
-        while (LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
-          Main.sleepFor(SLEEPINT);
-        }
+        sleepNavigation();
+
         if (lightCorrector.isLeftMotorTouched() && lightCorrector.isRightMotorTouched()) {
           lightCorrector.setCurrY(lightCorrector.getCurrY() + yChange);
           odometer.setY(lightCorrector.getCurrY() * TILE_SIZE - LIGHT_SENSOR_DISTANCE);
@@ -262,9 +242,8 @@ public class Navigation {
 
       while (Math.abs(y - odometer.getXYT()[1]) > ERROR_MARGIN) {
         navigateForward(y - odometer.getXYT()[1], MOTOR_SPEED);
-        while (LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
-          Main.sleepFor(SLEEPINT);
-        }
+        sleepNavigation();
+
         if (lightCorrector.isLeftMotorTouched() && lightCorrector.isRightMotorTouched()) {
           lightCorrector.setCurrY(lightCorrector.getCurrY() + yChange);
           odometer.setY(lightCorrector.getCurrY() * TILE_SIZE - LIGHT_SENSOR_DISTANCE);
@@ -293,9 +272,8 @@ public class Navigation {
       while (Math.abs(x - odometer.getXYT()[0]) > ERROR_MARGIN) {
         navigateForward(x - odometer.getXYT()[0], MOTOR_SPEED);
         // wait for certain amount of time, set it to true
-        while (LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
-          Main.sleepFor(SLEEPINT);
-        }
+        sleepNavigation();
+
         if (lightCorrector.isLeftMotorTouched() && lightCorrector.isRightMotorTouched()) {
           lightCorrector.setCurrX(lightCorrector.getCurrX() + xChange);
           odometer.setX(lightCorrector.getCurrX() * TILE_SIZE - LIGHT_SENSOR_DISTANCE);

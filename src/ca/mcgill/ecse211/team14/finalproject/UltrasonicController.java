@@ -8,7 +8,7 @@ import static ca.mcgill.ecse211.team14.finalproject.Resources.*;
 public abstract class UltrasonicController {
 
   int distance;
-  int wallDistance;
+//  int wallDistance;
   int filterControl;
 
   /**
@@ -23,7 +23,7 @@ public abstract class UltrasonicController {
    * 
    * @param distance: the distance to the wall in cm
    */
-  public abstract void processTwoUSData(int distance, int wallDistance);
+//  public abstract void processTwoUSData(int distance, int wallDistance);
 
   /**
    * Returns the distance between the US sensor and an obstacle in cm.
@@ -48,15 +48,15 @@ public abstract class UltrasonicController {
     }
   }
 
-  void filterLeft(int distance) {
-    if (distance >= 255 && filterControl < FILTER_OUT) {
-      filterControl++;
-    } else if (distance >= 255) {
-      this.wallDistance = 255;
-    } else {
-      filterControl = 0;
-      this.wallDistance = distance;
-    }
-  }
+//  void filterLeft(int distance) {
+//    if (distance >= 255 && filterControl < FILTER_OUT) {
+//      filterControl++;
+//    } else if (distance >= 255) {
+//      this.wallDistance = 255;
+//    } else {
+//      filterControl = 0;
+//      this.wallDistance = distance;
+//    }
+//  }
 
 }

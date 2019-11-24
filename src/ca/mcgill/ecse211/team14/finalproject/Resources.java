@@ -146,7 +146,7 @@ public class Resources {
 	/**
      * The left ultrasonic sensor.
      */
-    public static final EV3UltrasonicSensor usSensorLeft= new EV3UltrasonicSensor(SensorPort.S2);
+//    public static final EV3UltrasonicSensor usSensorLeft= new EV3UltrasonicSensor(SensorPort.S2);
 
 	/**
      * The left light sensor.

@@ -155,9 +155,9 @@ public class UltrasonicLocalizer extends UltrasonicController{
 		return this.distance;
 	}
 
-  @Override
-  public void processTwoUSData(int distance, int wallDistance) {
-    filter(distance);
-    filterLeft(distance);    
-  }
+//  @Override
+//  public void processTwoUSData(int distance, int wallDistance) {
+//    filter(distance);
+//    filterLeft(distance);    
+//  }
 }

@@ -28,177 +28,334 @@ public class PController extends UltrasonicController {
   public PController() {}
 
   /**
-	 * Perform an action based on two US input data using the proportional control
-	 * scheme, where the gain is proportional to the error. The magnitude of change
-	 * in rotation is proportional to the magnitude of the error. Scaling the
-	 * correction, i.e. DELTASPD, according to error.
-	 * 
-	 * @param distance: the distance between the US sensor and an obstacle in cm.
-	 * @param wallDistance: the distance detected by the left sensor in cm.
-	 */
-	@Override
-	public void processTwoUSData(int distanceFront, int distanceLeft) {
+   * Perform an action based on two US input data using the proportional control scheme, where the gain is proportional
+   * to the error. The magnitude of change in rotation is proportional to the magnitude of the error. Scaling the
+   * correction, i.e. DELTASPD, according to error.
+   * 
+   * @param distance: the distance between the US sensor and an obstacle in cm.
+   * @param wallDistance: the distance detected by the left sensor in cm.
+   */
+  /**
+   * Processes distance from front US sensor. Detects if an obstacle is present in front of the robot.
+   * 
+   * @param distance: distance pulled by front sensor
+   */
+  @Override
+  public void processUSData(int distance) {//
+    // TODO Obstacle avoidance turn right or left based on quadrants and current orientation ... Travel a distance <
+    // river .. ?
 
-	    // TODO Obstacle avoidance turn right or left based on quadrants and current orientation ... Travel a distance < river .. ? 
-	  
-		filter(distanceFront);
-		filterLeft(distanceLeft);
+    filter(distance);
+//    filterLeft(distanceLeft);
 
-		if (state == State.INIT && this.distance < THRESHOLD) {
-			// If distance is smaller than threshold change to TURNING state
-			state = State.TURNING;
+    if (state == State.INIT && t his.distance < THRESHOLD) {
+      // If distance is smaller than threshold change to TURNING state
+      state = State.TURNING;
 
-			// Log current state
-			System.out.println("Switched state to TURNING");
+      // Log current state
+      System.out.println("Switched state to TURNING");
 
-		} else if (state == State.TURNING) {
-			// Get the sensor to look forward
-			rotateMotor.rotate(-rotateMotor.getTachoCount(), false);
-			navigatorObstacle.setTraveling(true);
+    } else if (state == State.TURNING) {
+      // Get the sensor to look forward
+      rotateMotor.rotate(-rotateMotor.getTachoCount(), false);
+      navigatorObstacle.setTraveling(true);
 
-			// Store variables
-			double x = odometer.getXYT()[0];
-			double y = odometer.getXYT()[1];
-			double theta = odometer.getXYT()[2];
+      // Store variables
+      double x = odometer.getXYT()[0];
+      double y = odometer.getXYT()[1];
+      double theta = odometer.getXYT()[2];
 
-			if (x > 2 * TILE_SIZE && y > 2 * TILE_SIZE) {
-				// If robot is on the first quadrant, i.e. top right
+      if (x > 2 * TILE_SIZE && y > 2 * TILE_SIZE) {
+        // If robot is on the first quadrant, i.e. top right
 
-				if ((theta >= CLOCKWISE_LOWER_BOUND - RIGHT_ANGLE && theta <= 360)
-						|| (theta >= 0 && theta <= CLOCKWISE_UPPER_BOUND - RIGHT_ANGLE)) {
-					// If robot is traveling counterclockwise, turn left
-					sharpTurnLeft();
+        if ((theta >= CLOCKWISE_LOWER_BOUND - RIGHT_ANGLE && theta <= 360)
+            || (theta >= 0 && theta <= CLOCKWISE_UPPER_BOUND - RIGHT_ANGLE)) {
+          // If robot is traveling counterclockwise, turn left
+          sharpTurnLeft();
 
-				} else if (theta >= COUNTERCLOCKWISE_LOWER_BOUND - RIGHT_ANGLE
-						&& theta <= COUNTERCLOCKWISE_UPPER_BOUND - RIGHT_ANGLE) {
-					// If going clockwise, turn right
-					sharpTurnRight();
-				}
+        } else if (theta >= COUNTERCLOCKWISE_LOWER_BOUND - RIGHT_ANGLE
+            && theta <= COUNTERCLOCKWISE_UPPER_BOUND - RIGHT_ANGLE) {
+          // If going clockwise, turn right
+          sharpTurnRight();
+        }
 
-			} else if (x < 2 * TILE_SIZE && y > 2 * TILE_SIZE) {
-				// If robot is on the second quadrant, i.e. top left
+      } else if (x < 2 * TILE_SIZE && y > 2 * TILE_SIZE) {
+        // If robot is on the second quadrant, i.e. top left
 
-				if ((theta >= CLOCKWISE_LOWER_BOUND && theta <= 360)
-						|| (theta >= 0 && theta <= CLOCKWISE_UPPER_BOUND)) {
-					// If robot is traveling clockwise, turn right
-					sharpTurnRight();
-				} else if (theta >= COUNTERCLOCKWISE_LOWER_BOUND && theta <= COUNTERCLOCKWISE_UPPER_BOUND) {
-					// If going counter clockwise, turn left
-					sharpTurnLeft();
-				}
+        if ((theta >= CLOCKWISE_LOWER_BOUND && theta <= 360) || (theta >= 0 && theta <= CLOCKWISE_UPPER_BOUND)) {
+          // If robot is traveling clockwise, turn right
+          sharpTurnRight();
+        } else if (theta >= COUNTERCLOCKWISE_LOWER_BOUND && theta <= COUNTERCLOCKWISE_UPPER_BOUND) {
+          // If going counter clockwise, turn left
+          sharpTurnLeft();
+        }
 
-			} else if (x < 2 * TILE_SIZE && y < 2 * TILE_SIZE) {
-				// If robot is on the third quadrant, i.e. bottom left
+      } else if (x < 2 * TILE_SIZE && y < 2 * TILE_SIZE) {
+        // If robot is on the third quadrant, i.e. bottom left
 
-				if ((theta >= CLOCKWISE_LOWER_BOUND - RIGHT_ANGLE && theta <= 360)
-						|| (theta >= 0 && theta <= CLOCKWISE_UPPER_BOUND - RIGHT_ANGLE)) {
-					// If robot is traveling clockwise, turn right
-					sharpTurnRight();
+        if ((theta >= CLOCKWISE_LOWER_BOUND - RIGHT_ANGLE && theta <= 360)
+            || (theta >= 0 && theta <= CLOCKWISE_UPPER_BOUND - RIGHT_ANGLE)) {
+          // If robot is traveling clockwise, turn right
+          sharpTurnRight();
 
-				} else if (theta >= COUNTERCLOCKWISE_LOWER_BOUND - RIGHT_ANGLE
-						&& theta <= COUNTERCLOCKWISE_UPPER_BOUND - RIGHT_ANGLE) {
-					// If going counter clockwise, turn left
-					sharpTurnLeft();
-				}
+        } else if (theta >= COUNTERCLOCKWISE_LOWER_BOUND - RIGHT_ANGLE
+            && theta <= COUNTERCLOCKWISE_UPPER_BOUND - RIGHT_ANGLE) {
+          // If going counter clockwise, turn left
+          sharpTurnLeft();
+        }
 
-			} else if (x > 2 * TILE_SIZE && y < 2 * TILE_SIZE) {
-				// If robot is on the forth quadrant, i.e. bottom right
+      } else if (x > 2 * TILE_SIZE && y < 2 * TILE_SIZE) {
+        // If robot is on the forth quadrant, i.e. bottom right
 
-				if ((theta >= CLOCKWISE_LOWER_BOUND && theta <= 360)
-						|| (theta >= 0 && theta <= CLOCKWISE_UPPER_BOUND)) {
-					// If robot is traveling counterclockwise, turn left
-					sharpTurnLeft();
+        if ((theta >= CLOCKWISE_LOWER_BOUND && theta <= 360) || (theta >= 0 && theta <= CLOCKWISE_UPPER_BOUND)) {
+          // If robot is traveling counterclockwise, turn left
+          sharpTurnLeft();
 
-				} else if (theta >= COUNTERCLOCKWISE_LOWER_BOUND && theta <= COUNTERCLOCKWISE_UPPER_BOUND) {
-					// If robot is traveling clockwise, turn right
-					sharpTurnRight();
-				}
-			}
+        } else if (theta >= COUNTERCLOCKWISE_LOWER_BOUND && theta <= COUNTERCLOCKWISE_UPPER_BOUND) {
+          // If robot is traveling clockwise, turn right
+          sharpTurnRight();
+        }
+      }
 
-			// Log current state
-			System.out.println("Navigation state switched to FOLLOWING_WALL");
+      // Log current state
+      System.out.println("Navigation state switched to FOLLOWING_WALL");
 
-			// Switch state to following wall
-			state = State.FOLLOWING_WALL;
+      // Switch state to following wall
+      state = State.FOLLOWING_WALL;
 
-		} else if (state == State.FOLLOWING_WALL) {
+    } else if (state == State.FOLLOWING_WALL) {
 
-			// Compute error
-			int error = BAND_CENTER - this.distance; // (distance between the US sensor and an obstacle in cm) -
-														// (Standard offset from the wall cm). We need to tweak
-														// BAND_CENTER and BAND_WIDTH in order to make the robot
-														// smooth.
+      // Compute error
+      int error = BAND_CENTER - this.distance; // (distance between the US sensor and an obstacle in cm) -
+                                               // (Standard offset from the wall cm). We need to tweak
+                                               // BAND_CENTER and BAND_WIDTH in order to make the robot
+                                               // smooth.
 
-			// Compute low and high speed using the calcGain function.
-			int lowSpeed = MOTOR_SPEED - calcGain(error);
-			int highSpeed = MOTOR_SPEED + calcGain(error);
+      // Compute low and high speed using the calcGain function.
+      int lowSpeed = MOTOR_SPEED - calcGain(error);
+      int highSpeed = MOTOR_SPEED + calcGain(error);
 
-			if (turnedRight) {
-				if (Math.abs(error) <= BAND_WIDTH) {
-					forward();
-				} else if (error > 0) {
-					turnRightR(highSpeed);
-				} else if (error < 0) {
-					turnLeftR(lowSpeed, highSpeed);
-				}
-			} else if (turnedLeft) {
-				if (Math.abs(error) <= BAND_WIDTH) {
-					forward();
-				} else if (error > 0) {
-					turnLeftL(highSpeed);
-				} else if (error < 0) {
-					turnRightL(lowSpeed, highSpeed);
-				}
-			}
+      if (turnedRight) {
+        if (Math.abs(error) <= BAND_WIDTH) {
+          forward();
+        } else if (error > 0) {
+          turnRightR(highSpeed);
+        } else if (error < 0) {
+          turnLeftR(lowSpeed, highSpeed);
+        }
+      } else if (turnedLeft) {
+        if (Math.abs(error) <= BAND_WIDTH) {
+          forward();
+        } else if (error > 0) {
+          turnLeftL(highSpeed);
+        } else if (error < 0) {
+          turnRightL(lowSpeed, highSpeed);
+        }
+      }
 
-			if (stopFollowing()) {
-				// Switch state back to INIT
-				state = State.PASSED;
+      if (stopFollowing()) {
+        // Switch state back to INIT
+        state = State.PASSED;
 
-				// Log current state
-				System.out.println("Navigation state switched to PASSED");
+        // Log current state
+        System.out.println("Navigation state switched to PASSED");
 
-				// Stop motors
-				LEFT_MOTOR.stop(true);
-				RIGHT_MOTOR.stop(false);
-			}
-		} else if (state == State.PASSED) {
+        // Stop motors
+        LEFT_MOTOR.stop(true);
+        RIGHT_MOTOR.stop(false);
+      }
+    } else if (state == State.PASSED) {
 
-			// Rotate sensor back to looking forward
-			rotateMotor.rotate(-rotateMotor.getTachoCount(), false);
+      // Rotate sensor back to looking forward
+      rotateMotor.rotate(-rotateMotor.getTachoCount(), false);
 
-			// Reset tachocount to 0
-			rotateMotor.resetTachoCount();
+      // Reset tachocount to 0
+      rotateMotor.resetTachoCount();
 
-			// Reset turned right or turned left to false
-			turnedRight = false;
-			turnedLeft = false;
+      // Reset turned right or turned left to false
+      turnedRight = false;
+      turnedLeft = false;
 
-			// Navigate to waypoint
-			navigatorObstacle.setTraveling(false);
-			
-			// Stop motors 
-			LEFT_MOTOR.stop(true);
-			RIGHT_MOTOR.stop(false);
+      // Navigate to waypoint
+      navigatorObstacle.setTraveling(false);
 
-			// Change state back to INIT
-			state = State.INIT;
+      // Stop motors
+      LEFT_MOTOR.stop(true);
+      RIGHT_MOTOR.stop(false);
 
-			// Log current state
-			System.out.println("Navigation state switched to INIT");
-		}
-System.out.println("asdf");
-	}
+      // Change state back to INIT
+      state = State.INIT;
+
+      // Log current state
+      System.out.println("Navigation state switched to INIT");
+    }
+    System.out.println("asdf");
+  }
+
+  // @Override
+  // public void processTwoUSData(int distanceFront, int distanceLeft) {
+  //
+  // // TODO Obstacle avoidance turn right or left based on quadrants and current orientation ... Travel a distance <
+  // river .. ?
+  //
+  // filter(distanceFront);
+  // filterLeft(distanceLeft);
+  //
+  // if (state == State.INIT && this.distance < THRESHOLD) {
+  // // If distance is smaller than threshold change to TURNING state
+  // state = State.TURNING;
+  //
+  // // Log current state
+  // System.out.println("Switched state to TURNING");
+  //
+  // } else if (state == State.TURNING) {
+  // // Get the sensor to look forward
+  // rotateMotor.rotate(-rotateMotor.getTachoCount(), false);
+  // navigatorObstacle.setTraveling(true);
+  //
+  // // Store variables
+  // double x = odometer.getXYT()[0];
+  // double y = odometer.getXYT()[1];
+  // double theta = odometer.getXYT()[2];
+  //
+  // if (x > 2 * TILE_SIZE && y > 2 * TILE_SIZE) {
+  // // If robot is on the first quadrant, i.e. top right
+  //
+  // if ((theta >= CLOCKWISE_LOWER_BOUND - RIGHT_ANGLE && theta <= 360)
+  // || (theta >= 0 && theta <= CLOCKWISE_UPPER_BOUND - RIGHT_ANGLE)) {
+  // // If robot is traveling counterclockwise, turn left
+  // sharpTurnLeft();
+  //
+  // } else if (theta >= COUNTERCLOCKWISE_LOWER_BOUND - RIGHT_ANGLE
+  // && theta <= COUNTERCLOCKWISE_UPPER_BOUND - RIGHT_ANGLE) {
+  // // If going clockwise, turn right
+  // sharpTurnRight();
+  // }
+  //
+  // } else if (x < 2 * TILE_SIZE && y > 2 * TILE_SIZE) {
+  // // If robot is on the second quadrant, i.e. top left
+  //
+  // if ((theta >= CLOCKWISE_LOWER_BOUND && theta <= 360)
+  // || (theta >= 0 && theta <= CLOCKWISE_UPPER_BOUND)) {
+  // // If robot is traveling clockwise, turn right
+  // sharpTurnRight();
+  // } else if (theta >= COUNTERCLOCKWISE_LOWER_BOUND && theta <= COUNTERCLOCKWISE_UPPER_BOUND) {
+  // // If going counter clockwise, turn left
+  // sharpTurnLeft();
+  // }
+  //
+  // } else if (x < 2 * TILE_SIZE && y < 2 * TILE_SIZE) {
+  // // If robot is on the third quadrant, i.e. bottom left
+  //
+  // if ((theta >= CLOCKWISE_LOWER_BOUND - RIGHT_ANGLE && theta <= 360)
+  // || (theta >= 0 && theta <= CLOCKWISE_UPPER_BOUND - RIGHT_ANGLE)) {
+  // // If robot is traveling clockwise, turn right
+  // sharpTurnRight();
+  //
+  // } else if (theta >= COUNTERCLOCKWISE_LOWER_BOUND - RIGHT_ANGLE
+  // && theta <= COUNTERCLOCKWISE_UPPER_BOUND - RIGHT_ANGLE) {
+  // // If going counter clockwise, turn left
+  // sharpTurnLeft();
+  // }
+  //
+  // } else if (x > 2 * TILE_SIZE && y < 2 * TILE_SIZE) {
+  // // If robot is on the forth quadrant, i.e. bottom right
+  //
+  // if ((theta >= CLOCKWISE_LOWER_BOUND && theta <= 360)
+  // || (theta >= 0 && theta <= CLOCKWISE_UPPER_BOUND)) {
+  // // If robot is traveling counterclockwise, turn left
+  // sharpTurnLeft();
+  //
+  // } else if (theta >= COUNTERCLOCKWISE_LOWER_BOUND && theta <= COUNTERCLOCKWISE_UPPER_BOUND) {
+  // // If robot is traveling clockwise, turn right
+  // sharpTurnRight();
+  // }
+  // }
+  //
+  // // Log current state
+  // System.out.println("Navigation state switched to FOLLOWING_WALL");
+  //
+  // // Switch state to following wall
+  // state = State.FOLLOWING_WALL;
+  //
+  // } else if (state == State.FOLLOWING_WALL) {
+  //
+  // // Compute error
+  // int error = BAND_CENTER - this.distance; // (distance between the US sensor and an obstacle in cm) -
+  // // (Standard offset from the wall cm). We need to tweak
+  // // BAND_CENTER and BAND_WIDTH in order to make the robot
+  // // smooth.
+  //
+  // // Compute low and high speed using the calcGain function.
+  // int lowSpeed = MOTOR_SPEED - calcGain(error);
+  // int highSpeed = MOTOR_SPEED + calcGain(error);
+  //
+  // if (turnedRight) {
+  // if (Math.abs(error) <= BAND_WIDTH) {
+  // forward();
+  // } else if (error > 0) {
+  // turnRightR(highSpeed);
+  // } else if (error < 0) {
+  // turnLeftR(lowSpeed, highSpeed);
+  // }
+  // } else if (turnedLeft) {
+  // if (Math.abs(error) <= BAND_WIDTH) {
+  // forward();
+  // } else if (error > 0) {
+  // turnLeftL(highSpeed);
+  // } else if (error < 0) {
+  // turnRightL(lowSpeed, highSpeed);
+  // }
+  // }
+  //
+  // if (stopFollowing()) {
+  // // Switch state back to INIT
+  // state = State.PASSED;
+  //
+  // // Log current state
+  // System.out.println("Navigation state switched to PASSED");
+  //
+  // // Stop motors
+  // LEFT_MOTOR.stop(true);
+  // RIGHT_MOTOR.stop(false);
+  // }
+  // } else if (state == State.PASSED) {
+  //
+  // // Rotate sensor back to looking forward
+  // rotateMotor.rotate(-rotateMotor.getTachoCount(), false);
+  //
+  // // Reset tachocount to 0
+  // rotateMotor.resetTachoCount();
+  //
+  // // Reset turned right or turned left to false
+  // turnedRight = false;
+  // turnedLeft = false;
+  //
+  // // Navigate to waypoint
+  // navigatorObstacle.setTraveling(false);
+  //
+  // // Stop motors
+  // LEFT_MOTOR.stop(true);
+  // RIGHT_MOTOR.stop(false);
+  //
+  // // Change state back to INIT
+  // state = State.INIT;
+  //
+  // // Log current state
+  // System.out.println("Navigation state switched to INIT");
+  // }
+  // System.out.println("asdf");
+  // }
 
   /**
    * Method that moves to robot forward
    */
-  private static void forward() {
-    // LEFT_MOTOR.setSpeed(MOTOR_SPEED);
-    // RIGHT_MOTOR.setSpeed(MOTOR_SPEED);
-    // LEFT_MOTOR.forward();
-    // RIGHT_MOTOR.forward();
-  }
+  // private static void forward() {
+  // LEFT_MOTOR.setSpeed(MOTOR_SPEED);
+  // RIGHT_MOTOR.setSpeed(MOTOR_SPEED);
+  // LEFT_MOTOR.forward();
+  // RIGHT_MOTOR.forward();
+  // }
 
   /**
    * Method used to turn right when sensor is on the right of the wall.
@@ -376,15 +533,4 @@ System.out.println("asdf");
     // return Math.hypot(dx, dy);
     return 0.2;
   }
-
-  /**
-   * Processes distance from front US sensor. Detects if an obstacle is present in front of the robot. 
-   * 
-   * @param distance: distance pulled by front sensor 
-   */
-  @Override
-  public void processUSData(int distance) {
-    filter(distance);    
-  }
-	
 }

@@ -15,7 +15,7 @@ public class SensorPoller implements Runnable {
     /**
      * Array to store ultrasonic data
      */
-    private float[] usDataLeft;
+//    private float[] usDataLeft;
     
     /**
      * Array to store left light sensor data
@@ -45,7 +45,7 @@ public class SensorPoller implements Runnable {
       
     public SensorPoller() {
         usDataFront = new float[usSensorFront.sampleSize()]; 
-        usDataLeft= new float[usSensorLeft.sampleSize()]; 
+//        usDataLeft= new float[usSensorLeft.sampleSize()]; 
         leftLightData = new float[leftLightSensor.sampleSize()];                                    
         rightLightData = new float[rightLightSensor.sampleSize()];                                    
         this.mode = Mode.US_LOCALIZATION; // the mode is ultrasonic by default
@@ -80,8 +80,9 @@ public class SensorPoller implements Runnable {
                 
                 // ultrasonic detection
                 usSensorFront.getDistanceMode().fetchSample(usDataFront, 0);
-                usSensorLeft.getDistanceMode().fetchSample(usDataLeft, 0);
-                pController.processTwoUSData((int) (usDataFront[0] * 100.0), (int) (usDataLeft[0] * 100.0));
+//                usSensorLeft.getDistanceMode().fetchSample(usDataLeft, 0);
+//                pController.processTwoUSData((int) (usDataFront[0] * 100.0), (int) (usDataLeft[0] * 100.0));
+                pController.processUSData((int) (usDataFront[0] * 100.0));
             }
             if (mode==Mode.LIGHT) {
               Main.sleepFor(LIGHT_SLEEPINT);
