@@ -178,15 +178,11 @@ public class Resources {
 	 */
 	public static UltrasonicLocalizer ultrasonicLocalizer = new UltrasonicLocalizer();
 	
-	/**
-     * Instance of US Localizer
-     */
-    public static PController pController = new PController();
     
     /**
      * Threshold to activate object avoidance.
      */
-    public static double THRESHOLD = 30;
+    public static double THRESHOLD = 20;
 	
 	/**
 	 * d constant for ultrasonic localizer representing the threshold distance from the wall 
@@ -455,10 +451,6 @@ public class Resources {
       
       public String toString() {
         return "(" + x + ", " + y + ")";
-      }
-      
-    }
-    
-
-    
+      }      
+    }    
 }

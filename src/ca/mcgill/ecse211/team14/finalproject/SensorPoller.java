@@ -32,6 +32,10 @@ public class SensorPoller implements Runnable {
      */
     private Mode mode;
     
+    public Mode getMode() {
+      return mode;
+    }
+
     /**
      * States of sensor poller
      * 
@@ -40,7 +44,8 @@ public class SensorPoller implements Runnable {
      */
     public enum Mode 
     { 
-        US_LOCALIZATION, ULTRASONIC_LEFT, LIGHT, BOTH, IDLE; 
+        US_LOCALIZATION, LIGHT, BOTH, IDLE;
+//      ULTRASONIC_LEFT
     } 
       
     public SensorPoller() {
@@ -82,7 +87,7 @@ public class SensorPoller implements Runnable {
                 usSensorFront.getDistanceMode().fetchSample(usDataFront, 0);
 //                usSensorLeft.getDistanceMode().fetchSample(usDataLeft, 0);
 //                pController.processTwoUSData((int) (usDataFront[0] * 100.0), (int) (usDataLeft[0] * 100.0));
-                pController.processUSData((int) (usDataFront[0] * 100.0));
+                ultrasonicLocalizer.processUSData((int) (usDataFront[0] * 100.0));
             }
             if (mode==Mode.LIGHT) {
               Main.sleepFor(LIGHT_SLEEPINT);

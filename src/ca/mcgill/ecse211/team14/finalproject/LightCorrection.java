@@ -40,16 +40,6 @@ public class LightCorrection {
   protected double rightLastIntensity = -1;
 
   /**
-   * Variable that tracks the current tile's x.
-   */
-  private int currX = 0;
-
-  /**
-   * Variable that tracks the current tile's y.
-   */
-  private int currY = 0;
-
-  /**
    * Variable that records if corrections is needed.
    */
   private boolean correction = true;
@@ -101,22 +91,6 @@ public class LightCorrection {
 
   public void setCorrection(boolean correction) {
     this.correction = correction;
-  }
-
-  public int getCurrX() {
-    return currX;
-  }
-
-  public void setCurrX(int currX) {
-    this.currX = currX;
-  }
-
-  public int getCurrY() {
-    return currY;
-  }
-
-  public void setCurrY(int currY) {
-    this.currY = currY;
   }
 
   public boolean isRightMotorTouched() {

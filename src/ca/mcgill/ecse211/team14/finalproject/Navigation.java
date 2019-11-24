@@ -23,6 +23,21 @@ public class Navigation {
   private double destY;
 
   /**
+   * Variable that tracks the current tile's x.
+   */
+  private int currX = 0;
+
+  /**
+   * Variable that tracks the current tile's y.
+   */
+  private int currY = 0;
+
+  /**
+   * Variable that tracks if the robot has detected an obstacle
+   */
+  boolean detectedObstacle = false;
+
+  /**
    * Navigation class implements the singleton pattern
    */
   private Navigation() {
@@ -51,15 +66,15 @@ public class Navigation {
    * Method that travels to the closest grid intersection
    */
   public void travelToGridIntersection() {
-    
-    // Set motor speed 
+
+    // Set motor speed
     LEFT_MOTOR.setSpeed(MOTOR_SPEED);
     RIGHT_MOTOR.setSpeed(MOTOR_SPEED);
 
     // Go forward until a black line is detected
     LEFT_MOTOR.rotate(Converter.convertDistance(TILE_SIZE), true);
     RIGHT_MOTOR.rotate(Converter.convertDistance(TILE_SIZE), true);
-    sleepNavigation();   
+    sleepNavigation();
 
     // Travel light sensor distance
     travelLightSensorDistance();
@@ -80,7 +95,7 @@ public class Navigation {
 
     // Set both line touched boolean variables to false
     lightCorrector.setBothMotorsToFalse();
-    }
+  }
 
 
   /**
@@ -157,7 +172,7 @@ public class Navigation {
     double dx = x - odometer.getXYT()[0];
     double dy = y - odometer.getXYT()[1];
 
-    if (Main.wifi.isTunnelHorizontal()) {
+    navigation: if (Main.wifi.isTunnelHorizontal()) {
 
       // First travel along X-axis, then travel along Y-axis
       if (dx >= 0) {
@@ -174,17 +189,19 @@ public class Navigation {
       while (Math.abs(x - odometer.getXYT()[0]) > ERROR_MARGIN) {
         navigateForward(x - odometer.getXYT()[0], MOTOR_SPEED);
         while (LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
-//          Main.sleepFor(SLEEPINT);
+          Main.sleepFor(SLEEPINT);
           // TODO : OBSTACLE BOI
-          
-          boolean obstacle  = true;
-          break;
+          if (detectedObstacle()) {
+            stop();
+            detectedObstacle = true; // TODO: Consider case where it detects wall
+            break navigation;
+          }
         }
-        
-        
+
+
         if (lightCorrector.isLeftMotorTouched() && lightCorrector.isRightMotorTouched()) {
-          lightCorrector.setCurrX(lightCorrector.getCurrX() + xChange);
-          odometer.setX(lightCorrector.getCurrX() * TILE_SIZE - LIGHT_SENSOR_DISTANCE);
+          this.currX += xChange;
+          odometer.setX(this.currX * TILE_SIZE - LIGHT_SENSOR_DISTANCE);
           if (xChange > 0) {
             odometer.setTheta(90);
           } else {
@@ -209,11 +226,19 @@ public class Navigation {
 
       while (Math.abs(y - odometer.getXYT()[1]) > ERROR_MARGIN) {
         navigateForward(y - odometer.getXYT()[1], MOTOR_SPEED);
-        sleepNavigation();
+        while (LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
+          Main.sleepFor(SLEEPINT);
+          // TODO : OBSTACLE BOI
+          if (detectedObstacle()) {
+            stop();
+            detectedObstacle = true; // Consider case where it detects wall
+            break navigation;
+          }
+        }
 
         if (lightCorrector.isLeftMotorTouched() && lightCorrector.isRightMotorTouched()) {
-          lightCorrector.setCurrY(lightCorrector.getCurrY() + yChange);
-          odometer.setY(lightCorrector.getCurrY() * TILE_SIZE - LIGHT_SENSOR_DISTANCE);
+          this.currY += yChange;
+          odometer.setY(this.currY * TILE_SIZE - LIGHT_SENSOR_DISTANCE);
           travelLightSensorDistance();
           lightCorrector.setBothMotorsToFalse();
           if (yChange > 0) {
@@ -224,7 +249,7 @@ public class Navigation {
         }
 
       }
-    } else {
+    } else { // If tunnel is vertical, navigate along Y-axis first and
 
       // Travel along Y-axis
       if (dy >= 0) {
@@ -242,11 +267,19 @@ public class Navigation {
 
       while (Math.abs(y - odometer.getXYT()[1]) > ERROR_MARGIN) {
         navigateForward(y - odometer.getXYT()[1], MOTOR_SPEED);
-        sleepNavigation();
+        while (LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
+          Main.sleepFor(SLEEPINT);
+          // TODO : OBSTACLE BOI
+          if (detectedObstacle()) {
+            stop();
+            detectedObstacle = true; // Consider case where it detects wall
+            break navigation;
+          }
+        }
 
         if (lightCorrector.isLeftMotorTouched() && lightCorrector.isRightMotorTouched()) {
-          lightCorrector.setCurrY(lightCorrector.getCurrY() + yChange);
-          odometer.setY(lightCorrector.getCurrY() * TILE_SIZE - LIGHT_SENSOR_DISTANCE);
+          this.currY += yChange;
+          odometer.setY(this.currY * TILE_SIZE - LIGHT_SENSOR_DISTANCE);
           if (yChange > 0) {
             odometer.setTheta(0);
           } else {
@@ -271,12 +304,19 @@ public class Navigation {
 
       while (Math.abs(x - odometer.getXYT()[0]) > ERROR_MARGIN) {
         navigateForward(x - odometer.getXYT()[0], MOTOR_SPEED);
-        // wait for certain amount of time, set it to true
-        sleepNavigation();
+        while (LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
+          Main.sleepFor(SLEEPINT);
+          // TODO : OBSTACLE BOI
+          if (detectedObstacle()) {
+            stop();
+            detectedObstacle = true; // Consider case where it detects wall
+            break navigation;
+          }
+        }
 
         if (lightCorrector.isLeftMotorTouched() && lightCorrector.isRightMotorTouched()) {
-          lightCorrector.setCurrX(lightCorrector.getCurrX() + xChange);
-          odometer.setX(lightCorrector.getCurrX() * TILE_SIZE - LIGHT_SENSOR_DISTANCE);
+          this.currX += xChange;
+          odometer.setX(this.currX * TILE_SIZE - LIGHT_SENSOR_DISTANCE);
           if (xChange > 0) {
             odometer.setTheta(90);
           } else {
@@ -287,8 +327,220 @@ public class Navigation {
         }
       }
     }
+
+    if (detectedObstacle) {
+      Main.sleepFor(SLEEPINT);
+      avoidObstacle();
+
+      // TODO After avoiding the obstacle, recalculate destination point (launch point, vs tunnel exit)
+    }
     stop();
     this.traveling = false;
+  }
+
+  private void avoidObstacle() {// TODO
+    // Store current positions
+    double x = odometer.getXYT()[0];
+    double y = odometer.getXYT()[1];
+    double theta = odometer.getXYT()[2];
+
+    // Reference to the four island coordinates
+    double islandLowerLeftX = island.ll.x;
+    double islandLowerLeftY = island.ll.y;
+    double islandUpperRightX = island.ur.x;
+    double islandUpperRightY = island.ur.y;
+
+    // Determine X and Y axis position
+    double yAxis = (island.ur.x - island.ll.x) / 2;
+    double xAxis = (island.ur.y - island.ll.y) / 2;
+
+    if ((x >= yAxis && x <= islandUpperRightX) && (y >= xAxis && y <= islandUpperRightY)) {
+      // If robot is on the first quadrant, i.e. top right
+      if ((theta >= 345 && theta <= 360) || (theta >= 0 && theta <= 15)) { // allowing threshold of 15 degrees
+        // Current orientation is 0
+        turnToExactTheta(270); // turn left
+        // Navigate forward until robot detects a Grid Line
+        travelOneTile();        
+        // Correct odometer 
+        this.currX -= 1;
+        odometer.setX(this.currX*TILE_SIZE);        
+      } else if ((theta >= 75 && theta <= 105)) {
+        // Current orientation is 90
+        turnToExactTheta(180); // turn right
+        // Navigate forward until robot detects a Grid Line
+        travelOneTile();
+        // Correct odometer
+        this.currY -= 1;
+        odometer.setY(this.currY*TILE_SIZE);        
+      } else if ((theta >= 165 && theta <= 195)) {
+        // Current orientation is 180
+        turnToExactTheta(270); // turn right
+        // Navigate forward until robot detects a Grid Line
+        travelOneTile();        
+        // Correct odometer 
+        this.currX -= 1;
+        odometer.setX(this.currX*TILE_SIZE);        
+      } else if ((theta >= 255 && theta <= 285)) {
+        // Current orientation is 270
+        turnToExactTheta(180); // turn left
+        // Navigate forward until robot detects a Grid Line
+        travelOneTile();        
+        // Correct odometer
+        this.currY -= 1;
+        odometer.setY(this.currY*TILE_SIZE);
+      }
+    } else if ((x >= islandLowerLeftX && x <= yAxis) && (y >= xAxis && y <= islandUpperRightY)) {
+      // If robot is on the second quadrant, i.e. top left
+      if ((theta >= 345 && theta <= 360) || (theta >= 0 && theta <= 15)) { // allowing threshold of 15 degrees
+        // Current orientation is 0
+        turnToExactTheta(90); // turn right
+        // Navigate forward until robot detects a Grid Line
+        travelOneTile();        
+        // Correct odometer
+        this.currX += 1;
+        odometer.setX(this.currX*TILE_SIZE);        
+      } else if ((theta >= 75 && theta <= 105)) {
+        // Current orientation is 90
+        turnToExactTheta(180); // turn right
+        // Navigate forward until robot detects a Grid Line
+        travelOneTile();        
+        // Correct odometer
+        this.currY -= 1;
+        odometer.setY(this.currY*TILE_SIZE);        
+      } else if ((theta >= 165 && theta <= 195)) {
+        // Current orientation is 180
+        turnToExactTheta(90); // turn left
+        // Navigate forward until robot detects a Grid Line
+        travelOneTile();
+        // Correct odometer
+        this.currX += 1;
+        odometer.setX(this.currX*TILE_SIZE);
+      } else if ((theta >= 255 && theta <= 285)) {
+        // Current orientation is 270
+        turnToExactTheta(180); // turn left
+        // Navigate forward until robot detects a Grid Line
+        travelOneTile();
+        // Correct odometer
+        this.currY -= 1;
+        odometer.setY(this.currY*TILE_SIZE);
+      }
+    } else if ((x >= islandLowerLeftX && x <= yAxis) && (y >= islandLowerLeftY && y <= xAxis)) {
+      // If robot is on the third quadrant, i.e. bottom left
+      if ((theta >= 345 && theta <= 360) || (theta >= 0 && theta <= 15)) { // allowing threshold of 15 degrees
+        // Current orientation is 0
+        turnToExactTheta(90); // turn right
+        // Navigate forward until robot detects a Grid Line
+        travelOneTile();
+        // Correct odometer
+        this.currX += 1;
+        odometer.setX(this.currX*TILE_SIZE);
+      } else if ((theta >= 75 && theta <= 105)) {
+        // Current orientation is 90
+        turnToExactTheta(0); // turn left
+        // Navigate forward until robot detects a Grid Line
+        travelOneTile();
+        // Correct odometer
+        this.currY += 1;
+        odometer.setY(this.currY*TILE_SIZE);
+      } else if ((theta >= 165 && theta <= 195)) {
+        // Current orientation is 180
+        turnToExactTheta(90); // turn left
+        // Navigate forward until robot detects a Grid Line
+        travelOneTile();
+        // Correct odometer
+        this.currX += 1;
+        odometer.setX(this.currX*TILE_SIZE);
+      } else if ((theta >= 255 && theta <= 285)) {
+        // Current orientation is 270
+        turnToExactTheta(0); // turn right
+        // Navigate forward until robot detects a Grid Line
+        travelOneTile();
+        // Correct odometer
+        this.currY += 1;
+        odometer.setY(this.currY*TILE_SIZE);
+      }
+    } else if ((x >= yAxis && x <= islandUpperRightX) && (y >= islandLowerLeftY && y <= xAxis)) {
+      // If robot is on the forth quadrant, i.e. bottom right
+      if ((theta >= 345 && theta <= 360) || (theta >= 0 && theta <= 15)) { // allowing threshold of 15 degrees
+        // Current orientation is 0
+        turnToExactTheta(270); // turn left
+        // Navigate forward until robot detects a Grid Line
+        travelOneTile();
+        // Correct odometer
+        this.currX -= 1;
+        odometer.setX(this.currX*TILE_SIZE);
+      } else if ((theta >= 75 && theta <= 105)) {
+        // Current orientation is 90
+        turnToExactTheta(0); // turn left
+        // Navigate forward until robot detects a Grid Line
+        travelOneTile();
+        // Correct odometer
+        this.currY += 1;
+        odometer.setY(this.currY*TILE_SIZE);
+      } else if ((theta >= 165 && theta <= 195)) {
+        // Current orientation is 180
+        turnToExactTheta(270); // turn right
+        // Navigate forward until robot detects a Grid Line
+        travelOneTile();
+        // Correct odometer
+        this.currX -= 1;
+        odometer.setX(this.currX*TILE_SIZE);
+      } else if ((theta >= 255 && theta <= 285)) {
+        // Current orientation is 270
+        turnToExactTheta(0); // turn right
+        // Navigate forward until robot detects a Grid Line
+        travelOneTile();
+        // Correct odometer
+        this.currY += 1;
+        odometer.setY(this.currY*TILE_SIZE);
+      }
+    }
+    
+    // Sleep thread 
+    Main.wifi.findLaunchPosition();
+    Main.sleepFor(10*SLEEPINT);
+    travelTo(Main.wifi.getlaunchX(), Main.wifi.getlaunchY()); // TODO BECAREFUL RECURSIVE CALL HERE ...
+  }
+
+  private void travelOneTile() {
+
+    // Travel light sensor distance.
+    travelLightSensorDistance();
+
+    // Navigate Forward One Tile
+    navigateForward(TILE_SIZE, MOTOR_SPEED);
+    while (LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
+      Main.sleepFor(SLEEPINT);
+      // // TODO : OBSTACLE BOI
+      // if (detectedObstacle()) {
+      // stop();
+      // avoidObstacle(); // TODO: Consider case where it detects wall
+      // break;
+      // }
+    }
+
+    // Travel light sensor distance.
+    travelLightSensorDistance();
+
+    // Set corrector back to false after detecting the lines.
+    lightCorrector.setBothMotorsToFalse();
+    
+  }
+
+  /**
+   * Method that returns a boolean depending on whether the robot has detected an obstacle or not.
+   * 
+   * @return boolean indicating if an obstacle has been detected.
+   */
+  private boolean detectedObstacle() {
+    if (sensorPoller.getMode() == Mode.BOTH && ultrasonicLocalizer.readUSDistance() < THRESHOLD) { // sensor poller will
+                                                                                                   // only be in mode
+                                                                                                   // both when it is on
+                                                                                                   // the launching
+                                                                                                   // island
+      return true;
+    }
+    return false;
   }
 
   /**
@@ -329,8 +581,8 @@ public class Navigation {
 
       // Correct before entering tunnel.
       if (lightCorrector.isLeftMotorTouched() && lightCorrector.isRightMotorTouched()) {
-        lightCorrector.setCurrX(lightCorrector.getCurrX() + xChange);
-        odometer.setX(lightCorrector.getCurrX() * TILE_SIZE - LIGHT_SENSOR_DISTANCE);
+        this.currX += xChange;
+        odometer.setX(this.currX * TILE_SIZE - LIGHT_SENSOR_DISTANCE);
         if (xChange > 0) {
           odometer.setTheta(90);
         } else {
@@ -346,13 +598,13 @@ public class Navigation {
       sensorPoller.setMode(Mode.IDLE);
 
       // Travel two tiles.
-      navigateForward(2 * TILE_SIZE + 0.5*TILE_SIZE, TUNNEL_SPEED);
+      navigateForward(2 * TILE_SIZE + 0.5 * TILE_SIZE, TUNNEL_SPEED);
       sleepNavigation();
       stop();
 
       // Sleep thread.
       Main.sleepFor(TUNNEL_SLEEP);
-      
+
       // Turn sensor polling on.
       sensorPoller.setMode(Mode.LIGHT);
 
@@ -361,8 +613,8 @@ public class Navigation {
         navigateForward(x - odometer.getXYT()[0], MOTOR_SPEED);
         sleepNavigation();
         if (lightCorrector.isLeftMotorTouched() && lightCorrector.isRightMotorTouched()) {
-          lightCorrector.setCurrX(lightCorrector.getCurrX() + 3 * xChange);
-          odometer.setX(lightCorrector.getCurrX() * TILE_SIZE - LIGHT_SENSOR_DISTANCE);          
+          this.currX += 3 * xChange;
+          odometer.setX(this.currX * TILE_SIZE - LIGHT_SENSOR_DISTANCE);
           travelLightSensorDistance();
           lightCorrector.setBothMotorsToFalse();
           if (xChange > 0) {
@@ -374,23 +626,21 @@ public class Navigation {
       }
 
       // Travel to latest recorded y.
-      double lastY = lightCorrector.getCurrY() * TILE_SIZE - odometer.getXYT()[1];
+      double lastY = this.currY * TILE_SIZE - odometer.getXYT()[1];
 
       // Turn towards latest y.
       if (lastY >= 0) {
         turnToExactTheta(0);
-        navigateForward(lightCorrector.getCurrY() * TILE_SIZE - odometer.getXYT()[1], MOTOR_SPEED);
+        navigateForward(this.currY * TILE_SIZE - odometer.getXYT()[1], MOTOR_SPEED);
       } else {
         turnToExactTheta(180);
-        navigateForward(odometer.getXYT()[1] - lightCorrector.getCurrY() * TILE_SIZE, MOTOR_SPEED);
+        navigateForward(odometer.getXYT()[1] - this.currY * TILE_SIZE, MOTOR_SPEED);
       }
-      
-      
 
       sleepNavigation();
 
       if (lightCorrector.isLeftMotorTouched() && lightCorrector.isRightMotorTouched()) {
-        odometer.setY(lightCorrector.getCurrY() * TILE_SIZE - LIGHT_SENSOR_DISTANCE);
+        odometer.setY(this.currY * TILE_SIZE - LIGHT_SENSOR_DISTANCE);
         travelLightSensorDistance();
         lightCorrector.setBothMotorsToFalse();
         if (lastY >= 0) {
@@ -398,7 +648,7 @@ public class Navigation {
         } else {
           odometer.setTheta(180);
         }
-      } 
+      }
     } else {
       // First travel along X-axis, then travel along Y-axis
       if (dy >= 0) {
@@ -418,8 +668,8 @@ public class Navigation {
 
       // Correct before entering tunnel.
       if (lightCorrector.isLeftMotorTouched() && lightCorrector.isRightMotorTouched()) {
-        lightCorrector.setCurrY(lightCorrector.getCurrY() + yChange);
-        odometer.setY(lightCorrector.getCurrY() * TILE_SIZE - LIGHT_SENSOR_DISTANCE);
+        this.currY += yChange;
+        odometer.setY(this.currY * TILE_SIZE - LIGHT_SENSOR_DISTANCE);
         if (yChange > 0) {
           odometer.setTheta(0);
         } else {
@@ -435,13 +685,13 @@ public class Navigation {
       sensorPoller.setMode(Mode.IDLE);
 
       // Travel two tiles.
-      navigateForward(2 * TILE_SIZE + 0.5*TILE_SIZE, TUNNEL_SPEED);
+      navigateForward(2 * TILE_SIZE + 0.5 * TILE_SIZE, TUNNEL_SPEED);
       sleepNavigation();
       stop();
 
       // Sleep thread.
       Main.sleepFor(TUNNEL_SLEEP);
-      
+
       // Turn sensor polling on.
       sensorPoller.setMode(Mode.LIGHT);
 
@@ -450,8 +700,8 @@ public class Navigation {
         navigateForward(y - odometer.getXYT()[1], MOTOR_SPEED);
         sleepNavigation();
         if (lightCorrector.isLeftMotorTouched() && lightCorrector.isRightMotorTouched()) {
-          lightCorrector.setCurrY(lightCorrector.getCurrY() + 3 * yChange);
-          odometer.setY(lightCorrector.getCurrY() * TILE_SIZE - LIGHT_SENSOR_DISTANCE);
+          this.currY += 3 * yChange;
+          odometer.setY(this.currY * TILE_SIZE - LIGHT_SENSOR_DISTANCE);
           travelLightSensorDistance();
           lightCorrector.setBothMotorsToFalse();
           if (yChange > 0) {
@@ -463,22 +713,22 @@ public class Navigation {
       }
 
       // Travel to latest recorded x.
-      double lastX = lightCorrector.getCurrX() * TILE_SIZE - odometer.getXYT()[0];
-      
+      double lastX = this.currX * TILE_SIZE - odometer.getXYT()[0];
+
       // Turn towards latest y.
       if (lastX >= 0) {
         turnToExactTheta(90);
-        navigateForward(lightCorrector.getCurrX() * TILE_SIZE - odometer.getXYT()[0], MOTOR_SPEED);
+        navigateForward(this.currX * TILE_SIZE - odometer.getXYT()[0], MOTOR_SPEED);
       } else {
         System.out.println("Turned 270");
         turnToExactTheta(270);
-        navigateForward(odometer.getXYT()[0] - lightCorrector.getCurrX() * TILE_SIZE, MOTOR_SPEED);
+        navigateForward(odometer.getXYT()[0] - this.currX * TILE_SIZE, MOTOR_SPEED);
       }
 
       sleepNavigation();
 
       if (lightCorrector.isLeftMotorTouched() && lightCorrector.isRightMotorTouched()) {
-        odometer.setX(lightCorrector.getCurrX() * TILE_SIZE - LIGHT_SENSOR_DISTANCE);
+        odometer.setX(this.currX * TILE_SIZE - LIGHT_SENSOR_DISTANCE);
         travelLightSensorDistance();
         lightCorrector.setBothMotorsToFalse();
         if (lastX >= 0) {
@@ -633,4 +883,25 @@ public class Navigation {
   public void setDestY(double destY) {
     this.destY = destY;
   }
+
+  public int getCurrX() {
+    return currX;
+  }
+
+  public void setCurrX(int currX) {
+    this.currX = currX;
+  }
+
+  public int getCurrY() {
+    return currY;
+  }
+
+  public void setCurrY(int currY) {
+    this.currY = currY;
+  }
+
+  public boolean isDetectedObstacle() {
+    return this.detectedObstacle;
+  }
+
 }
