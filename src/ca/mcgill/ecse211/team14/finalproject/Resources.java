@@ -27,7 +27,7 @@ public class Resources {
    * The IP address of the server that transmits data to the robot. Set this to the default for the
    * beta demo and competition.
    */
-  public static final String SERVER_IP = "192.168.2.10";    //TODO: change this
+  public static final String SERVER_IP = "192.168.43.171";    //TODO: change this
   
   /**
    * Your team number.
@@ -46,12 +46,12 @@ public class Resources {
 	/**
 	 * The wheel radius in centimeters.
 	 */
-	public static final double WHEEL_RAD = 2.10; 
+	public static final double WHEEL_RAD = 2.0275; 
 
 	/**
 	 * The robot's width in centimeters.
 	 */
-	public static final double TRACK = 15.10; 
+	public static final double TRACK = 15.65; // 15.10
 
 	/**
 	 * Turning 90 degrees to start position parallel the wall. 
@@ -81,7 +81,7 @@ public class Resources {
 	/**
 	 * Tunnel speed. 
 	 */
-	public static final int TUNNEL_SPEED = 300;
+	public static final int TUNNEL_SPEED = 500;
 	
 	/**
 	 * Tunnel sleep.
@@ -106,7 +106,7 @@ public class Resources {
 	/**
 	 * Error margin at each waypoint.
 	 */
-	public static final double ERROR_MARGIN = 0.5;
+	public static final double ERROR_MARGIN = 2.5;
 	
 	/**
 	 * Sleep interval = 50ms = 20 Hz.
@@ -116,7 +116,7 @@ public class Resources {
    /**
      * Sleep interval for light sensor.
      */
-    public static final int LIGHT_SLEEPINT = 40;
+    public static final int LIGHT_SLEEPINT = 10;
 	
 	/**
 	 * The tile size in centimeters.

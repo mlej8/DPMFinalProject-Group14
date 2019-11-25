@@ -88,7 +88,7 @@ public class SensorPoller implements Runnable {
 //                pController.processTwoUSData((int) (usDataFront[0] * 100.0), (int) (usDataLeft[0] * 100.0));
                 ultrasonicLocalizer.processUSData((int) (usDataFront[0] * 100.0));
             }
-            if (mode==Mode.LIGHT) {
+            if (mode==Mode.LIGHT && mode==Mode.BOTH) {
               Main.sleepFor(LIGHT_SLEEPINT);
             }else {
               Main.sleepFor(SLEEPINT);

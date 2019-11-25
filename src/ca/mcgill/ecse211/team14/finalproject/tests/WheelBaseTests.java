@@ -5,18 +5,18 @@ import lejos.hardware.Button;
 
 public class WheelBaseTests {
     public static void main(String args[]) { 
-      int buttonChoice = -1;
-      
-      showText("Press Right      ","Button to start  ");
-      
-      while(buttonChoice != Button.ID_RIGHT) {
-        buttonChoice = Button.waitForAnyPress();
-      }
+//      int buttonChoice = -1;
+//      
+//      showText("Press Right      ","Button to start  ");
+//      
+//      while(buttonChoice != Button.ID_RIGHT) {
+//        buttonChoice = Button.waitForAnyPress();
+//      }
       
       // Test wheel base by rotating the robot 360 degrees.
       LEFT_MOTOR.setSpeed(ROTATE_SPEED);
       RIGHT_MOTOR.setSpeed(ROTATE_SPEED);
-      navigator.rotate(360);   
+      navigator.turnToExactTheta(180);
       
   	  // Do nothing until exit button is pressed, then exit.	
 		while (Button.waitForAnyPress() != Button.ID_ESCAPE)

@@ -27,16 +27,11 @@ public class Main {
 	static Thread sensorPollerThread = new Thread(sensorPoller);
 	
 	public static void main(String args[]) {  
-//	    
-//
-	    // TODO: Step 1. Receive parameters from the game controller
 	    wifi = new WIFI();
-	    System.out.println("startX = "+wifi.getStartX() + ", startY = "+wifi.getStartY() + ", startT = "+wifi.getStartT());
+	    System.out.println("startX = "+ wifi.getStartX() + ", startY = "+wifi.getStartY() + ", startT = "+wifi.getStartT());
 	    System.out.println("tunnelEn = "+"("+wifi.getTunnelEnX()+", "+wifi.getTunnelEnY()+")"+
 	    ", tunnelEx = "+"("+wifi.getTunnelExX()+", "+wifi.getTunnelExY()+")");
-    
-        waitForPress();        //To be deleted
-
+	    
 		// Start odometer and sensor poller thread
 		odometerThread.start(); 
 		sensorPollerThread.start();
@@ -47,64 +42,64 @@ public class Main {
 
 		// TODO: Navigate to (1,1) within 30 seconds
 		navigator.travelToGridIntersection();
-		Main.sleepFor(SLEEPINT);
 		
 		// Set startPoint (x,y,t) to odometer (e.g. at corner 0, the angle is 90)
 		odometer.setXYT(wifi.getStartX()*TILE_SIZE, wifi.getStartY()*TILE_SIZE, wifi.getStartT());
-		navigator.setCurrY(wifi.getStartY());
 		navigator.setCurrX(wifi.getStartX()); 
+		navigator.setCurrY(wifi.getStartY());
 				   
 		// TODO: Beep when in place
-		stopAndBeep(1);
+		stopAndBeep(3);
 		
 		// TODO: Navigate to the Tunnel entrance 
 		navigator.travelTo(wifi.getTunnelEnX(), wifi.getTunnelEnY()); 
-//		System.out.println("x: " + lightCorrector.getCurrX() + " y: " + lightCorrector.getCurrY());
-		System.out.println("Travelled to tunnel Entrance");
-		System.out.println("Odometer Reading:"+odometer.getXYT()[0]+","+odometer.getXYT()[1]+","+odometer.getXYT()[2]);
+		System.out.println("x: " + navigator.getCurrX() + " y: " + navigator.getCurrY());
+		System.out.println("Before entering tunnel Odometer Reading:"+odometer.getXYT()[0]+","+odometer.getXYT()[1]+","+odometer.getXYT()[2]);
 		
 		// TODO: Traverse the Tunnel to the Island 
-		navigator.stop();     
+		navigator.stop(); 
 		
-		navigator.traverseTunnel(wifi.getTunnelExX(), wifi.getTunnelExY()); 	
+		if (wifi.getTunnelHeight() != wifi.getTunnelWidth()) {		
+		navigator.traverseDoubleTunnel(wifi.getTunnelExX(), wifi.getTunnelExY());
+		} else {
+		  navigator.traverseSingleTunnel(wifi.getTunnelExX(), wifi.getTunnelExY());
+		}
 		
+        System.out.println("Traversed Tunnel x: " + navigator.getCurrX() + " y: " + navigator.getCurrY());
+        System.out.println("Exit Tunnel Odometer Reading:"+odometer.getXYT()[0]+","+odometer.getXYT()[1]+","+odometer.getXYT()[2]);
+        
 		// Set launch position
-		wifi.findLaunchPosition();
+//		wifi.findLaunchPosition();
+//		System.out.println("Launch X" + wifi.getlaunchX() + " Y " + wifi.getlaunchY());
+		
 //		
 //		// TODO: Navigate to bin x and bin y
 //		navigator.travelTo(wifi.getlaunchX(), wifi.getlaunchY());
-
-		
+//
 //		// Turn to exact orientation
 //		navigator.turnToExactTheta(targetAngle); 
 //
 //		// TODO: Step 6. Launch the ball a minimum distance of 4 tiles, stop and beep 
-		BallLauncher ballLauncher = new BallLauncher();
-		ballLauncher.launch();	
-//		stopAndBeep(1);
+//		BallLauncher ballLauncher = new BallLauncher();
+//		ballLauncher.launch();	
+//		stopAndBeep(5);
+//		
+//		// TODO: Travel back to tunnel
+        
+        System.out.println("Tunnel exit X: " + wifi.getTunnelExX() + " Y: " + wifi.getTunnelExY());
+		navigator.travelTo(wifi.getTunnelExX(), wifi.getTunnelExY());
+		System.out.println("Arrived at Tunnel Exit X " +  odometer.getXYT()[0] + " Y " + odometer.getXYT()[1] + " T " + odometer.getXYT()[2]);
 		
-		// TODO: Michael: Do light snesor correction to navigate to closest point
-		// i.e. navigate to first line and turn right 90 degrees and stop when detect
-		// both lines again, then turn right.
+		// TODO: Pass Tunnel 
+		navigator.traverseDoubleTunnel(wifi.getTunnelEnX(), wifi.getTunnelEnY());
+	
+		System.out.println("Back to Tunnel Entrance X " +  odometer.getXYT()[0] + " Y " + odometer.getXYT()[1] + " T " + odometer.getXYT()[2]);
+       
+		// Navigate back to starting point 
+		navigator.travelTo(wifi.getStartX()*TILE_SIZE, wifi.getlaunchY()*TILE_SIZE);
 
-		// TODO: Stop and beeps for 3 times
-//		stopAndBeep(3);
-
-
-		// TODO: Travel to tunnel
-//		navigator.travelTo(wifi.getTunnelEnX(), wifi.getTunnelEnY());
-
-		// TODO: Pass the tunnel (Go straight until detected 4 lines? (Travel through a
-		// certain amount of distance). Think about a way to do it...
-//		sensorPoller.setMode(Mode.IDLE);
-//		navigator.travelTo(wifi.getTunnelExX(), wifi.getTunnelExY());
-
-		// turn off light correction
-//		LEFT_MOTOR.rotate(Converter.convertDistance(2.5*TILE_SIZE));
-//		RIGHT_MOTOR.rotate(Converter.convertDistance(2.5*TILE_SIZE));
-		// turn on the light correction
-//		LEFT_MOTOR.rotate(Converter.convertDistance(0.5*TILE_SIZE));
-//		RIGHT_MOTOR.rotate(Converter.convertDistance(0.5*TILE_SIZE));
+        // TODO: Stop and beep for 5 times
+        stopAndBeep(5);
 		
 		// TODO: Set to BOTH mode (LIGHT and US mode for Sensor Poller)		
 		// TODO: Start obstacle avoidance thread...? or nah Should make into a thread or not? 
@@ -136,8 +131,6 @@ public class Main {
 		// TODO: To starting point
 		// navigator.travelTo(wifi.getStartX(), wifi.getStartY());
 
-		// TODO: Stop and beep for 5 times
-//		stopAndBeep(5);
 
 		// Do nothing until exit button is pressed, then exit.	
 		while (Button.waitForAnyPress() != Button.ID_ESCAPE)
