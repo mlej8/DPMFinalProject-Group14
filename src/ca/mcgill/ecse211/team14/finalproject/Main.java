@@ -28,16 +28,17 @@ public class Main {
 	
 	public static void main(String args[]) {  
 //	    
-//	    waitForPress();		
 //
-//	    // TODO: Step 1. Receive parameters from the game controller
-//	    wifi = new WIFI();
-//
-//	    System.out.println("Tunnel Entrance: "+ wifi.getTunnelEnX()+", "+ wifi.getTunnelEnY());
-//	    System.out.println("Tunnel Exit: "+ wifi.getTunnelExX()+", "+ wifi.getTunnelExY());
-//	    
+	    // TODO: Step 1. Receive parameters from the game controller
+	    wifi = new WIFI();
+	    System.out.println("startX = "+wifi.getStartX() + ", startY = "+wifi.getStartY() + ", startT = "+wifi.getStartT());
+	    System.out.println("tunnelEn = "+"("+wifi.getTunnelEnX()+", "+wifi.getTunnelEnY()+")"+
+	    ", tunnelEx = "+"("+wifi.getTunnelExX()+", "+wifi.getTunnelExY()+")");
+    
+        waitForPress();        //To be deleted
+
 		// Start odometer and sensor poller thread
-		odometerThread.start();
+		odometerThread.start(); 
 		sensorPollerThread.start();
         
 		// Falling Edge	
@@ -50,34 +51,35 @@ public class Main {
 		// Set startPoint (x,y,t) to odometer (e.g. at corner 0, the angle is 90)
 		odometer.setXYT(wifi.getStartX()*TILE_SIZE, wifi.getStartY()*TILE_SIZE, wifi.getStartT());
 		navigator.setCurrY(wifi.getStartY());
-		navigator.setCurrX(wifi.getStartX());
-//		   
-//		// TODO: Beep when in place
-//		stopAndBeep(1);
-//		
-//		// TODO: Navigate to the Tunnel entrance 
-//		navigator.travelTo(wifi.getTunnelEnX(), wifi.getTunnelEnY()); 
+		navigator.setCurrX(wifi.getStartX()); 
+				   
+		// TODO: Beep when in place
+		stopAndBeep(1);
+		
+		// TODO: Navigate to the Tunnel entrance 
+		navigator.travelTo(wifi.getTunnelEnX(), wifi.getTunnelEnY()); 
 //		System.out.println("x: " + lightCorrector.getCurrX() + " y: " + lightCorrector.getCurrY());
-//		System.out.println("Travelled to tunnel Entrance");
-//		System.out.println("Odometer Reading:"+odometer.getXYT()[0]+","+odometer.getXYT()[1]+","+odometer.getXYT()[2]);
-//		
-//		// TODO: Traverse the Tunnel to the Island 
-//		navigator.stop();     
-//		
-//		navigator.traverseTunnel(wifi.getTunnelExX(), wifi.getTunnelExY()); 	
-//		
-//		// Set launch position
-//		wifi.findLaunchPosition();
+		System.out.println("Travelled to tunnel Entrance");
+		System.out.println("Odometer Reading:"+odometer.getXYT()[0]+","+odometer.getXYT()[1]+","+odometer.getXYT()[2]);
+		
+		// TODO: Traverse the Tunnel to the Island 
+		navigator.stop();     
+		
+		navigator.traverseTunnel(wifi.getTunnelExX(), wifi.getTunnelExY()); 	
+		
+		// Set launch position
+		wifi.findLaunchPosition();
 //		
 //		// TODO: Navigate to bin x and bin y
 //		navigator.travelTo(wifi.getlaunchX(), wifi.getlaunchY());
-//
+
+		
 //		// Turn to exact orientation
 //		navigator.turnToExactTheta(targetAngle); 
 //
 //		// TODO: Step 6. Launch the ball a minimum distance of 4 tiles, stop and beep 
-//		BallLauncher ballLauncher = new BallLauncher();
-//		ballLauncher.launch();	
+		BallLauncher ballLauncher = new BallLauncher();
+		ballLauncher.launch();	
 //		stopAndBeep(1);
 		
 		// TODO: Michael: Do light snesor correction to navigate to closest point
