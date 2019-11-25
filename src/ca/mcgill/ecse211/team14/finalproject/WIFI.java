@@ -115,10 +115,10 @@ public class WIFI {
     this.launchY = binY * TILE_SIZE + dy;
     this.launchX = binX * TILE_SIZE + dx;
 
-    double top = island.ur.y * TILE_SIZE;
-    double bottom = island.ll.y * TILE_SIZE;
-    double left = island.ll.x * TILE_SIZE;
-    double right = island.ur.x * TILE_SIZE;
+    double top = (island.ur.y-1) * TILE_SIZE;
+    double bottom = (island.ll.y+1) * TILE_SIZE;
+    double left = (island.ll.x+1) * TILE_SIZE;
+    double right = (island.ur.x-1) * TILE_SIZE;
 
     Point center = new Point(this.binX * TILE_SIZE, this.binY * TILE_SIZE);
     ArrayList<Point> intersections = new ArrayList<Point>();
@@ -145,6 +145,16 @@ public class WIFI {
 
       this.launchX = nearestPoint.x;
       this.launchY = nearestPoint.y;
+      
+      // test whether launchX/Y on the circle
+      double diffX = Math.abs(this.binX - this.launchX);
+      double diffY = Math.abs(this.binY - this.launchY);
+      double dist = Math.hypot(diffX, diffY);
+      if(Math.abs(dist - LAUNCH_RANGE*TILE_SIZE) < 10) {
+        System.out.println("On the circle!!!");
+      }else {
+        System.out.println("!!!!!!NOT ON THE CIRCLE!!!!!");
+      }
     }
 
   }

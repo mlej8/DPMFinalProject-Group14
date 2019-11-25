@@ -96,6 +96,67 @@ public class findDestMethodTests {
     intersects.add(p2);
   }
   
+  /**
+   * This method uses the given target position (binX,binY) to find the ideal launching position.
+   */
+//  public void findLaunchPosition() {
+//
+//    double currentX = odometer.getXYT()[0];
+//    double currentY = odometer.getXYT()[1];
+//
+//    double theta = Math.atan2(currentX - binX * TILE_SIZE, currentY - binY * TILE_SIZE);
+//
+//    double dx, dy;
+//    // calculate the intersection of the circle and the line
+//    dy = LAUNCH_RANGE * Math.cos(-theta) * TILE_SIZE;
+//    dx = LAUNCH_RANGE * Math.sin(theta) * TILE_SIZE;
+//    this.launchY = binY * TILE_SIZE + dy;
+//    this.launchX = binX * TILE_SIZE + dx;
+//
+//    double top = (island.ur.y-1) * TILE_SIZE;
+//    double bottom = (island.ll.y+1) * TILE_SIZE;
+//    double left = (island.ll.x+1) * TILE_SIZE;
+//    double right = (island.ur.x-1) * TILE_SIZE;
+//
+//    Point center = new Point(this.binX * TILE_SIZE, this.binY * TILE_SIZE);
+//    ArrayList<Point> intersections = new ArrayList<Point>();
+//
+//    if (launchX <= left || launchX >= right || launchY <= bottom || launchY >= top) {
+//      calculateIntersectionX(center, LAUNCH_RANGE * TILE_SIZE, currentX, intersections);
+//      calculateIntersectionY(center, LAUNCH_RANGE * TILE_SIZE, currentY, intersections);
+//      int index = 0;
+//      for (Point p : intersections) {
+//        if (p.x <= left || p.x >= right || p.y <= bottom || p.y >= top) {
+//          intersections.remove(index);
+//        }
+//        index++;
+//      }
+//      double minDist = distance(intersections.get(0));
+//      Point nearestPoint = intersections.get(0);
+//      for (Point p : intersections) {
+//        double d = distance(p);
+//        if (d < minDist) {
+//          minDist = d;
+//          nearestPoint = p;
+//        }
+//      }
+//
+//      this.launchX = nearestPoint.x;
+//      this.launchY = nearestPoint.y;
+//      
+//      // test whether launchX/Y on the circle
+//      double diffX = Math.abs(this.binX - this.launchX);
+//      double diffY = Math.abs(this.binY - this.launchY);
+//      double dist = Math.hypot(diffX, diffY);
+//      if(Math.abs(dist - LAUNCH_RANGE*TILE_SIZE) < 10) {
+//        System.out.println("On the circle!!!");
+//      }else {
+//        System.out.println("!!!!!!NOT ON THE CIRCLE!!!!!");
+//      }
+//    }
+//
+//  }
+  
   private static double keep3Digits(double number) {
     double n = 0;
     if(number < 0) {
