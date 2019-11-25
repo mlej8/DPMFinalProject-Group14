@@ -47,6 +47,7 @@ public class Main {
 
 		// TODO: Navigate to (1,1) within 30 seconds
 		navigator.travelToGridIntersection();
+		Main.sleepFor(SLEEPINT);
 		
 		// Set startPoint (x,y,t) to odometer (e.g. at corner 0, the angle is 90)
 		odometer.setXYT(wifi.getStartX()*TILE_SIZE, wifi.getStartY()*TILE_SIZE, wifi.getStartT());
