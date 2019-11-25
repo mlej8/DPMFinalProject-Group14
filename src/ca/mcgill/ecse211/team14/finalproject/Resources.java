@@ -81,12 +81,12 @@ public class Resources {
 	/**
 	 * Tunnel speed. 
 	 */
-	public static final int TUNNEL_SPEED = 500;
+	public static final int TUNNEL_SPEED = 1000;
 	
 	/**
 	 * Tunnel sleep.
 	 */
-	public static final int TUNNEL_SLEEP= 3000;
+	public static final int TUNNEL_SLEEP= 1000;
     
 	/**
 	 * Number of times to filter out (ignore) data.
@@ -106,7 +106,7 @@ public class Resources {
 	/**
 	 * Error margin at each waypoint.
 	 */
-	public static final double ERROR_MARGIN = 2.5;
+	public static final double ERROR_MARGIN = 3.5;
 	
 	/**
 	 * Sleep interval = 50ms = 20 Hz.

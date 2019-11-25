@@ -69,26 +69,28 @@ public class Main {
         System.out.println("Exit Tunnel Odometer Reading:"+odometer.getXYT()[0]+","+odometer.getXYT()[1]+","+odometer.getXYT()[2]);
         
 		// Set launch position
-//		wifi.findLaunchPosition();
-//		System.out.println("Launch X" + wifi.getlaunchX() + " Y " + wifi.getlaunchY());
+		wifi.findLaunchPosition();
+		System.out.println("Launch X" + wifi.getlaunchX() + " Y " + wifi.getlaunchY());
+		Main.sleepFor(SLEEPINT);
 		
-//		
-//		// TODO: Navigate to bin x and bin y
-//		navigator.travelTo(wifi.getlaunchX(), wifi.getlaunchY());
-//
-//		// Turn to exact orientation
-//		navigator.turnToExactTheta(targetAngle); 
-//
-//		// TODO: Step 6. Launch the ball a minimum distance of 4 tiles, stop and beep 
-//		BallLauncher ballLauncher = new BallLauncher();
-//		ballLauncher.launch();	
-//		stopAndBeep(5);
-//		
-//		// TODO: Travel back to tunnel
-        
-        System.out.println("Tunnel exit X: " + wifi.getTunnelExX() + " Y: " + wifi.getTunnelExY());
-		navigator.travelTo(wifi.getTunnelExX(), wifi.getTunnelExY());
-		System.out.println("Arrived at Tunnel Exit X " +  odometer.getXYT()[0] + " Y " + odometer.getXYT()[1] + " T " + odometer.getXYT()[2]);
+		// TODO: Navigate to bin x and bin y
+		navigator.travelTo(1*TILE_SIZE, 8*TILE_SIZE);
+//		    wifi.getlaunchX(), wifi.getlaunchY());
+
+		// Turn to exact orientation
+		navigator.turnToExactTheta(90);
+//		    targetAngle); 
+
+		// TODO: Step 6. Launch the ball a minimum distance of 4 tiles, stop and beep 
+		BallLauncher ballLauncher = new BallLauncher();
+		ballLauncher.launch();	
+		stopAndBeep(5);
+		
+		//
+		Main.sleepFor(SLEEPINT*20);
+		
+		// TODO: Travel back to tunnel        
+        navigator.travelTo(wifi.getTunnelExX(), wifi.getTunnelExY());
 		
 		// TODO: Pass Tunnel 
 		navigator.traverseDoubleTunnel(wifi.getTunnelEnX(), wifi.getTunnelEnY());
