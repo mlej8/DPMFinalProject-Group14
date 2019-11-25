@@ -12,7 +12,7 @@ public class LightCorrection {
   /**
    * Maximum ratio for last intensity compared to current intensity when there is no black line.
    */
-  protected static final double LEFT_INTENSITY_RATIO = 1.15;
+  protected static final double LEFT_INTENSITY_RATIO = 1.1;
   
   /**
    * Maximum ratio for last intensity compared to current intensity when there is no black line.

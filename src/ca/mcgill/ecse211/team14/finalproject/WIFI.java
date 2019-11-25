@@ -72,12 +72,12 @@ public class WIFI {
   /**
    * Tunnel width.
    */
-  private int tunnelWidth; // TODO: keep this?
+  private double tunnelWidth; // TODO: keep this?
 
   /**
    * Tunnel height.
    */
-  private int tunnelHeight;
+  private double tunnelHeight;
 
   public WIFI() {
     setBinPosition();
@@ -103,8 +103,10 @@ public class WIFI {
    */
   public void findLaunchPosition() {
 
-    double currentX = odometer.getXYT()[0];
-    double currentY = odometer.getXYT()[1];
+//    double currentX = odometer.getXYT()[0];
+//    double currentY = odometer.getXYT()[1];
+    double currentX = this.tunnelExX;
+    double currentY = this.tunnelExY;
 
     double theta = Math.atan2(currentX - binX * TILE_SIZE, currentY - binY * TILE_SIZE);
 
@@ -260,13 +262,17 @@ public class WIFI {
       startArea = green;
     }
 
-    double w = tunnelArea.ur.x - tunnelArea.ll.x;
-    double h = tunnelArea.ur.y - tunnelArea.ll.y;
-    if (w != h) {
+    // TODO: Considering current start area corner's coordinate and tunnel's coordinates, compute whether tunnel is
+    // horizontal or vertical
+    // TODO: Compute tunnel's width and tunnel's height: width = 1, height = 2?
+
+    this.tunnelWidth = tunnelArea.ur.x - tunnelArea.ll.x;
+    this.tunnelHeight = tunnelArea.ur.y - tunnelArea.ll.y;
+    if (this.tunnelWidth != this.tunnelHeight) {
       // 2*1 tunnel
       switch (startCorner) {
         case 0:
-          if (w > h) {
+          if (this.tunnelWidth > this.tunnelHeight) {
             isTunnelHorizontal = true;
             tunnelEnX = (tunnelArea.ll.x - 1) * TILE_SIZE;
             tunnelEnY = (tunnelArea.ll.y + 0.5) * TILE_SIZE;
@@ -281,7 +287,7 @@ public class WIFI {
           }
           break;
         case 1:
-          if (w > h) {
+          if (this.tunnelWidth > this.tunnelHeight) {
             isTunnelHorizontal = true;
             tunnelEnX = (tunnelArea.ur.x + 1) * TILE_SIZE;
             tunnelEnY = (tunnelArea.ll.y + 0.5) * TILE_SIZE;
@@ -296,7 +302,7 @@ public class WIFI {
           }
           break;
         case 2:
-          if (w > h) {
+          if (this.tunnelWidth > this.tunnelHeight) {
             isTunnelHorizontal = true;
             tunnelEnX = (tunnelArea.ur.x + 1) * TILE_SIZE;
             tunnelEnY = (tunnelArea.ll.y + 0.5) * TILE_SIZE;
@@ -311,7 +317,7 @@ public class WIFI {
           }
           break;
         case 3:
-          if (w > h) {
+          if (this.tunnelWidth > this.tunnelHeight) {
             isTunnelHorizontal = true;
             tunnelEnX = (tunnelArea.ll.x - 1) * TILE_SIZE;
             tunnelEnY = (tunnelArea.ll.y + 0.5) * TILE_SIZE;
@@ -461,11 +467,11 @@ public class WIFI {
     this.isTunnelHorizontal = isHorizontal;
   }
 
-  public int getTunnelHeight() {
+  public double getTunnelHeight() {
     return tunnelHeight;
   }
 
-  public int getTunnelWidth() {
+  public double getTunnelWidth() {
     return tunnelWidth;
   }
 
