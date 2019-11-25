@@ -72,7 +72,6 @@ public class SensorPoller implements Runnable {
                                                                           // memory storage used to
                                                                           // temporarily store data while it is being moved from one place to
                                                                           // another), convert to cm, cast to int
-            System.out.println(usDataFront[0] * 100.0);
             } else if (mode==Mode.LIGHT) {
               leftLightSensor.getRedMode().fetchSample(leftLightData, 0);
               rightLightSensor.getRedMode().fetchSample(rightLightData, 0);
