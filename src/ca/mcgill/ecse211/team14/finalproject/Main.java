@@ -29,14 +29,14 @@ public class Main {
 	public static void main(String args[]) {  
 //	    
 //
+      waitForPress();        //To be deleted
+
 	    // TODO: Step 1. Receive parameters from the game controller
 	    wifi = new WIFI();
 	    System.out.println("startX = "+wifi.getStartX() + ", startY = "+wifi.getStartY() + ", startT = "+wifi.getStartT());
 	    System.out.println("tunnelEn = "+"("+wifi.getTunnelEnX()+", "+wifi.getTunnelEnY()+")"+
 	    ", tunnelEx = "+"("+wifi.getTunnelExX()+", "+wifi.getTunnelExY()+")");
     
-        waitForPress();        //To be deleted
-
 		// Start odometer and sensor poller thread
 		odometerThread.start(); 
 		sensorPollerThread.start();

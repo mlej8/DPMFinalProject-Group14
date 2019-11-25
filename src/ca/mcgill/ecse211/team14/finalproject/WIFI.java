@@ -2,6 +2,7 @@ package ca.mcgill.ecse211.team14.finalproject;
 
 import static ca.mcgill.ecse211.team14.finalproject.Resources.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Map;
 import ca.mcgill.ecse211.wificlient.WifiConnection;
 
@@ -105,20 +106,92 @@ public class WIFI {
     double currentX = odometer.getXYT()[0];
     double currentY = odometer.getXYT()[1];
 
-    double theta = Math.atan2(currentX - binX, currentY - binY);
+    double theta = Math.atan2(currentX - binX * TILE_SIZE, currentY - binY * TILE_SIZE);
 
     double dx, dy;
     // calculate the intersection of the circle and the line
-    dy = LAUNCH_RANGE * Math.cos(-theta);
-    dx = LAUNCH_RANGE * Math.sin(theta);
-    this.launchY = binY + dy;
-    this.launchX = binX + dx;
+    dy = LAUNCH_RANGE * Math.cos(-theta) * TILE_SIZE;
+    dx = LAUNCH_RANGE * Math.sin(theta) * TILE_SIZE;
+    this.launchY = binY * TILE_SIZE + dy;
+    this.launchX = binX * TILE_SIZE + dx;
 
-    int launchx = (int) this.launchX;
-    int launchy = (int) this.launchY;
+    double top = island.ur.y * TILE_SIZE;
+    double bottom = island.ll.y * TILE_SIZE;
+    double left = island.ll.x * TILE_SIZE;
+    double right = island.ur.x * TILE_SIZE;
 
-    this.launchX = launchx * TILE_SIZE;
-    this.launchY = launchy * TILE_SIZE;
+    Point center = new Point(this.binX * TILE_SIZE, this.binY * TILE_SIZE);
+    ArrayList<Point> intersections = new ArrayList<Point>();
+
+    if (launchX <= left || launchX >= right || launchY <= bottom || launchY >= top) {
+      calculateIntersectionX(center, LAUNCH_RANGE * TILE_SIZE, currentX, intersections);
+      calculateIntersectionY(center, LAUNCH_RANGE * TILE_SIZE, currentY, intersections);
+      int index = 0;
+      for (Point p : intersections) {
+        if (p.x <= left || p.x >= right || p.y <= bottom || p.y >= top) {
+          intersections.remove(index);
+        }
+        index++;
+      }
+      double minDist = distance(intersections.get(0));
+      Point nearestPoint = intersections.get(0);
+      for (Point p : intersections) {
+        double d = distance(p);
+        if (d < minDist) {
+          minDist = d;
+          nearestPoint = p;
+        }
+      }
+
+      this.launchX = nearestPoint.x;
+      this.launchY = nearestPoint.y;
+    }
+
+  }
+
+
+  /**
+   * 
+   * @param center A point indicating the center of a circle.
+   * @param radius The radius of the circle.
+   * @param x The given x value
+   * @param intersects The modified list to store all intersections
+   */
+  private void calculateIntersectionX(Point center, double radius, double x, ArrayList<Point> intersects) {
+    if (Math.abs((x - center.x) / radius) > 1) {
+      return;
+    }
+    double theta = Math.asin((x - center.x) / radius);
+    double y1 = center.y + radius * Math.cos(theta);
+    double y2 = center.y - radius * Math.cos(theta);
+    Point p1 = new Point(x, y1);
+    Point p2 = new Point(x, y2);
+    intersects.add(p1);
+    intersects.add(p2);
+  }
+
+  /**
+   * 
+   * @param center A point indicating the center of a circle.
+   * @param radius The radius of the circle.
+   * @param y The given y value
+   * @param intersects The modified list to store all intersections
+   */
+  private void calculateIntersectionY(Point center, double radius, double y, ArrayList<Point> intersects) {
+    if (Math.abs((y - center.y) / radius) > 1) {
+      return;
+    }
+    double theta = Math.acos((y - center.y) / radius);
+    double x1 = center.x + radius * Math.sin(theta);
+    double x2 = center.x - radius * Math.sin(theta);
+    Point p1 = new Point(x1, y);
+    Point p2 = new Point(x2, y);
+    intersects.add(p1);
+    intersects.add(p2);
+  }
+
+  private double distance(Point p) {
+    return Math.hypot(p.x, p.y);
   }
 
 
@@ -176,11 +249,6 @@ public class WIFI {
       tunnelArea = tng;
       startArea = green;
     }
-
-    // TODO: Considering current start area corner's coordinate and tunnel's coordinates, compute whether tunnel is
-    // horizontal or vertical
-    // TODO: Compute tunnel's width and tunnel's height: width = 1, height = 2?
-
 
     double w = tunnelArea.ur.x - tunnelArea.ll.x;
     double h = tunnelArea.ur.y - tunnelArea.ll.y;
