@@ -33,7 +33,7 @@ public class Main {
 	    System.out.println("tunnelEn = "+"("+wifi.getTunnelEnX()+", "+wifi.getTunnelEnY()+")"+
 	    ", tunnelEx = "+"("+wifi.getTunnelExX()+", "+wifi.getTunnelExY()+")");
 	    
-//		// Start odometer and sensor poller thread
+		// Start odometer and sensor poller thread
 		odometerThread.start(); 
 		sensorPollerThread.start();
         
@@ -53,53 +53,49 @@ public class Main {
 				   
 		// Beep three times after US Localization
 		stopAndBeep(3);
-//		
-//		// Navigate to the Tunnel entrance 
+		
+		// Navigate to the Tunnel entrance 
 		System.out.println("Tunnel EnX " + wifi.getTunnelEnX() + " EnY " + wifi.getTunnelEnY());
 		navigator.travelTo(wifi.getTunnelEnX(), wifi.getTunnelEnY()); 
 		System.out.println("x: " + navigator.getCurrX() + " y: " + navigator.getCurrY());
-//		System.out.println("Before entering tunnel Odometer Reading:"+odometer.getXYT()[0]+","+odometer.getXYT()[1]+","+odometer.getXYT()[2]);
-		
-//		// TODO: Traverse the Tunnel to the Island 
-//		navigator.stop(); 
-//		
+		System.out.println("Before entering tunnel Odometer Reading:"+odometer.getXYT()[0]+","+odometer.getXYT()[1]+","+odometer.getXYT()[2]);
+			
+		// Traverse the Tunnel to the Island 
 		if (wifi.getTunnelHeight() != wifi.getTunnelWidth()) {		
 		navigator.traverseDoubleTunnel(wifi.getTunnelExX(), wifi.getTunnelExY());
 		} else {
 		  navigator.traverseSingleTunnel(wifi.getTunnelExX(), wifi.getTunnelExY());
 		}
-//		
-//        System.out.println("Traversed Tunnel x: " + navigator.getCurrX() + " y: " + navigator.getCurrY());
+		
         System.out.println("Exit Tunnel Odometer Reading:"+odometer.getXYT()[0]+","+odometer.getXYT()[1]+","+odometer.getXYT()[2]);
-//        
-//		// Set launch position
+        
+		// Set launch position
 		wifi.findLaunchPosition();
 		Main.sleepFor(SLEEPINT);
 		
 		// TODO: Navigate to bin x and bin y
 	    System.out.println("Launch intersection X " + wifi.getLaunchIntersectionPointX()/TILE_SIZE+ " Y " + wifi.getLaunchIntersectionPointY()/TILE_SIZE);
 	    System.out.println("facing angle = "+wifi.getBinAngle());
-
-//		// Turn to exact orientation
-//		navigator.turnToLaunchPoint();
 	    
 	    // TODO: Find launch point
         // TODO: Travel to launch point
         navigator.travelTo(wifi.getLaunchIntersectionPointX(), wifi.getLaunchIntersectionPointY());
         navigator.turnToExactTheta(Math.toDegrees(wifi.getBinAngle()), false);
         navigator.stop();
-//
-//		// TODO: Step 6. Launch the ball a minimum distance of 4 tiles, stop and beep 
+
+        // TODO TUNE WHEELBASE
+        
+		// TODO: Step 6. Launch the ball a minimum distance of 4 tiles, stop and beep 
 		BallLauncher ballLauncher = new BallLauncher();
 		ballLauncher.launch();	
 		stopAndBeep(5);
-//		
+		
 		Main.sleepFor(SLEEPINT);
-//		
-//		// TODO: Travel back to tunnel        
+		
+		// TODO: Travel back to tunnel        
         navigator.travelTo(wifi.getTunnelExX(), wifi.getTunnelExY());
-//        
-//		// TODO: Pass Tunnel 
+        
+		// TODO: Pass Tunnel 
 		navigator.traverseDoubleTunnel(wifi.getTunnelEnX(), wifi.getTunnelEnY());
 	
 		System.out.println("Back to Tunnel Entrance X " +  odometer.getXYT()[0] + " Y " + odometer.getXYT()[1] + " T " + odometer.getXYT()[2]);
@@ -107,37 +103,9 @@ public class Main {
 //		// Navigate back to starting point 
 		navigator.travelTo(wifi.getStartX()*TILE_SIZE, wifi.getStartY()*TILE_SIZE);
 		System.out.println("start = ("+wifi.getStartX()+", "+wifi.getStartY()+")");
-		navigator.turnToExactTheta(0, false);
 
         // TODO: Stop and beep for 5 times
         stopAndBeep(5);
-		
-		// TODO: Set to BOTH mode (LIGHT and US mode for Sensor Poller)		
-		// TODO: Start obstacle avoidance thread...? or nah Should make into a thread or not? 		
-
-		// TODO: Start obstacle avoidance
-
-		
-		// TODO: If object has been detected, trigger object avoidance, during object
-		// avoidance, if robot intersects with bin circumferance circle, stop there.
-		// Otherwise, finish object avoidance until facing destination point.
-
-		// TODO: If no object has been detected, stop and beep for 3 times
-//		stopAndBeep(3);
-		
-		// Launch the ball.
-//	    ballLauncher = new BallLauncher();
-//	    ballLauncher.launch();
-		
-		// TODO: Travel to tunnel exX and exY
-		// navigator.travelTo(wifi.getTunnelExX(), wifi.getTunnelExY());
-		
-		// TODO: Pass through the tunnel
-		// navigator.travelTo(wifi.getTunnelEnX(), wifi.getTunnelEnY());
-
-		// TODO: To starting point
-		// navigator.travelTo(wifi.getStartX(), wifi.getStartY());
-
 
 		// Do nothing until exit button is pressed, then exit.	
 		while (Button.waitForAnyPress() != Button.ID_ESCAPE)
