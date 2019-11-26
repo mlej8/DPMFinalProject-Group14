@@ -605,9 +605,7 @@ public class Navigation {
         turnToExactTheta(270, true);
         xChange = -1;
       }
-      // Travel light sensor distance.
-//      travelLightSensorDistance();
-
+      
       // Travel one tile
       travelOneTileSize(true);      
       
@@ -622,10 +620,6 @@ public class Navigation {
         }
         lightCorrector.setBothMotorsToFalse();
       }
-
-      // Travel distance between light sensor and motor.
-//      travelLightSensorDistance();
-      // Stop polling data.
       
       sensorPoller.setMode(Mode.IDLE);
 
@@ -639,18 +633,11 @@ public class Navigation {
 
       // Turn sensor polling on.
       sensorPoller.setMode(Mode.LIGHT);
-
-      // Travel to tunnel exit.
-//      while (Math.abs(x - odometer.getXYT()[0]) > ERROR_MARGIN) {
-//        navigateForward(x - odometer.getXYT()[0], MOTOR_SPEED);
-//        sleepNavigation();
-//      }
-
+      
       // Travel one tile
       travelOneTileSize(false);
       
       if (lightCorrector.isLeftMotorTouched() && lightCorrector.isRightMotorTouched()) {
-//        travelLightSensorDistance();
         this.currX += 3 * xChange;
         odometer.setX(this.currX * TILE_SIZE);
         if (xChange > 0) {
@@ -666,19 +653,14 @@ public class Navigation {
 
       // Turn towards latest y.
       if (lastY >= 0) {
-        turnToExactTheta(0, true);
+        turnToExactTheta(0, false);
         travelOneTileSize(false);
-//        navigateForward(this.currY * TILE_SIZE*2- odometer.getXYT()[1], MOTOR_SPEED);
       } else {
-        turnToExactTheta(180, true);
+        turnToExactTheta(180, false);
         travelOneTileSize(false);
-//        navigateForward(2*odometer.getXYT()[1] - this.currY * TILE_SIZE, MOTOR_SPEED);
       }
 
-//      sleepNavigation();
-
       if (lightCorrector.isLeftMotorTouched() && lightCorrector.isRightMotorTouched()) {
-//        travelLightSensorDistance();  
         if (lastY >= 0) {
           odometer.setTheta(0);
         } else {
@@ -696,9 +678,6 @@ public class Navigation {
         turnToExactTheta(180, true);
         yChange = -1;
       }
-
-//      // Travel light sensor distance.
-//      travelLightSensorDistance();
 
       // Travel one tile
       travelOneTileSize(true);
@@ -730,15 +709,10 @@ public class Navigation {
       sensorPoller.setMode(Mode.LIGHT);
       
       travelOneTileSize(false);
-//      // Travel to tunnel exit.
-//      while (Math.abs(y - odometer.getXYT()[1]) > ERROR_MARGIN) {
-//        navigateForward(y - odometer.getXYT()[1], MOTOR_SPEED);
-//        sleepNavigation();
-//      }
+      
       if (lightCorrector.isLeftMotorTouched() && lightCorrector.isRightMotorTouched()) {
         this.currY += 3 * yChange;
         odometer.setY(this.currY * TILE_SIZE);
-//        travelLightSensorDistance();
         if (yChange > 0) {
           odometer.setTheta(0);
         } else {
@@ -752,16 +726,12 @@ public class Navigation {
 
       // Turn towards latest y.
       if (lastX >= 0) {
-        turnToExactTheta(90, true);
+        turnToExactTheta(90, false);
         travelOneTileSize(false);
-//        navigateForward(this.currX*TILE_SIZE*2 - odometer.getXYT()[0], MOTOR_SPEED);
       } else {
-        turnToExactTheta(270, true);
+        turnToExactTheta(270, false);
         travelOneTileSize(false);
-//        navigateForward(2*odometer.getXYT()[0] - this.currX * TILE_SIZE, MOTOR_SPEED);
       }
-
-//      sleepNavigation();
 
       if (lightCorrector.isLeftMotorTouched() && lightCorrector.isRightMotorTouched()) {
         if (lastX >= 0) {
@@ -769,8 +739,7 @@ public class Navigation {
         } else {
           odometer.setTheta(270);
         }
-//        travelLightSensorDistance();
-//        Main.sleepFor(SLEEPINT);
+        
         odometer.setX(this.currX * TILE_SIZE);
         lightCorrector.setBothMotorsToFalse();
       }

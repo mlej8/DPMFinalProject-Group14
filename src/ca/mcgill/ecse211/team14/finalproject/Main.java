@@ -59,7 +59,7 @@ public class Main {
 		navigator.travelTo(wifi.getTunnelEnX(), wifi.getTunnelEnY()); 
 		System.out.println("x: " + navigator.getCurrX() + " y: " + navigator.getCurrY());
 //		System.out.println("Before entering tunnel Odometer Reading:"+odometer.getXYT()[0]+","+odometer.getXYT()[1]+","+odometer.getXYT()[2]);
-//		
+		
 //		// TODO: Traverse the Tunnel to the Island 
 //		navigator.stop(); 
 //		
@@ -69,7 +69,7 @@ public class Main {
 		  navigator.traverseSingleTunnel(wifi.getTunnelExX(), wifi.getTunnelExY());
 		}
 //		
-////        System.out.println("Traversed Tunnel x: " + navigator.getCurrX() + " y: " + navigator.getCurrY());
+//        System.out.println("Traversed Tunnel x: " + navigator.getCurrX() + " y: " + navigator.getCurrY());
         System.out.println("Exit Tunnel Odometer Reading:"+odometer.getXYT()[0]+","+odometer.getXYT()[1]+","+odometer.getXYT()[2]);
 //        
 //		// Set launch position
@@ -86,13 +86,13 @@ public class Main {
 	    // TODO: Find launch point
         // TODO: Travel to launch point
         navigator.travelTo(wifi.getLaunchIntersectionPointX(), wifi.getLaunchIntersectionPointY());
-        navigator.turnToExactTheta(Math.toDegrees(wifi.getBinAngle()));
+        navigator.turnToExactTheta(Math.toDegrees(wifi.getBinAngle()), false);
         navigator.stop();
 //
 //		// TODO: Step 6. Launch the ball a minimum distance of 4 tiles, stop and beep 
-//		BallLauncher ballLauncher = new BallLauncher();
-//		ballLauncher.launch();	
-//		stopAndBeep(5);
+		BallLauncher ballLauncher = new BallLauncher();
+		ballLauncher.launch();	
+		stopAndBeep(5);
 //		
 		Main.sleepFor(SLEEPINT);
 //		
@@ -104,12 +104,12 @@ public class Main {
 	
 		System.out.println("Back to Tunnel Entrance X " +  odometer.getXYT()[0] + " Y " + odometer.getXYT()[1] + " T " + odometer.getXYT()[2]);
        
-        navigator.turnToExactTheta(0);
 //		// Navigate back to starting point 
 		navigator.travelTo(wifi.getStartX()*TILE_SIZE, wifi.getStartY()*TILE_SIZE);
 		System.out.println("start = ("+wifi.getStartX()+", "+wifi.getStartY()+")");
-//
-//        // TODO: Stop and beep for 5 times
+		navigator.turnToExactTheta(0, false);
+
+        // TODO: Stop and beep for 5 times
         stopAndBeep(5);
 		
 		// TODO: Set to BOTH mode (LIGHT and US mode for Sensor Poller)		
