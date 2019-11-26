@@ -51,7 +51,7 @@ public class Resources {
 	/**
 	 * The robot's width in centimeters.
 	 */
-	public static final double TRACK = 15.20; // 15.10
+	public static final double TRACK = 16.0; // 15.10
 
 	/**
 	 * Turning 90 degrees to start position parallel the wall. 

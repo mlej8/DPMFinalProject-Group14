@@ -267,4 +267,23 @@ public class findDestMethodTests {
          points.toString());
   }
   
+  @Test
+  public void testAngleY() {
+    Point a = new Point (0,0);
+    Point b = new Point (-1,-1);
+    double theta = 0;
+    double x = Math.abs(b.x - a.x);
+    double y = Math.abs(b.y - a.y);
+    if(b.x > a.x && b.y > a.y) {
+      theta = - (Math.PI - Math.atan(x/y));
+    }else if(b.x < a.x && b.y > a.y) {
+      theta = Math.PI - Math.atan(x/y);
+    }else if(b.x < a.x && b.y < a.y) {
+      theta = Math.atan(x/y);
+    }else if(b.x > a.x && b.y < a.y) {
+      theta = - Math.atan(x/y);
+    }
+    System.out.println("binAngle = "+Math.toDegrees(theta));
+  }
+  
 }
