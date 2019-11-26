@@ -27,7 +27,7 @@ public class Resources {
    * The IP address of the server that transmits data to the robot. Set this to the default for the
    * beta demo and competition.
    */
-  public static final String SERVER_IP = "192.168.43.32";    //TODO: change this
+  public static final String SERVER_IP = "192.168.43.171";    //TODO: change this
   
   /**
    * Your team number.
@@ -51,7 +51,7 @@ public class Resources {
 	/**
 	 * The robot's width in centimeters.
 	 */
-	public static final double TRACK = 15.20; // 15.10
+	public static final double TRACK = 16.00; // 15.10
 
 	/**
 	 * Turning 90 degrees to start position parallel the wall. 
@@ -61,7 +61,7 @@ public class Resources {
 	/**
 	 * Fixed Motor Speed.
 	 */
-	public static final int MOTOR_SPEED = 75;
+	public static final int MOTOR_SPEED = 80;
 	
 	/**
 	 * Variable that keeps track of the distance between the light sensors and the motors. 

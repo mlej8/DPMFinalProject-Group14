@@ -227,7 +227,7 @@ public class Navigation {
             odometer.setTheta(270);
           }
           lightCorrector.setBothMotorsToFalse();
-        }
+          }
         }
       }
       if (Math.abs(y - odometer.getXYT()[1]) > ERROR_MARGIN) {
@@ -356,22 +356,27 @@ public class Navigation {
     }
     }
     // Obstacle avoidance
-//    if (detectedObstacle) {
-//      Main.sleepFor(SLEEPINT);
-//      // Turn away from the obstacle
-//      avoidObstacle();
-//      // TODO After avoiding the obstacle, recalculate destination point (launch point, vs tunnel exit)
-//      // Find new launching position
-//      Main.wifi.findLaunchPosition();
-//      Main.sleepFor(10*SLEEPINT);
-//      travelTo(Main.wifi.getlaunchX(), Main.wifi.getlaunchY()); // TODO BECAREFUL RECURSIVE CALL HERE ...
-//    }
+    if (detectedObstacle) {
+      Main.sleepFor(SLEEPINT);
+      
+      // Turn away from the obstacle
+      avoidObstacle();
+    }
     stop();
     this.traveling = false;
     Main.sleepFor(SLEEPINT);
   }
 
   private void avoidObstacle() { // TODO
+
+    // Correct every time it turns
+    navigateForward(-TILE_SIZE, MOTOR_SPEED);
+    sleepNavigation();
+    travelLightSensorDistance(); // TODO CORRECT ODOMETER using a method in light correction
+
+    // Set both motors to False
+    lightCorrector.setBothMotorsToFalse();
+    
     // Store current positions
     double x = odometer.getXYT()[0];
     double y = odometer.getXYT()[1];
@@ -528,9 +533,16 @@ public class Navigation {
         odometer.setY(this.currY*TILE_SIZE);
       }
     }
-
+   
+    // Find new launching position
+    Main.wifi.findLaunchPosition();
+    Main.sleepFor(2*SLEEPINT);
+    
     // Set corrector back to false after detecting the lines.
     lightCorrector.setBothMotorsToFalse();
+    
+    // Travel to new launch point.
+    travelTo(Main.wifi.getlaunchX(), Main.wifi.getlaunchY()); 
   }
 
   private void travelOneTileSize(boolean lightDistance) {

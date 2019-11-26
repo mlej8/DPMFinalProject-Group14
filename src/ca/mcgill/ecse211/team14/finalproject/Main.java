@@ -1,7 +1,6 @@
 package ca.mcgill.ecse211.team14.finalproject;
 
 import static ca.mcgill.ecse211.team14.finalproject.Resources.*;
-import static ca.mcgill.ecse211.team14.finalproject.WIFI.*;
 import ca.mcgill.ecse211.team14.finalproject.SensorPoller.Mode;
 import lejos.hardware.Button;
 import lejos.hardware.Sound;
@@ -77,10 +76,13 @@ public class Main {
 	    System.out.println("Launch intersection X " + wifi.getLaunchIntersectionPointX()/TILE_SIZE+ " Y " + wifi.getLaunchIntersectionPointY()/TILE_SIZE);
 	    System.out.println("facing angle = "+wifi.getBinAngle());
 	    
+	    sensorPoller.setMode(Mode.BOTH);
+	    
 	    // TODO: Find launch point
         // TODO: Travel to launch point
-        navigator.travelTo(wifi.getLaunchIntersectionPointX(), wifi.getLaunchIntersectionPointY());
-        navigator.turnToExactTheta(Math.toDegrees(wifi.getBinAngle()), false);
+//        navigator.travelTo(wifi.getLaunchIntersectionPointX(), wifi.getLaunchIntersectionPointY());
+        navigator.travelTo(4*TILE_SIZE, 6*TILE_SIZE);
+        navigator.turnToExactTheta(270, false);
         navigator.stop();
 
         // TODO TUNE WHEELBASE
@@ -89,13 +91,12 @@ public class Main {
 		BallLauncher ballLauncher = new BallLauncher();
 		ballLauncher.launch();	
 		stopAndBeep(5);
-		
 		Main.sleepFor(SLEEPINT);
 		
-		// TODO: Travel back to tunnel        
+		// Travel back to tunnel        
         navigator.travelTo(wifi.getTunnelExX(), wifi.getTunnelExY());
-//        
-//		// TODO: Pass Tunnel 
+        
+		// Pass Tunnel 
         if (wifi.getTunnelHeight() != wifi.getTunnelWidth()) {      
           navigator.traverseTunnel(wifi.getTunnelEnX(), wifi.getTunnelEnY(),2);
           } else {
@@ -103,11 +104,13 @@ public class Main {
           }	
 		System.out.println("Back to Tunnel Entrance X " +  odometer.getXYT()[0] + " Y " + odometer.getXYT()[1] + " T " + odometer.getXYT()[2]);
        
-//		// Navigate back to starting point 
+		// Navigate back to starting point 
 		navigator.travelTo(wifi.getStartX()*TILE_SIZE, wifi.getStartY()*TILE_SIZE);
 		System.out.println("start = ("+wifi.getStartX()+", "+wifi.getStartY()+")");
 
-        // TODO: Stop and beep for 5 times
+		Main.sleepFor(TUNNEL_SLEEP);  
+		
+        // TODO: Stop and beep for 5 times		
         stopAndBeep(5);
 
 		// Do nothing until exit button is pressed, then exit.	
@@ -162,5 +165,7 @@ public class Main {
 		for (int i = 0; i < numberOfTimes; i++) {
 			Sound.beep();
 		}
+		
+		Main.sleepFor(SLEEPINT);
 	}
 }
