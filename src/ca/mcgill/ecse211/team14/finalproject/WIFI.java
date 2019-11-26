@@ -131,7 +131,7 @@ public class WIFI {
 
     double dx, dy;
     // calculate the intersection of the circle and the line
-    dy = LAUNCH_RANGE  * Math.cos(-theta) * TILE_SIZE;
+    dy = LAUNCH_RANGE  * Math.cos(theta) * TILE_SIZE;
     dx = LAUNCH_RANGE * Math.sin(theta) * TILE_SIZE;
     this.launchY = binY * TILE_SIZE + dy;
     this.launchX = binX * TILE_SIZE + dx;                                               
@@ -170,11 +170,10 @@ public class WIFI {
 
       this.launchX = nearestPoint.x;
       this.launchY = nearestPoint.y;
-      
+      System.out.println("Find launch Point Second Case");
+    }
       this.launchIntersectionPointX = approximate(launchX);
       this.launchIntersectionPointY = approximate(launchY);
-    }
-
   }
 
   private double approximate(double coordinate) {
