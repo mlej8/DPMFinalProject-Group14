@@ -74,11 +74,11 @@ public class Main {
         
 		// Set launch position
 		wifi.findLaunchPosition();
-		System.out.println("Launch X" + wifi.getlaunchX() + " Y " + wifi.getlaunchY());
 		Main.sleepFor(SLEEPINT);
 		
 		// TODO: Navigate to bin x and bin y
-		navigator.travelTo(wifi.getlaunchX(), wifi.getlaunchY());
+		System.out.println("Launch intersection X" + wifi.getLaunchIntersectionPointX() + " Y " + wifi.getLaunchIntersectionPointY());
+		navigator.travelTo(wifi.getLaunchIntersectionPointX(), wifi.getLaunchIntersectionPointY());
 
 		// Turn to exact orientation
 		navigator.turnToLaunchPoint();
@@ -88,7 +88,7 @@ public class Main {
 		ballLauncher.launch();	
 		stopAndBeep(5);
 		
-		Main.sleepFor(SLEEPINT*10);
+		Main.sleepFor(SLEEPINT);
 		
 		// TODO: Travel back to tunnel        
         navigator.travelTo(wifi.getTunnelExX(), wifi.getTunnelExY());

@@ -368,6 +368,7 @@ public class Navigation {
 //    }
     stop();
     this.traveling = false;
+    Main.sleepFor(SLEEPINT);
   }
 
   private void avoidObstacle() { // TODO
