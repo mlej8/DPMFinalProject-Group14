@@ -40,10 +40,18 @@ public class WIFI {
 
   private double binX;
 
+  public double getBinX() {
+    return binX;
+  }
+
   /**
    * Variable target launch position y coordinate.
    */
   private double binY;
+
+  public double getBinY() {
+    return binY;
+  }
 
   /**
    * Variable tracking if tunnel is horizontal or vertical.

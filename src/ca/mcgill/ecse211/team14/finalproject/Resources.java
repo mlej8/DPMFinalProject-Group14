@@ -106,7 +106,7 @@ public class Resources {
 	/**
 	 * Error margin at each waypoint.
 	 */
-	public static final double ERROR_MARGIN = 4;
+	public static final double ERROR_MARGIN = 3.5;
 	
 	/**
 	 * Sleep interval = 50ms = 20 Hz.

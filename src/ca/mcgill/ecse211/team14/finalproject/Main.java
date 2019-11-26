@@ -73,17 +73,15 @@ public class Main {
 //        System.out.println("Exit Tunnel Odometer Reading:"+odometer.getXYT()[0]+","+odometer.getXYT()[1]+","+odometer.getXYT()[2]);
         
 		// Set launch position
-//		wifi.findLaunchPosition();
-//		System.out.println("Launch X" + wifi.getlaunchX() + " Y " + wifi.getlaunchY());
-//		Main.sleepFor(SLEEPINT);
+		wifi.findLaunchPosition();
+		System.out.println("Launch X" + wifi.getlaunchX() + " Y " + wifi.getlaunchY());
+		Main.sleepFor(SLEEPINT);
 		
 		// TODO: Navigate to bin x and bin y
-		navigator.travelTo(4*TILE_SIZE, 6*TILE_SIZE);
-//		    wifi.getlaunchX(), wifi.getlaunchY());
+		navigator.travelTo(wifi.getlaunchX(), wifi.getlaunchY());
 
 		// Turn to exact orientation
-		navigator.turnToExactTheta(90);
-//		    targetAngle); 
+		navigator.turnToLaunchPoint();
 
 		// TODO: Step 6. Launch the ball a minimum distance of 4 tiles, stop and beep 
 		BallLauncher ballLauncher = new BallLauncher();
