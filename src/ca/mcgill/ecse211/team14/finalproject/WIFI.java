@@ -175,7 +175,7 @@ public class WIFI {
       this.launchIntersectionPointX = approximate(launchX, left, right);
       this.launchIntersectionPointY = approximate(launchY, bottom, top);
       
-      binAngle = Math.atan((binY*TILE_SIZE-this.launchIntersectionPointX)/(binX*TILE_SIZE-this.launchIntersectionPointY));
+      setBinAngle();
   }
 
   private double approximate(double coordinate, double lowerBound, double highBound) {
@@ -190,6 +190,24 @@ public class WIFI {
        r -= TILE_SIZE;
      }
      return r;
+  }
+  
+  private void setBinAngle() {
+    Point a = new Point(this.binX, this.binY);
+    Point b = new Point (this.launchIntersectionPointX, this.launchIntersectionPointY);
+    double theta = 0;
+    double x = Math.abs(b.x - a.x);
+    double y = Math.abs(b.y - a.y);
+    if(b.x > a.x && b.y > a.y) {
+      theta = - (Math.PI - Math.atan(x/y));
+    }else if(b.x < a.x && b.y > a.y) {
+      theta = Math.PI - Math.atan(x/y);
+    }else if(b.x < a.x && b.y < a.y) {
+      theta = Math.atan(x/y);
+    }else if(b.x > a.x && b.y < a.y) {
+      theta = - Math.atan(x/y);
+    }
+    binAngle = Math.toDegrees(theta);
   }
 
   /**
