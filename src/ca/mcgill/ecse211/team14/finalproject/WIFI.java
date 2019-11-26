@@ -4,6 +4,7 @@ import static ca.mcgill.ecse211.team14.finalproject.Resources.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Map;
+import ca.mcgill.ecse211.team14.finalproject.Resources.Point;
 import ca.mcgill.ecse211.wificlient.WifiConnection;
 
 public class WIFI {
@@ -103,10 +104,8 @@ public class WIFI {
    */
   public void findLaunchPosition() {
 
-//    double currentX = odometer.getXYT()[0];
-//    double currentY = odometer.getXYT()[1];
-    double currentX = this.tunnelExX;
-    double currentY = this.tunnelExY;
+    double currentX = odometer.getXYT()[0];
+    double currentY = odometer.getXYT()[1];
 
     double theta = Math.atan2(currentX - binX * TILE_SIZE, currentY - binY * TILE_SIZE);
 
@@ -115,7 +114,7 @@ public class WIFI {
     dy = LAUNCH_RANGE * Math.cos(-theta) * TILE_SIZE;
     dx = LAUNCH_RANGE * Math.sin(theta) * TILE_SIZE;
     this.launchY = binY * TILE_SIZE + dy;
-    this.launchX = binX * TILE_SIZE + dx;
+    this.launchX = binX * TILE_SIZE + dx;                                               
 
     double top = island.ur.y * TILE_SIZE;
     double bottom = island.ll.y * TILE_SIZE;
@@ -126,19 +125,23 @@ public class WIFI {
     ArrayList<Point> intersections = new ArrayList<Point>();
 
     if (launchX <= left || launchX >= right || launchY <= bottom || launchY >= top) {
-      calculateIntersectionX(center, LAUNCH_RANGE * TILE_SIZE, currentX, intersections);
-      calculateIntersectionY(center, LAUNCH_RANGE * TILE_SIZE, currentY, intersections);
+      calculateIntersectionX(center, LAUNCH_RANGE * TILE_SIZE, left, intersections);
+      calculateIntersectionX(center, LAUNCH_RANGE * TILE_SIZE, right, intersections);
+      calculateIntersectionY(center, LAUNCH_RANGE * TILE_SIZE, top, intersections);
+      calculateIntersectionY(center, LAUNCH_RANGE * TILE_SIZE, bottom, intersections);
       int index = 0;
-      for (Point p : intersections) {
+      for (int i=0;i<intersections.size();i++) {
+        Point p = intersections.get(index);
         if (p.x <= left || p.x >= right || p.y <= bottom || p.y >= top) {
           intersections.remove(index);
-        }
+        }else {
         index++;
+        }
       }
-      double minDist = distance(intersections.get(0));
+      double minDist = distance(intersections.get(0),new Point(currentX, currentY));
       Point nearestPoint = intersections.get(0);
       for (Point p : intersections) {
-        double d = distance(p);
+        double d = distance(intersections.get(0),new Point(currentX, currentY));
         if (d < minDist) {
           minDist = d;
           nearestPoint = p;
@@ -192,8 +195,8 @@ public class WIFI {
     intersects.add(p2);
   }
 
-  private double distance(Point p) {
-    return Math.hypot(p.x, p.y);
+  private double distance(Point p1,Point p2) {
+    return Math.hypot(p1.x-p2.x, p1.y-p2.y);
   }
 
 
