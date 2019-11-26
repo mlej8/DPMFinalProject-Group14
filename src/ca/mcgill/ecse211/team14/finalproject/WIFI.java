@@ -70,6 +70,8 @@ public class WIFI {
    */
   private double tunnelExY;
 
+  
+
   /**
    * Tunnel width.
    */
@@ -79,6 +81,16 @@ public class WIFI {
    * Tunnel height.
    */
   private double tunnelHeight;
+  
+  /**
+   * X-coordinate of nearest intersection point of launch Point
+   */
+  private double launchIntersectionPointX;
+  
+  /**
+   * Y-coordinate of nearest intersection point of launch Point
+   */
+  private double launchIntersectionPointY;
 
   public WIFI() {
     setBinPosition();
@@ -150,10 +162,20 @@ public class WIFI {
 
       this.launchX = nearestPoint.x;
       this.launchY = nearestPoint.y;
+      
+      this.launchIntersectionPointX = approximate(launchX);
+      this.launchIntersectionPointY = approximate(launchY);
     }
 
   }
 
+  private double approximate(double coordinate) {
+     double tile = coordinate / TILE_SIZE;
+     int result = (int) tile;
+     if(tile - (int)tile >= 0.5)
+       result +=1;
+     return result * TILE_SIZE;
+  }
 
   /**
    * 
@@ -467,5 +489,11 @@ public class WIFI {
   public double getTunnelWidth() {
     return tunnelWidth;
   }
+  public double getLaunchIntersectionPointX() {
+    return launchIntersectionPointX;
+  }
 
+  public double getLaunchIntersectionPointY() {
+    return launchIntersectionPointY;
+  }
 }
