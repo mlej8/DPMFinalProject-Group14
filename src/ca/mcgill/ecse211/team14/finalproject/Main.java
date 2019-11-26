@@ -106,7 +106,7 @@ public class Main {
 		
 		// TODO: Find launch point
 		// TODO: Travel to launch point
-//		navigator.travelTo(wifi.getlaunchX(), wifi.getlaunchY());
+		navigator.travelTo(wifi.getlaunchX(), wifi.getlaunchY());
 
 		// TODO: Start obstacle avoidance
 

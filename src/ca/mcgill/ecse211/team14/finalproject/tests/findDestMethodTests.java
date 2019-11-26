@@ -99,63 +99,61 @@ public class findDestMethodTests {
   /**
    * This method uses the given target position (binX,binY) to find the ideal launching position.
    */
-//  public void findLaunchPosition() {
-//
-//    double currentX = odometer.getXYT()[0];
-//    double currentY = odometer.getXYT()[1];
-//
-//    double theta = Math.atan2(currentX - binX * TILE_SIZE, currentY - binY * TILE_SIZE);
-//
-//    double dx, dy;
-//    // calculate the intersection of the circle and the line
-//    dy = LAUNCH_RANGE * Math.cos(-theta) * TILE_SIZE;
-//    dx = LAUNCH_RANGE * Math.sin(theta) * TILE_SIZE;
-//    this.launchY = binY * TILE_SIZE + dy;
-//    this.launchX = binX * TILE_SIZE + dx;
-//
-//    double top = (island.ur.y-1) * TILE_SIZE;
-//    double bottom = (island.ll.y+1) * TILE_SIZE;
-//    double left = (island.ll.x+1) * TILE_SIZE;
-//    double right = (island.ur.x-1) * TILE_SIZE;
-//
-//    Point center = new Point(this.binX * TILE_SIZE, this.binY * TILE_SIZE);
-//    ArrayList<Point> intersections = new ArrayList<Point>();
-//
-//    if (launchX <= left || launchX >= right || launchY <= bottom || launchY >= top) {
-//      calculateIntersectionX(center, LAUNCH_RANGE * TILE_SIZE, currentX, intersections);
-//      calculateIntersectionY(center, LAUNCH_RANGE * TILE_SIZE, currentY, intersections);
-//      int index = 0;
-//      for (Point p : intersections) {
-//        if (p.x <= left || p.x >= right || p.y <= bottom || p.y >= top) {
-//          intersections.remove(index);
-//        }
-//        index++;
-//      }
-//      double minDist = distance(intersections.get(0));
-//      Point nearestPoint = intersections.get(0);
-//      for (Point p : intersections) {
-//        double d = distance(p);
-//        if (d < minDist) {
-//          minDist = d;
-//          nearestPoint = p;
-//        }
-//      }
-//
-//      this.launchX = nearestPoint.x;
-//      this.launchY = nearestPoint.y;
-//      
-//      // test whether launchX/Y on the circle
-//      double diffX = Math.abs(this.binX - this.launchX);
-//      double diffY = Math.abs(this.binY - this.launchY);
-//      double dist = Math.hypot(diffX, diffY);
-//      if(Math.abs(dist - LAUNCH_RANGE*TILE_SIZE) < 10) {
-//        System.out.println("On the circle!!!");
-//      }else {
-//        System.out.println("!!!!!!NOT ON THE CIRCLE!!!!!");
-//      }
-//    }
-//
-//  }
+  public Point findLaunchPosition(int binX, int binY, double currentX, double currentY) {
+
+    double theta = Math.atan2(currentX - binX * TILE_SIZE, currentY - binY * TILE_SIZE);
+
+    double dx, dy;
+    // calculate the intersection of the circle and the line
+    dy = LAUNCH_RANGE * Math.cos(-theta) * TILE_SIZE;
+    dx = LAUNCH_RANGE * Math.sin(theta) * TILE_SIZE;
+    double launchY = binY * TILE_SIZE + dy;
+    double launchX = binX * TILE_SIZE + dx;
+
+    double top = (9) * TILE_SIZE;
+    double bottom = (6) * TILE_SIZE;
+    double left = (0) * TILE_SIZE;
+    double right = (8) * TILE_SIZE;
+
+    Point center = new Point(binX * TILE_SIZE, binY * TILE_SIZE);
+    ArrayList<Point> intersections = new ArrayList<Point>();
+
+    if (launchX <= left || launchX >= right || launchY <= bottom || launchY >= top) {
+      calculateIntersectionX(center, LAUNCH_RANGE * TILE_SIZE, currentX, intersections);
+      calculateIntersectionY(center, LAUNCH_RANGE * TILE_SIZE, currentY, intersections);
+
+      ArrayList<Point> toBeRemoved = new ArrayList<Point>();
+      for(Point p: intersections) {
+        if(p.x <= left || p.x >= right || p.y <= bottom || p.y >= top) {
+          toBeRemoved.add(p);
+        }
+      }
+      for(Point e: toBeRemoved) {
+        intersections.remove(e);
+      }
+        
+      double minDist = distance(intersections.get(0));
+      Point nearestPoint = intersections.get(0);
+      for (Point p : intersections) {
+        double d = distance(p);
+        if (d < minDist) {
+          minDist = d;
+          nearestPoint = p;
+        }
+      }
+
+      launchX = nearestPoint.x;
+      launchY = nearestPoint.y;
+
+    }
+    
+    return new Point(launchX, launchY);
+
+  }
+  
+  private double distance(Point p) {
+    return Math.hypot(p.x, p.y);
+  }
   
   private static double keep3Digits(double number) {
     double n = 0;
@@ -267,5 +265,28 @@ public class findDestMethodTests {
     calculated.add(new Point(1, 5.916));
     calculated.add(new Point(1, -5.916));
     assertEquals(calculated, points);
+  }
+  
+  @Test
+  public void testLaunch() {
+    int binx = 7;
+    int biny = 15;
+    double currentX = 4.5*TILE_SIZE;
+    double currentY = 6*TILE_SIZE;
+    
+    Point launch = findLaunchPosition(binx, biny, currentX, currentY);
+    
+    // test whether launchX/Y on the circle
+    double diffX = Math.abs(binx - launch.x);
+    double diffY = Math.abs(biny - launch.y);
+    double dist = Math.hypot(diffX, diffY);
+    if(Math.abs(dist - LAUNCH_RANGE*TILE_SIZE) < 10) {
+      System.out.println("On the circle!!!");
+    }else {
+      System.out.println("!!!!!!NOT ON THE CIRCLE!!!!!");
+      System.out.println("distance = "+dist + ", launch range = "+LAUNCH_RANGE*TILE_SIZE);
+      System.out.println("launch = ("+launch.x/TILE_SIZE+", "+launch.y/TILE_SIZE+")");
+    }
+   assertEquals("F","F");
   }
 }
