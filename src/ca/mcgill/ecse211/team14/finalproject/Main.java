@@ -27,10 +27,11 @@ public class Main {
 	static Thread sensorPollerThread = new Thread(sensorPoller);
 	
 	public static void main(String args[]) {  
+	  
 	    wifi = new WIFI();
-	    System.out.println("startX = "+ wifi.getStartX() + ", startY = "+wifi.getStartY() + ", startT = "+wifi.getStartT());
-	    System.out.println("tunnelEn = "+"("+wifi.getTunnelEnX()+", "+wifi.getTunnelEnY()+")"+
-	    ", tunnelEx = "+"("+wifi.getTunnelExX()+", "+wifi.getTunnelExY()+")");
+//	    System.out.println("startX = "+ wifi.getStartX() + ", startY = "+wifi.getStartY() + ", startT = "+wifi.getStartT());
+//	    System.out.println("tunnelEn = "+"("+wifi.getTunnelEnX()+", "+wifi.getTunnelEnY()+")"+
+//	    ", tunnelEx = "+"("+wifi.getTunnelExX()+", "+wifi.getTunnelExY()+")");
 	    
 		// Start odometer and sensor poller thread
 		odometerThread.start(); 
@@ -40,18 +41,21 @@ public class Main {
 		ultrasonicLocalizer.fallingEdge();
 		sensorPoller.setMode(Mode.LIGHT);
 
-		// TODO: Navigate to (1,1) within 30 seconds
+		// Travel to closest grid intersection 
 		navigator.travelToGridIntersection();
 		
 		// Set startPoint (x,y,t) to odometer (e.g. at corner 0, the angle is 90)
 		odometer.setXYT(wifi.getStartX()*TILE_SIZE, wifi.getStartY()*TILE_SIZE, wifi.getStartT());
 		navigator.setCurrX(wifi.getStartX()); 
 		navigator.setCurrY(wifi.getStartY());
+        System.out.println("Start X " + navigator.getCurrX() + " Y " + navigator.getCurrY());
+		System.out.println("After US: X " + navigator.getCurrX() + " Y " + navigator.getCurrY());
 				   
-		// TODO: Beep when in place
+		// Beep three times after US Localization
 		stopAndBeep(3);
 		
-		// TODO: Navigate to the Tunnel entrance 
+		// Navigate to the Tunnel entrance 
+		System.out.println("Tunnel EnX " + wifi.getTunnelEnX() + " EnY " + wifi.getTunnelEnY());
 		navigator.travelTo(wifi.getTunnelEnX(), wifi.getTunnelEnY()); 
 		System.out.println("x: " + navigator.getCurrX() + " y: " + navigator.getCurrY());
 		System.out.println("Before entering tunnel Odometer Reading:"+odometer.getXYT()[0]+","+odometer.getXYT()[1]+","+odometer.getXYT()[2]);
@@ -65,16 +69,16 @@ public class Main {
 		  navigator.traverseSingleTunnel(wifi.getTunnelExX(), wifi.getTunnelExY());
 		}
 		
-        System.out.println("Traversed Tunnel x: " + navigator.getCurrX() + " y: " + navigator.getCurrY());
-        System.out.println("Exit Tunnel Odometer Reading:"+odometer.getXYT()[0]+","+odometer.getXYT()[1]+","+odometer.getXYT()[2]);
+//        System.out.println("Traversed Tunnel x: " + navigator.getCurrX() + " y: " + navigator.getCurrY());
+//        System.out.println("Exit Tunnel Odometer Reading:"+odometer.getXYT()[0]+","+odometer.getXYT()[1]+","+odometer.getXYT()[2]);
         
 		// Set launch position
-		wifi.findLaunchPosition();
-		System.out.println("Launch X" + wifi.getlaunchX() + " Y " + wifi.getlaunchY());
-		Main.sleepFor(SLEEPINT);
+//		wifi.findLaunchPosition();
+//		System.out.println("Launch X" + wifi.getlaunchX() + " Y " + wifi.getlaunchY());
+//		Main.sleepFor(SLEEPINT);
 		
 		// TODO: Navigate to bin x and bin y
-		navigator.travelTo(1*TILE_SIZE, 8*TILE_SIZE);
+		navigator.travelTo(4*TILE_SIZE, 6*TILE_SIZE);
 //		    wifi.getlaunchX(), wifi.getlaunchY());
 
 		// Turn to exact orientation
@@ -86,12 +90,11 @@ public class Main {
 		ballLauncher.launch();	
 		stopAndBeep(5);
 		
-		//
-		Main.sleepFor(SLEEPINT*20);
+		Main.sleepFor(SLEEPINT*10);
 		
 		// TODO: Travel back to tunnel        
         navigator.travelTo(wifi.getTunnelExX(), wifi.getTunnelExY());
-		
+        
 		// TODO: Pass Tunnel 
 		navigator.traverseDoubleTunnel(wifi.getTunnelEnX(), wifi.getTunnelEnY());
 	

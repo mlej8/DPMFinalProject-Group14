@@ -123,7 +123,7 @@ public class WIFI {
 
     double dx, dy;
     // calculate the intersection of the circle and the line
-    dy = LAUNCH_RANGE * Math.cos(-theta) * TILE_SIZE;
+    dy = LAUNCH_RANGE  * Math.cos(-theta) * TILE_SIZE;
     dx = LAUNCH_RANGE * Math.sin(theta) * TILE_SIZE;
     this.launchY = binY * TILE_SIZE + dy;
     this.launchX = binX * TILE_SIZE + dx;                                               
@@ -249,14 +249,14 @@ public class WIFI {
         // startY = (mapHeight - 0.5) * TILE_SIZE;
         startX = (mapWidth - 1);
         startY = (mapHeight - 1); // (14, 8)
-        startT = 180;
+        startT = 270;
         break;
       case 3:
         // startX = 0.5 * TILE_SIZE;
         // startY = (mapHeight - 0.5) * TILE_SIZE;
         startX = 1;
         startY = (mapHeight - 1); // (1, 8)
-        startT = 270;
+        startT = 180;
         break;
     }
   }

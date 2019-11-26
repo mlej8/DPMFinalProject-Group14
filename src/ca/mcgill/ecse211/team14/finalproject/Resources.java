@@ -51,7 +51,7 @@ public class Resources {
 	/**
 	 * The robot's width in centimeters.
 	 */
-	public static final double TRACK = 15.65; // 15.10
+	public static final double TRACK = 15.10; // 15.10
 
 	/**
 	 * Turning 90 degrees to start position parallel the wall. 
@@ -81,12 +81,12 @@ public class Resources {
 	/**
 	 * Tunnel speed. 
 	 */
-	public static final int TUNNEL_SPEED = 1000;
+	public static final int TUNNEL_SPEED = 500;
 	
 	/**
 	 * Tunnel sleep.
 	 */
-	public static final int TUNNEL_SLEEP= 1000;
+	public static final int TUNNEL_SLEEP= 500;
     
 	/**
 	 * Number of times to filter out (ignore) data.
@@ -106,7 +106,7 @@ public class Resources {
 	/**
 	 * Error margin at each waypoint.
 	 */
-	public static final double ERROR_MARGIN = 3.5;
+	public static final double ERROR_MARGIN = 4;
 	
 	/**
 	 * Sleep interval = 50ms = 20 Hz.
