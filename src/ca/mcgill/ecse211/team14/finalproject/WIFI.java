@@ -170,20 +170,7 @@ public class WIFI {
 
       this.launchX = nearestPoint.x;
       this.launchY = nearestPoint.y;
-<<<<<<< HEAD
-      
-      // test whether launchX/Y on the circle
-      double diffX = Math.abs(this.binX - this.launchX);
-      double diffY = Math.abs(this.binY - this.launchY);
-      double dist = Math.hypot(diffX, diffY);
-      if(Math.abs(dist - LAUNCH_RANGE*TILE_SIZE) < 10) {
-        System.out.println("On the circle!!!");
-      }else {
-        System.out.println("!!!!!!NOT ON THE CIRCLE!!!!!");
-      }
-=======
       System.out.println("Find launch Point Second Case");
->>>>>>> fe57c1b1a889c6cd2062973ad9ec64e28df6cd6d
     }
       this.launchIntersectionPointX = approximate(launchX);
       this.launchIntersectionPointY = approximate(launchY);
