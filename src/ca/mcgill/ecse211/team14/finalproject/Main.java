@@ -64,9 +64,9 @@ public class Main {
 //		navigator.stop(); 
 //		
 		if (wifi.getTunnelHeight() != wifi.getTunnelWidth()) {		
-		navigator.traverseDoubleTunnel(wifi.getTunnelExX(), wifi.getTunnelExY());
+		navigator.traverseTunnel(wifi.getTunnelExX(), wifi.getTunnelExY(),2);
 		} else {
-		  navigator.traverseSingleTunnel(wifi.getTunnelExX(), wifi.getTunnelExY());
+		  navigator.traverseTunnel(wifi.getTunnelExX(), wifi.getTunnelExY(),1);
 		}
 //		
 ////        System.out.println("Traversed Tunnel x: " + navigator.getCurrX() + " y: " + navigator.getCurrY());
@@ -100,8 +100,11 @@ public class Main {
         navigator.travelTo(wifi.getTunnelExX(), wifi.getTunnelExY());
 //        
 //		// TODO: Pass Tunnel 
-		navigator.traverseDoubleTunnel(wifi.getTunnelEnX(), wifi.getTunnelEnY());
-	
+        if (wifi.getTunnelHeight() != wifi.getTunnelWidth()) {      
+          navigator.traverseTunnel(wifi.getTunnelEnX(), wifi.getTunnelEnY(),2);
+          } else {
+            navigator.traverseTunnel(wifi.getTunnelEnX(), wifi.getTunnelEnY(),1);
+          }	
 		System.out.println("Back to Tunnel Entrance X " +  odometer.getXYT()[0] + " Y " + odometer.getXYT()[1] + " T " + odometer.getXYT()[2]);
        
         navigator.turnToExactTheta(0);

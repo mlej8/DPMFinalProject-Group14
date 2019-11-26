@@ -583,8 +583,9 @@ public class Navigation {
    * 
    * @param x: Tunnel exit x coordinates
    * @param y: Tunnel exit y coordinates
+   * @param n: Tunnel length
    */
-  public void traverseDoubleTunnel(double x, double y) {
+  public void traverseTunnel(double x, double y, int n) {
 
     // Variables that increments
     int xChange, yChange = 0;
@@ -629,8 +630,8 @@ public class Navigation {
       
       sensorPoller.setMode(Mode.IDLE);
 
-      // Travel two tiles.
-      navigateForward(2*TILE_SIZE+0.5*TILE_SIZE, TUNNEL_SPEED);
+      // Travel n tiles.
+      navigateForward(n*TILE_SIZE+0.5*TILE_SIZE, TUNNEL_SPEED);
       sleepNavigation();
       stop();
 
@@ -718,8 +719,8 @@ public class Navigation {
       // Stop polling data.
       sensorPoller.setMode(Mode.IDLE);
 
-      // Travel two tiles.
-      navigateForward(2 * TILE_SIZE + 0.5 * TILE_SIZE, TUNNEL_SPEED);
+      // Travel n tiles.
+      navigateForward(n * TILE_SIZE + 0.5 * TILE_SIZE, TUNNEL_SPEED);
       sleepNavigation();
       stop();
 
