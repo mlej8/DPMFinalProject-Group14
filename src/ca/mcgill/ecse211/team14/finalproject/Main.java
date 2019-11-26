@@ -80,14 +80,8 @@ public class Main {
 	    
 	    // TODO: Find launch point
         // TODO: Travel to launch point
-<<<<<<< HEAD
-//        navigator.travelTo(wifi.getLaunchIntersectionPointX(), wifi.getLaunchIntersectionPointY());
-        navigator.travelTo(4*TILE_SIZE, 6*TILE_SIZE);
-        navigator.turnToExactTheta(270, false);
-=======
         navigator.travelTo(wifi.getLaunchIntersectionPointX(), wifi.getLaunchIntersectionPointY());
         navigator.turnTo(wifi.getBinAngle());
->>>>>>> 535931fce9b206e3bd0c5d74d30af2ff4981ea79
         navigator.stop();
 
         // TODO TUNE WHEELBASE
