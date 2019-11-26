@@ -224,14 +224,14 @@ public class WIFI {
         // startY = (mapHeight - 0.5) * TILE_SIZE;
         startX = (mapWidth - 1);
         startY = (mapHeight - 1); // (14, 8)
-        startT = 180;
+        startT = 270;
         break;
       case 3:
         // startX = 0.5 * TILE_SIZE;
         // startY = (mapHeight - 0.5) * TILE_SIZE;
         startX = 1;
         startY = (mapHeight - 1); // (1, 8)
-        startT = 270;
+        startT = 180;
         break;
     }
   }
