@@ -4,6 +4,7 @@ import static ca.mcgill.ecse211.team14.finalproject.Resources.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Map;
+import ca.mcgill.ecse211.team14.finalproject.Resources.Point;
 import ca.mcgill.ecse211.wificlient.WifiConnection;
 
 public class WIFI {
@@ -39,10 +40,18 @@ public class WIFI {
 
   private double binX;
 
+  public double getBinX() {
+    return binX;
+  }
+
   /**
    * Variable target launch position y coordinate.
    */
   private double binY;
+
+  public double getBinY() {
+    return binY;
+  }
 
   /**
    * Variable tracking if tunnel is horizontal or vertical.
@@ -69,6 +78,8 @@ public class WIFI {
    */
   private double tunnelExY;
 
+  
+
   /**
    * Tunnel width.
    */
@@ -78,6 +89,16 @@ public class WIFI {
    * Tunnel height.
    */
   private double tunnelHeight;
+  
+  /**
+   * X-coordinate of nearest intersection point of launch Point
+   */
+  private double launchIntersectionPointX;
+  
+  /**
+   * Y-coordinate of nearest intersection point of launch Point
+   */
+  private double launchIntersectionPointY;
 
   public WIFI() {
     setBinPosition();
@@ -103,19 +124,17 @@ public class WIFI {
    */
   public void findLaunchPosition() {
 
-//    double currentX = odometer.getXYT()[0];
-//    double currentY = odometer.getXYT()[1];
-    double currentX = this.tunnelExX;
-    double currentY = this.tunnelExY;
+    double currentX = odometer.getXYT()[0];
+    double currentY = odometer.getXYT()[1];
 
     double theta = Math.atan2(currentX - binX * TILE_SIZE, currentY - binY * TILE_SIZE);
 
     double dx, dy;
     // calculate the intersection of the circle and the line
-    dy = LAUNCH_RANGE * Math.cos(-theta) * TILE_SIZE;
+    dy = LAUNCH_RANGE  * Math.cos(theta) * TILE_SIZE;
     dx = LAUNCH_RANGE * Math.sin(theta) * TILE_SIZE;
     this.launchY = binY * TILE_SIZE + dy;
-    this.launchX = binX * TILE_SIZE + dx;
+    this.launchX = binX * TILE_SIZE + dx;                                               
 
     double top = (island.ur.y-1) * TILE_SIZE;
     double bottom = (island.ll.y+1) * TILE_SIZE;
@@ -126,19 +145,23 @@ public class WIFI {
     ArrayList<Point> intersections = new ArrayList<Point>();
 
     if (launchX <= left || launchX >= right || launchY <= bottom || launchY >= top) {
-      calculateIntersectionX(center, LAUNCH_RANGE * TILE_SIZE, currentX, intersections);
-      calculateIntersectionY(center, LAUNCH_RANGE * TILE_SIZE, currentY, intersections);
+      calculateIntersectionX(center, LAUNCH_RANGE * TILE_SIZE, left, intersections);
+      calculateIntersectionX(center, LAUNCH_RANGE * TILE_SIZE, right, intersections);
+      calculateIntersectionY(center, LAUNCH_RANGE * TILE_SIZE, top, intersections);
+      calculateIntersectionY(center, LAUNCH_RANGE * TILE_SIZE, bottom, intersections);
       int index = 0;
-      for (Point p : intersections) {
+      for (int i=0;i<intersections.size();i++) {
+        Point p = intersections.get(index);
         if (p.x <= left || p.x >= right || p.y <= bottom || p.y >= top) {
           intersections.remove(index);
-        }
+        }else {
         index++;
+        }
       }
-      double minDist = distance(intersections.get(0));
+      double minDist = distance(intersections.get(0),new Point(currentX, currentY));
       Point nearestPoint = intersections.get(0);
       for (Point p : intersections) {
-        double d = distance(p);
+        double d = distance(intersections.get(0),new Point(currentX, currentY));
         if (d < minDist) {
           minDist = d;
           nearestPoint = p;
@@ -147,6 +170,7 @@ public class WIFI {
 
       this.launchX = nearestPoint.x;
       this.launchY = nearestPoint.y;
+<<<<<<< HEAD
       
       // test whether launchX/Y on the circle
       double diffX = Math.abs(this.binX - this.launchX);
@@ -157,10 +181,21 @@ public class WIFI {
       }else {
         System.out.println("!!!!!!NOT ON THE CIRCLE!!!!!");
       }
+=======
+      System.out.println("Find launch Point Second Case");
+>>>>>>> fe57c1b1a889c6cd2062973ad9ec64e28df6cd6d
     }
-
+      this.launchIntersectionPointX = approximate(launchX);
+      this.launchIntersectionPointY = approximate(launchY);
   }
 
+  private double approximate(double coordinate) {
+     double tile = coordinate / TILE_SIZE;
+     int result = (int) tile;
+     if(tile - (int)tile >= 0.5)
+       result +=1;
+     return result * TILE_SIZE;
+  }
 
   /**
    * 
@@ -202,8 +237,8 @@ public class WIFI {
     intersects.add(p2);
   }
 
-  private double distance(Point p) {
-    return Math.hypot(p.x, p.y);
+  private double distance(Point p1,Point p2) {
+    return Math.hypot(p1.x-p2.x, p1.y-p2.y);
   }
 
 
@@ -234,14 +269,14 @@ public class WIFI {
         // startY = (mapHeight - 0.5) * TILE_SIZE;
         startX = (mapWidth - 1);
         startY = (mapHeight - 1); // (14, 8)
-        startT = 180;
+        startT = 270;
         break;
       case 3:
         // startX = 0.5 * TILE_SIZE;
         // startY = (mapHeight - 0.5) * TILE_SIZE;
         startX = 1;
         startY = (mapHeight - 1); // (1, 8)
-        startT = 270;
+        startT = 180;
         break;
     }
   }
@@ -474,5 +509,11 @@ public class WIFI {
   public double getTunnelWidth() {
     return tunnelWidth;
   }
+  public double getLaunchIntersectionPointX() {
+    return launchIntersectionPointX;
+  }
 
+  public double getLaunchIntersectionPointY() {
+    return launchIntersectionPointY;
+  }
 }

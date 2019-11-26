@@ -14,13 +14,6 @@ public class findDestMethodTests {
   static double launchRange;
   final static double BOUNDARY=0;
   
-  /**
-   * This method uses the given target position (targetX,targetY) to find the ideal launching
-   * position. x and y are in unit cm. 
-   * 
-   * @param targetX
-   * @param targetY
-   */
   public static String findDestAtan(double targetX, double targetY) {
     double[] curPosition = new double[] {currentX, currentY};
     double[] throwTo = new double[] {targetX, targetY};
@@ -29,18 +22,6 @@ public class findDestMethodTests {
     
     double launchX, launchY;
     double dx,dy;
-    // calculate the intersection of the circle and the line
-//    if(theta < 0) { // when the robot is in 2nd/3rd quadrant
-//      dy =   launchRange * Math.cos(-theta);
-//      dx = - launchRange * Math.sin(-theta);
-//      launchY = targetY + dy;
-//      launchX = targetX + dx;
-//    } else {  // in 1st/4th quadrant
-//      dy =   launchRange * Math.cos(theta);
-//      dx =   launchRange * Math.sin(theta);
-//      launchY = targetY + dy;
-//      launchX = targetX + dx; // TODO: test later
-//    }
     
     dy =   launchRange * Math.cos(-theta);
     dx =   launchRange * Math.sin(theta);
@@ -50,6 +31,70 @@ public class findDestMethodTests {
       double[] target = findCircle(curPosition, throwTo);
       launchX = target[0];
       launchY = target[1];
+    }
+    System.out.println("I am going to X position: " + keep3Digits(launchX) + " Y position: " + keep3Digits(launchY));
+    return "I am going to X position: " + keep3Digits(launchX) + " Y position: " + keep3Digits(launchY);
+    
+  }
+  /**
+   * This method uses the given target position (targetX,targetY) to find the ideal launching
+   * position. x and y are in unit cm. 
+   * 
+   * @param targetX
+   * @param targetY
+   */
+  public static String findLaunchPoint(double targetX, double targetY, Point ll, Point ur) {
+    double[] curPosition = new double[] {currentX, currentY};
+    double[] throwTo = new double[] {targetX, targetY};
+    double binX = targetX;
+    double binY = targetY;
+    double launchX, launchY;
+    double dx,dy;
+
+    double theta = Math.atan2(currentX - binX * TILE_SIZE, currentY - binY * TILE_SIZE);
+
+    // calculate the intersection of the circle and the line
+    dy = LAUNCH_RANGE * Math.cos(-theta) * TILE_SIZE;
+    dx = LAUNCH_RANGE * Math.sin(theta) * TILE_SIZE;
+    launchY = binY * TILE_SIZE + dy;
+    launchX = binX * TILE_SIZE + dx;                  
+    
+    
+    double top = ur.y * TILE_SIZE;
+    double bottom = ll.y * TILE_SIZE;
+    double left = ll.x * TILE_SIZE;
+    double right = ur.x * TILE_SIZE;
+
+    Point center = new Point(binX * TILE_SIZE, binY * TILE_SIZE);
+    ArrayList<Point> intersections = new ArrayList<Point>();
+
+    if (launchX <= left || launchX >= right || launchY <= bottom || launchY >= top) {
+      calculateIntersectionX(center, LAUNCH_RANGE * TILE_SIZE, left, intersections);
+      calculateIntersectionX(center, LAUNCH_RANGE * TILE_SIZE, right, intersections);
+      calculateIntersectionY(center, LAUNCH_RANGE * TILE_SIZE, top, intersections);
+      calculateIntersectionY(center, LAUNCH_RANGE * TILE_SIZE, bottom, intersections);
+      int index = 0;
+      for (int i=0;i<intersections.size();i++) {
+        Point p = intersections.get(index);
+        if (p.x <= left || p.x >= right || p.y <= bottom || p.y >= top) {
+          intersections.remove(index);
+        }else {
+        index++;
+        }
+      }
+      double minDist = distance(intersections.get(0),new Point(currentX, currentY));
+      Point nearestPoint = intersections.get(0);
+      for (Point p : intersections) {
+        double d = distance(intersections.get(0),new Point(currentX, currentY));
+        if (d < minDist) {
+          minDist = d;
+          nearestPoint = p;
+        }
+      }
+
+      launchX = nearestPoint.x;
+      launchY = nearestPoint.y;
+
     }
     System.out.println("I am going to X position: " + keep3Digits(launchX) + " Y position: " + keep3Digits(launchY));
     return "I am going to X position: " + keep3Digits(launchX) + " Y position: " + keep3Digits(launchY);
@@ -70,7 +115,7 @@ public class findDestMethodTests {
     return target;
   }
   
-  private void calculateIntersectionY(Point center, double radius, double y, ArrayList<Point> intersects) {
+  private static void calculateIntersectionY(Point center, double radius, double y, ArrayList<Point> intersects) {
     if (Math.abs((y - center.y) / radius) > 1) {
       return;
     }
@@ -83,7 +128,7 @@ public class findDestMethodTests {
     intersects.add(p2);
   }
   
-  private void calculateIntersectionX(Point center, double radius, double x, ArrayList<Point> intersects) {
+  private static void calculateIntersectionX(Point center, double radius, double x, ArrayList<Point> intersects) {
     if (Math.abs((x - center.x) / radius) > 1) {
       return;
     }
@@ -96,6 +141,7 @@ public class findDestMethodTests {
     intersects.add(p2);
   }
   
+<<<<<<< HEAD
   /**
    * This method uses the given target position (binX,binY) to find the ideal launching position.
    */
@@ -155,20 +201,24 @@ public class findDestMethodTests {
     return Math.hypot(p.x, p.y);
   }
   
+=======
+  private static double distance(Point p1,Point p2) {
+    return Math.hypot(p1.x-p2.x, p1.y-p2.y);
+  }
+
+>>>>>>> fe57c1b1a889c6cd2062973ad9ec64e28df6cd6d
   private static double keep3Digits(double number) {
-    double n = 0;
-    if(number < 0) {
-      n = number;
-    }
-    number = Math.abs(number);
-    int temp = (int)(number * 1000);
+    double n = Math.abs(number);
+    int temp = (int)(n * 1000);
     //Add 1 if the difference is larger than 0.5
-    if (number * 1000 - temp > 0.5) {
+    if (n * 1000 - temp > 0.5) {
       temp += 1;
     }
-    number = temp / 1000.0 + 0.000;
-    if(n < 0) {
-      number = -number;
+    n = temp / 1000.0 + 0.000;
+    if(number < 0) {
+      number = -n;
+    }else {
+      number = n;
     }
     return number;
   }
@@ -262,12 +312,13 @@ public class findDestMethodTests {
       p.y = keep3Digits(p.y);
     }
     ArrayList<Point> calculated = new ArrayList<Point>();
-    calculated.add(new Point(1, 5.916));
-    calculated.add(new Point(1, -5.916));
-    assertEquals(calculated, points);
+    calculated.add(new Point(1.000, 5.916));
+    calculated.add(new Point(1.000, -5.916));
+    assertEquals(calculated.toString(), points.toString());
   }
   
   @Test
+<<<<<<< HEAD
   public void testLaunch() {
     int binx = 7;
     int biny = 15;
@@ -289,4 +340,17 @@ public class findDestMethodTests {
     }
    assertEquals("F","F");
   }
+=======
+  public void testIslandIntersections() {
+    currentX = 0;
+    currentY = 2*TILE_SIZE;
+    ArrayList<Point> points = new ArrayList<Point>();
+    Point ll = new Point(-7,1);
+    Point ur = new Point(2,4);
+    findLaunchPoint(0, 0, ll, ur);
+    assertEquals("I am going to X position: " + keep3Digits(1.9) + " Y position: " + keep3Digits(2.0),
+         points.toString());
+  }
+  
+>>>>>>> fe57c1b1a889c6cd2062973ad9ec64e28df6cd6d
 }
