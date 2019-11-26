@@ -77,38 +77,39 @@ public class Main {
 		Main.sleepFor(SLEEPINT);
 		
 		// TODO: Navigate to bin x and bin y
-	      System.out.println("Launch intersection X" + wifi.getlaunchX()+ " Y " + wifi.getlaunchY());
+	    System.out.println("Launch intersection X " + wifi.getLaunchIntersectionPointX()/TILE_SIZE+ " Y " + wifi.getLaunchIntersectionPointY()/TILE_SIZE);
+	    System.out.println("facing angle = "+wifi.getBinAngle());
 
-//		System.out.println("Launch intersection X" + wifi.getLaunchIntersectionPointX() + " Y " + wifi.getLaunchIntersectionPointY());
-//		navigator.travelTo(wifi.getLaunchIntersectionPointX(), wifi.getLaunchIntersectionPointY());
-//
 //		// Turn to exact orientation
 //		navigator.turnToLaunchPoint();
 	    
 	    // TODO: Find launch point
         // TODO: Travel to launch point
-        navigator.travelTo(wifi.getlaunchX(), wifi.getlaunchY());
+        navigator.travelTo(wifi.getLaunchIntersectionPointX(), wifi.getLaunchIntersectionPointY());
+        navigator.turnToExactTheta(Math.toDegrees(wifi.getBinAngle()));
         navigator.stop();
-
-		// TODO: Step 6. Launch the ball a minimum distance of 4 tiles, stop and beep 
-		BallLauncher ballLauncher = new BallLauncher();
-		ballLauncher.launch();	
-		stopAndBeep(5);
-		
+//
+//		// TODO: Step 6. Launch the ball a minimum distance of 4 tiles, stop and beep 
+//		BallLauncher ballLauncher = new BallLauncher();
+//		ballLauncher.launch();	
+//		stopAndBeep(5);
+//		
 		Main.sleepFor(SLEEPINT);
-		
-		// TODO: Travel back to tunnel        
+//		
+//		// TODO: Travel back to tunnel        
         navigator.travelTo(wifi.getTunnelExX(), wifi.getTunnelExY());
-        
-		// TODO: Pass Tunnel 
+//        
+//		// TODO: Pass Tunnel 
 		navigator.traverseDoubleTunnel(wifi.getTunnelEnX(), wifi.getTunnelEnY());
 	
 		System.out.println("Back to Tunnel Entrance X " +  odometer.getXYT()[0] + " Y " + odometer.getXYT()[1] + " T " + odometer.getXYT()[2]);
        
-		// Navigate back to starting point 
+        navigator.turnToExactTheta(0);
+//		// Navigate back to starting point 
 		navigator.travelTo(wifi.getStartX()*TILE_SIZE, wifi.getStartY()*TILE_SIZE);
-
-        // TODO: Stop and beep for 5 times
+		System.out.println("start = ("+wifi.getStartX()+", "+wifi.getStartY()+")");
+//
+//        // TODO: Stop and beep for 5 times
         stopAndBeep(5);
 		
 		// TODO: Set to BOTH mode (LIGHT and US mode for Sensor Poller)		

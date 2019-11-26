@@ -27,7 +27,7 @@ public class Resources {
    * The IP address of the server that transmits data to the robot. Set this to the default for the
    * beta demo and competition.
    */
-  public static final String SERVER_IP = "192.168.2.13";    //TODO: change this
+  public static final String SERVER_IP = "192.168.43.32";    //TODO: change this
   
   /**
    * Your team number.
@@ -51,7 +51,7 @@ public class Resources {
 	/**
 	 * The robot's width in centimeters.
 	 */
-	public static final double TRACK = 15.10; // 15.10
+	public static final double TRACK = 15.20; // 15.10
 
 	/**
 	 * Turning 90 degrees to start position parallel the wall. 
@@ -188,7 +188,7 @@ public class Resources {
 	 * d constant for ultrasonic localizer representing the threshold distance from the wall 
 	 *
 	 */
-	public static final double d = 75.0; 
+	public static final double d = 45.0; 
 	
 	/**
 	 * Degree at which to rotate right when executing ultrasonic sensor localization.

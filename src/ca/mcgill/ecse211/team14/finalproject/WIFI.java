@@ -40,18 +40,18 @@ public class WIFI {
 
   private double binX;
 
-  public double getBinX() {
-    return binX;
-  }
-
   /**
    * Variable target launch position y coordinate.
    */
   private double binY;
 
-  public double getBinY() {
-    return binY;
-  }
+  
+  /**
+   * Variable target facing angle to throw the ball
+   */
+  private double binAngle;
+
+
 
   /**
    * Variable tracking if tunnel is horizontal or vertical.
@@ -120,7 +120,7 @@ public class WIFI {
   }
 
   /**
-   * This method uses the given target position (binX,binY) to find the ideal launching position.
+   * This method uses the given target position (binX,binY) to find the ideal launching position and the facing angle towards the bin.
    */
   public void findLaunchPosition() {
 
@@ -172,16 +172,24 @@ public class WIFI {
       this.launchY = nearestPoint.y;
       System.out.println("Find launch Point Second Case");
     }
-      this.launchIntersectionPointX = approximate(launchX);
-      this.launchIntersectionPointY = approximate(launchY);
+      this.launchIntersectionPointX = approximate(launchX, left, right);
+      this.launchIntersectionPointY = approximate(launchY, bottom, top);
+      
+      binAngle = Math.atan((binY*TILE_SIZE-this.launchIntersectionPointX)/(binX*TILE_SIZE-this.launchIntersectionPointY));
   }
 
-  private double approximate(double coordinate) {
+  private double approximate(double coordinate, double lowerBound, double highBound) {
      double tile = coordinate / TILE_SIZE;
      int result = (int) tile;
      if(tile - (int)tile >= 0.5)
        result +=1;
-     return result * TILE_SIZE;
+     double r = result * TILE_SIZE;
+     if(r <= lowerBound) {
+       r += TILE_SIZE;
+     }else if(r >= highBound) {
+       r -= TILE_SIZE;
+     }
+     return r;
   }
 
   /**
@@ -502,5 +510,17 @@ public class WIFI {
 
   public double getLaunchIntersectionPointY() {
     return launchIntersectionPointY;
+  }
+  
+  public double getBinX() {
+    return binX;
+  }
+
+  public double getBinY() {
+    return binY;
+  }
+  
+  public double getBinAngle() {
+    return binAngle;
   }
 }
