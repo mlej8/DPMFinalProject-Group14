@@ -176,6 +176,7 @@ public class Navigation {
 
     navigation: if (Main.wifi.isTunnelHorizontal()) {
 
+      if (Math.abs(y - odometer.getXYT()[1]) > ERROR_MARGIN) {
       // First travel along X-axis, then travel along Y-axis
       if (dx >= 0) {
         turnToExactTheta(90);
@@ -212,8 +213,9 @@ public class Navigation {
           }
           lightCorrector.setBothMotorsToFalse();
         }
+        }
       }
-
+      if (Math.abs(y - odometer.getXYT()[1]) > ERROR_MARGIN) {
       // Second travel along Y-axis
       if (dy >= 0) {
         turnToExactTheta(0);
@@ -238,7 +240,6 @@ public class Navigation {
             break navigation;
           }
         }
-
         if (lightCorrector.isLeftMotorTouched() && lightCorrector.isRightMotorTouched()) {
           travelLightSensorDistance();
           this.currY += yChange;
@@ -251,8 +252,9 @@ public class Navigation {
           lightCorrector.setBothMotorsToFalse();
         }
       }
+      }
     } else { // If tunnel is vertical, navigate along Y-axis first and
-
+      if (Math.abs(y - odometer.getXYT()[1]) > ERROR_MARGIN) {
       // Travel along Y-axis
       if (dy >= 0) {
         System.out.println("Turned to 0");
@@ -292,8 +294,10 @@ public class Navigation {
           }
           lightCorrector.setBothMotorsToFalse();
         }
+      }      
       }
-
+      
+      if (Math.abs(x - odometer.getXYT()[0]) > ERROR_MARGIN) {
       // First travel along X-axis, then travel along Y-axis
       if (dx >= 0) {
         turnToExactTheta(90);
@@ -335,7 +339,7 @@ public class Navigation {
         }
       }
     }
-
+    }
     // Obstacle avoidance
 //    if (detectedObstacle) {
 //      Main.sleepFor(SLEEPINT);

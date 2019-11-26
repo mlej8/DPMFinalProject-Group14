@@ -78,34 +78,33 @@ public class Main {
 //		Main.sleepFor(SLEEPINT);
 		
 		// TODO: Navigate to bin x and bin y
-//		navigator.travelTo(1*TILE_SIZE, 8*TILE_SIZE);
+		navigator.travelTo(4*TILE_SIZE, 6*TILE_SIZE);
 //		    wifi.getlaunchX(), wifi.getlaunchY());
 
 		// Turn to exact orientation
-//		navigator.turnToExactTheta(90);
+		navigator.turnToExactTheta(90);
 //		    targetAngle); 
 
 		// TODO: Step 6. Launch the ball a minimum distance of 4 tiles, stop and beep 
-//		BallLauncher ballLauncher = new BallLauncher();
-//		ballLauncher.launch();	
-//		stopAndBeep(5);
+		BallLauncher ballLauncher = new BallLauncher();
+		ballLauncher.launch();	
+		stopAndBeep(5);
 		
-		//
-//		Main.sleepFor(SLEEPINT*20);
+		Main.sleepFor(SLEEPINT*10);
 		
 		// TODO: Travel back to tunnel        
-//        navigator.travelTo(wifi.getTunnelExX(), wifi.getTunnelExY());
-		
+        navigator.travelTo(wifi.getTunnelExX(), wifi.getTunnelExY());
+        
 		// TODO: Pass Tunnel 
-//		navigator.traverseDoubleTunnel(wifi.getTunnelEnX(), wifi.getTunnelEnY());
+		navigator.traverseDoubleTunnel(wifi.getTunnelEnX(), wifi.getTunnelEnY());
 	
-//		System.out.println("Back to Tunnel Entrance X " +  odometer.getXYT()[0] + " Y " + odometer.getXYT()[1] + " T " + odometer.getXYT()[2]);
+		System.out.println("Back to Tunnel Entrance X " +  odometer.getXYT()[0] + " Y " + odometer.getXYT()[1] + " T " + odometer.getXYT()[2]);
        
 		// Navigate back to starting point 
-//		navigator.travelTo(wifi.getStartX()*TILE_SIZE, wifi.getlaunchY()*TILE_SIZE);
+		navigator.travelTo(wifi.getStartX()*TILE_SIZE, wifi.getlaunchY()*TILE_SIZE);
 
         // TODO: Stop and beep for 5 times
-//        stopAndBeep(5);
+        stopAndBeep(5);
 		
 		// TODO: Set to BOTH mode (LIGHT and US mode for Sensor Poller)		
 		// TODO: Start obstacle avoidance thread...? or nah Should make into a thread or not? 

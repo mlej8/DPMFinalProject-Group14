@@ -111,7 +111,7 @@ public class WIFI {
 
     double dx, dy;
     // calculate the intersection of the circle and the line
-    dy = LAUNCH_RANGE * Math.cos(-theta) * TILE_SIZE;
+    dy = LAUNCH_RANGE  * Math.cos(-theta) * TILE_SIZE;
     dx = LAUNCH_RANGE * Math.sin(theta) * TILE_SIZE;
     this.launchY = binY * TILE_SIZE + dy;
     this.launchX = binX * TILE_SIZE + dx;                                               
