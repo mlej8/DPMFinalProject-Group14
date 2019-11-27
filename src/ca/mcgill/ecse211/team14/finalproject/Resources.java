@@ -61,7 +61,7 @@ public class Resources {
 	/**
 	 * Fixed Motor Speed.
 	 */
-	public static final int MOTOR_SPEED = 50;
+	public static final int MOTOR_SPEED = 75;
 
     /**
      * Fixed Motor Speed.
@@ -86,7 +86,7 @@ public class Resources {
 	/**
 	 * Tunnel speed. 
 	 */
-	public static final int TUNNEL_SPEED = 300;
+	public static final int TUNNEL_SPEED = 800;
 	
 	/**
 	 * Tunnel sleep.
@@ -208,12 +208,12 @@ public class Resources {
     /**
      * The rotation speed of launch motor.
      */
-    public static final int LAUNCH_MOTOR_SPEED = 350;
+    public static final int LAUNCH_MOTOR_SPEED = 250;
     
     /**
      * Acceleration of launch motor.
      */
-    public static final int LAUNCH_MOTOR_ACCELERATOR = 2475;  
+    public static final int LAUNCH_MOTOR_ACCELERATOR = 2000;  
     
     /**
      * Launch rotation.
@@ -228,7 +228,7 @@ public class Resources {
     /**
      * Launch range of the ball launcher
      */
-    public static final double LAUNCH_RANGE = 6.7;    //TODO: change the range
+    public static final double LAUNCH_RANGE = 7.0;    //TODO: change the range
     
     /**
      * Create light corrector 

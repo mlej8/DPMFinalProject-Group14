@@ -208,7 +208,7 @@ public class Navigation {
             dash(dashDistance(((x - odometer.getXYT()[0]) * 5) / (double) 7));
             navigateForward(x - odometer.getXYT()[0], MOTOR_SPEED);
           } else {
-            dash(xChange * dashDistance(((x - odometer.getXYT()[0]) * 5) / (double) 7));
+            dash(dashDistance(xChange * ((x - odometer.getXYT()[0]) * 5) / (double) 7));
             navigateForward(xChange * (x - odometer.getXYT()[0]), MOTOR_SPEED);
           }
           while (LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
@@ -248,7 +248,7 @@ public class Navigation {
             dash(dashDistance(((y - odometer.getXYT()[1]) * 5) / (double) 7));
             navigateForward(y - odometer.getXYT()[1], MOTOR_SPEED);
           } else {
-            dash(yChange * dashDistance(((y - odometer.getXYT()[1]) * 5) / (double) 7));
+            dash(dashDistance((yChange *(y - odometer.getXYT()[1]) * 5) / (double) 7));
             navigateForward(yChange * (y - odometer.getXYT()[1]), MOTOR_SPEED);
           }
           while (LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
@@ -292,7 +292,7 @@ public class Navigation {
             dash(dashDistance(((y - odometer.getXYT()[1]) * 5) / (double) 7));
             navigateForward(y - odometer.getXYT()[1], MOTOR_SPEED);
           } else {
-            dash(yChange * dashDistance(((y - odometer.getXYT()[1]) * 5) / (double) 7));
+            dash(dashDistance((yChange *(y - odometer.getXYT()[1]) * 5) / (double) 7));
             navigateForward(yChange * (y - odometer.getXYT()[1]), MOTOR_SPEED);
           }
           while (LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
@@ -336,7 +336,7 @@ public class Navigation {
             dash(dashDistance(((x - odometer.getXYT()[0]) * 5) / (double) 7));
             navigateForward(x - odometer.getXYT()[0], MOTOR_SPEED);
           } else {
-            dash(xChange * dashDistance(((x - odometer.getXYT()[0]) * 5) / (double) 7));
+            dash(dashDistance(xChange * ((x - odometer.getXYT()[0]) * 5) / (double) 7));
             navigateForward(xChange * (x - odometer.getXYT()[0]), MOTOR_SPEED);
           }
           while (LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
@@ -383,8 +383,8 @@ public class Navigation {
    */
   private double dashDistance(double d) {
     // Adding upper bound
-    if (d > TILE_SIZE) {
-      return (TILE_SIZE * 5) / 7;
+    if (Math.abs(d) > TILE_SIZE) {
+      return (TILE_SIZE*5)/ 7;
     }
     return d;
   }
@@ -422,36 +422,34 @@ public class Navigation {
       // First travel along X-axis, then travel along Y-axis
       if (dx >= 0) {
         turnToExactTheta(90, true);
-        Main.sleepFor(SLEEPINT);
+        sleepNavigation();
         navigateForward(launchX - odometer.getXYT()[0], MOTOR_SPEED);
       } else {
         turnToExactTheta(270, true);
-        Main.sleepFor(SLEEPINT);
+        sleepNavigation();
         navigateForward(-1*(launchX - odometer.getXYT()[0]), MOTOR_SPEED);
       }
+      sleepNavigation();
     }
-    sleepNavigation();
     if (Math.abs(launchY - odometer.getXYT()[1]) > ERROR_MARGIN) {
       // Second travel along Y-axis
       if (dy >= 0) {
         turnToExactTheta(0, true);
-        Main.sleepFor(SLEEPINT);
+        odometer.setTheta(0);
+        sleepNavigation();
         navigateForward(launchY - odometer.getXYT()[1], MOTOR_SPEED);
       } else {
         turnToExactTheta(180, true);
-        Main.sleepFor(SLEEPINT);
+        odometer.setTheta(180);
+        sleepNavigation();
         navigateForward(-1 * (launchY - odometer.getXYT()[1]), MOTOR_SPEED);
       }
+      sleepNavigation();
     }
-    sleepNavigation();
     stop();
-    
-    // Turn to exact bin angle
-    navigator.turnToExactTheta(Main.wifi.getBinAngle(), false);    
     
     // Set traveling to false
     this.traveling = false;
-    Main.sleepFor(SLEEPINT);
   }
 
   public void travelBackToLatestGridIntersection() {
@@ -469,25 +467,33 @@ public class Navigation {
       // Second travel along Y-axis
       if (dy >= 0) {
         turnToExactTheta(0, false);
-        Main.sleepFor(SLEEPINT);
-        navigateForward(destY - odometer.getXYT()[1], MOTOR_SPEED);
+        Main.sleepFor(SLEEPINT);        
+//        navigateForward(destY - odometer.getXYT()[1], MOTOR_SPEED);
+        travelOneTileSize(false);
+        odometer.setTheta(0);
       } else {
         turnToExactTheta(180, false);
         Main.sleepFor(SLEEPINT);
-        navigateForward(-1*(destY - odometer.getXYT()[1]), MOTOR_SPEED);
+//        navigateForward(-1*(destY - odometer.getXYT()[1]), MOTOR_SPEED);
+        travelOneTileSize(false);
+        odometer.setTheta(180);
       }
     }
     sleepNavigation();
     if (Math.abs(destX - odometer.getXYT()[0]) > ERROR_MARGIN) {
       // First travel along X-axis, then travel along Y-axis
       if (dx >= 0) {
-        turnToExactTheta(90, false);
+        turnToExactTheta(90, false);        
         Main.sleepFor(SLEEPINT);
-        navigateForward(destX - odometer.getXYT()[0], MOTOR_SPEED);
+        travelOneTileSize(false);
+        odometer.setTheta(90);
+//        navigateForward(destX - odometer.getXYT()[0], MOTOR_SPEED);
       } else {
         turnToExactTheta(270, false);
         Main.sleepFor(SLEEPINT);
-        navigateForward(-1*(destX - odometer.getXYT()[0]), MOTOR_SPEED);
+        travelOneTileSize(false);
+        odometer.setTheta(270);
+//        navigateForward(-1*(destX - odometer.getXYT()[0]), MOTOR_SPEED);
       }
     }
     sleepNavigation();
@@ -763,7 +769,8 @@ public class Navigation {
       }
 
       // Travel one tile
-      travelOneTileSize(true);
+      dash(dashDistance((TILE_SIZE*5)/(double)7));
+      travelOneTileSize(false);
 
       // Correct before entering tunnel.
       if (lightCorrector.isLeftMotorTouched() && lightCorrector.isRightMotorTouched()) {
@@ -836,7 +843,8 @@ public class Navigation {
       }
 
       // Travel one tile
-      travelOneTileSize(true);
+      dash(dashDistance((TILE_SIZE*5)/(double)7));
+      travelOneTileSize(false);
       
       // Correct before entering tunnel.
       if (lightCorrector.isLeftMotorTouched() && lightCorrector.isRightMotorTouched()) {

@@ -85,6 +85,10 @@ public class Main {
         navigator.travelTo(wifi.getLaunchIntersectionPointX(), wifi.getLaunchIntersectionPointY());
         Main.sleepFor(SLEEPINT);
         navigator.travelToExactLaunchPoint();
+        Main.sleepFor(SLEEPINT);
+
+        // Turn to exact bin angle
+        navigator.turnToExactTheta(Main.wifi.getBinAngle(), false);         
         
 		// TODO: Step 6. Launch the ball a minimum distance of 4 tiles, stop and beep 
 		BallLauncher ballLauncher = new BallLauncher();
