@@ -718,22 +718,6 @@ public class Navigation {
   }
   
   /**
-   * Traverse tile before tunnel.
-   */
-  public void traverseTunnelTile() {
-    
-    // Navigate Forward One Tile
-    navigateForward((5*TILE_SIZE)/(double)7, DASH_SPEED);
-
-    sleepNavigation();
-
-    navigateForward(TILE_SIZE, MOTOR_SPEED);
-
-    // Travel light sensor distance.
-    travelLightSensorDistance();
-  }
-
-  /**
    * Method that returns a boolean depending on whether the robot has detected an obstacle or not.
    * 
    * @return boolean indicating if an obstacle has been detected.
@@ -779,9 +763,8 @@ public class Navigation {
       }
 
       // Travel one tile
-//      travelOneTileSize(true);
-      traverseTunnelTile();
-      
+      travelOneTileSize(true);
+
       // Correct before entering tunnel.
       if (lightCorrector.isLeftMotorTouched() && lightCorrector.isRightMotorTouched()) {
         this.currX += xChange;
@@ -853,8 +836,7 @@ public class Navigation {
       }
 
       // Travel one tile
-//      travelOneTileSize(true);
-      traverseTunnelTile();
+      travelOneTileSize(true);
       
       // Correct before entering tunnel.
       if (lightCorrector.isLeftMotorTouched() && lightCorrector.isRightMotorTouched()) {
