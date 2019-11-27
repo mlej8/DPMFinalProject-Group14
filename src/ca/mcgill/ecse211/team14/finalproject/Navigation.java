@@ -399,7 +399,8 @@ public class Navigation {
     LEFT_MOTOR.rotate(Converter.convertDistance(distance), true);
     RIGHT_MOTOR.rotate(Converter.convertDistance(distance), true);
     sleepNavigation();
-    stop(); // to be comment out 
+    Main.sleepFor(SLEEPINT);
+//    stop(); // to be comment out 
   }
 
   private void avoidObstacle() { // TODO
@@ -418,15 +419,15 @@ public class Navigation {
     lightCorrector.setBothMotorsToFalse();
 
     // Reference to the four island coordinates
-    double islandLowerLeftX = island.ll.x;
-    double islandLowerLeftY = island.ll.y;
-    double islandUpperRightX = island.ur.x;
-    double islandUpperRightY = island.ur.y;
+    double islandLowerLeftX = island.ll.x*TILE_SIZE;
+    double islandLowerLeftY = island.ll.y*TILE_SIZE;
+    double islandUpperRightX = island.ur.x*TILE_SIZE;
+    double islandUpperRightY = island.ur.y*TILE_SIZE;
 
     // Determine X and Y axis position
-    double yAxis = (island.ur.x - island.ll.x) / (double) 2;
-    double xAxis = (island.ur.y - island.ll.y) / (double) 2;
-
+    double yAxis = (island.ur.x - island.ll.x)*TILE_SIZE / (double) 2;
+    double xAxis = (island.ur.y - island.ll.y)*TILE_SIZE / (double) 2;
+    System.out.println("Obstacle avoiding");
     if ((x >= yAxis && x <= islandUpperRightX) && (y >= xAxis && y <= islandUpperRightY)) {
       System.out.println("Entered quadrant 1");
       // If robot is on the first quadrant, i.e. top right
@@ -588,6 +589,7 @@ public class Navigation {
         odometer.setTheta(0);
       }
     }
+    System.out.println("Obstacle avoided");
     
     // Set correction to false 
     this.detectedObstacle = false;

@@ -61,12 +61,12 @@ public class Resources {
 	/**
 	 * Fixed Motor Speed.
 	 */
-	public static final int MOTOR_SPEED = 60;
+	public static final int MOTOR_SPEED = 50;
 
     /**
      * Fixed Motor Speed.
      */
-    public static final int DASH_SPEED = 150;
+    public static final int DASH_SPEED = 175;
 	
 	/**
 	 * Variable that keeps track of the distance between the light sensors and the motors. 
