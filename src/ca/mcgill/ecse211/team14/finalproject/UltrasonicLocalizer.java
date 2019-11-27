@@ -29,9 +29,6 @@ public class UltrasonicLocalizer extends UltrasonicController{
 	    while (LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
 	      Main.sleepFor(SLEEPINT);
 	    }
-//		Main.sleepFor(2*SLEEPINT);
-		// Rotate counterclockwise to get out of noise margin.
-//		navigator.turnTo(-2*RIGHT_ANGLE);
 	
 		// Detect left wall 
 		leftWall = findFallingEdgeB();
@@ -154,10 +151,4 @@ public class UltrasonicLocalizer extends UltrasonicController{
 	public int readUSDistance() {
 		return this.distance;
 	}
-
-//  @Override
-//  public void processTwoUSData(int distance, int wallDistance) {
-//    filter(distance);
-//    filterLeft(distance);    
-//  }
 }

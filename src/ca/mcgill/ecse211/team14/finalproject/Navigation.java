@@ -35,7 +35,7 @@ public class Navigation {
   /**
    * Variable that tracks if the robot has detected an obstacle
    */
-  boolean detectedObstacle = false;
+  private boolean detectedObstacle = false;
 
   /**
    * Navigation class implements the singleton pattern
@@ -213,7 +213,7 @@ public class Navigation {
           Main.sleepFor(SLEEPINT);
           if (detectedObstacle()) { // TODO : OBSTACLE BOI
             stop();
-            detectedObstacle = true; // TODO: Consider case where it detects wall
+            this.detectedObstacle = true; // TODO: Consider case where it detects wall
             break navigation;
           }
         }
@@ -251,7 +251,7 @@ public class Navigation {
           Main.sleepFor(SLEEPINT);
           if (detectedObstacle()) { // TODO : OBSTACLE BOI
             stop();
-            detectedObstacle = true; // Consider case where it detects wall
+            this.detectedObstacle = true; // Consider case where it detects wall
             break navigation;
           }
         }
@@ -294,7 +294,7 @@ public class Navigation {
           // TODO : OBSTACLE BOI
           if (detectedObstacle()) {
             stop();
-            detectedObstacle = true; // Consider case where it detects wall
+            this.detectedObstacle = true; // Consider case where it detects wall
             break navigation;
           }
         }
@@ -336,7 +336,7 @@ public class Navigation {
           // TODO : OBSTACLE BOI
           if (detectedObstacle()) {
             stop();
-            detectedObstacle = true; // Consider case where it detects wall
+            this.detectedObstacle = true; // Consider case where it detects wall
             break navigation;
           }
         }
@@ -368,6 +368,11 @@ public class Navigation {
   }
 
   private void avoidObstacle() { // TODO
+    
+    // Store current positions
+    double x = odometer.getXYT()[0];
+    double y = odometer.getXYT()[1];
+    double theta = odometer.getXYT()[2];
 
     // Correct every time it turns
     navigateForward(-TILE_SIZE, MOTOR_SPEED);
@@ -376,11 +381,6 @@ public class Navigation {
 
     // Set both motors to False
     lightCorrector.setBothMotorsToFalse();
-    
-    // Store current positions
-    double x = odometer.getXYT()[0];
-    double y = odometer.getXYT()[1];
-    double theta = odometer.getXYT()[2];
 
     // Reference to the four island coordinates
     double islandLowerLeftX = island.ll.x;
@@ -389,45 +389,51 @@ public class Navigation {
     double islandUpperRightY = island.ur.y;
 
     // Determine X and Y axis position
-    double yAxis = (island.ur.x - island.ll.x) / 2;
-    double xAxis = (island.ur.y - island.ll.y) / 2;
+    double yAxis = (island.ur.x - island.ll.x) / (double) 2;
+    double xAxis = (island.ur.y - island.ll.y) / (double) 2;
 
     if ((x >= yAxis && x <= islandUpperRightX) && (y >= xAxis && y <= islandUpperRightY)) {
+      System.out.println("Entered quadrant 1");
       // If robot is on the first quadrant, i.e. top right
       if ((theta >= 345 && theta <= 360) || (theta >= 0 && theta <= 15)) { // allowing threshold of 15 degrees
         // Current orientation is 0
-        turnToExactTheta(270, false); // turn left
+        turnToExactTheta(270, true); // turn left
         // Navigate forward until robot detects a Grid Line
         travelOneTileSize(true);        
         // Correct odometer 
         this.currX -= 1;
-        odometer.setX(this.currX*TILE_SIZE);        
+        odometer.setX(this.currX*TILE_SIZE);   
+        odometer.setTheta(270);
       } else if ((theta >= 75 && theta <= 105)) {
         // Current orientation is 90
-        turnToExactTheta(180, false); // turn right
+        turnToExactTheta(180, true); // turn right
         // Navigate forward until robot detects a Grid Line
         travelOneTileSize(true);
         // Correct odometer
         this.currY -= 1;
-        odometer.setY(this.currY*TILE_SIZE);        
+        odometer.setY(this.currY*TILE_SIZE);   
+        odometer.setTheta(180);
       } else if ((theta >= 165 && theta <= 195)) {
         // Current orientation is 180
-        turnToExactTheta(270, false); // turn right
+        turnToExactTheta(270, true); // turn right
         // Navigate forward until robot detects a Grid Line
         travelOneTileSize(true);        
         // Correct odometer 
         this.currX -= 1;
-        odometer.setX(this.currX*TILE_SIZE);        
+        odometer.setX(this.currX*TILE_SIZE);      
+        odometer.setTheta(270);
       } else if ((theta >= 255 && theta <= 285)) {
         // Current orientation is 270
-        turnToExactTheta(180, false); // turn left
+        turnToExactTheta(180, true); // turn left
         // Navigate forward until robot detects a Grid Line
         travelOneTileSize(true);        
         // Correct odometer
         this.currY -= 1;
         odometer.setY(this.currY*TILE_SIZE);
+        odometer.setTheta(180);
       }
     } else if ((x >= islandLowerLeftX && x <= yAxis) && (y >= xAxis && y <= islandUpperRightY)) {
+      System.out.println("Entered quadrant 2");
       // If robot is on the second quadrant, i.e. top left
       if ((theta >= 345 && theta <= 360) || (theta >= 0 && theta <= 15)) { // allowing threshold of 15 degrees
         // Current orientation is 0
@@ -436,6 +442,7 @@ public class Navigation {
         travelOneTileSize(true);        
         // Correct odometer
         this.currX += 1;
+        odometer.setTheta(90);
         odometer.setX(this.currX*TILE_SIZE);        
       } else if ((theta >= 75 && theta <= 105)) {
         // Current orientation is 90
@@ -444,7 +451,8 @@ public class Navigation {
         travelOneTileSize(true);        
         // Correct odometer
         this.currY -= 1;
-        odometer.setY(this.currY*TILE_SIZE);        
+        odometer.setY(this.currY*TILE_SIZE);  
+        odometer.setTheta(180);
       } else if ((theta >= 165 && theta <= 195)) {
         // Current orientation is 180
         turnToExactTheta(90, false); // turn left
@@ -453,6 +461,7 @@ public class Navigation {
         // Correct odometer
         this.currX += 1;
         odometer.setX(this.currX*TILE_SIZE);
+        odometer.setTheta(90);
       } else if ((theta >= 255 && theta <= 285)) {
         // Current orientation is 270
         turnToExactTheta(180, false); // turn left
@@ -461,8 +470,10 @@ public class Navigation {
         // Correct odometer
         this.currY -= 1;
         odometer.setY(this.currY*TILE_SIZE);
+        odometer.setTheta(180);
       }
     } else if ((x >= islandLowerLeftX && x <= yAxis) && (y >= islandLowerLeftY && y <= xAxis)) {
+      System.out.println("Entered quadrant 3");
       // If robot is on the third quadrant, i.e. bottom left
       if ((theta >= 345 && theta <= 360) || (theta >= 0 && theta <= 15)) { // allowing threshold of 15 degrees
         // Current orientation is 0
@@ -472,6 +483,7 @@ public class Navigation {
         // Correct odometer
         this.currX += 1;
         odometer.setX(this.currX*TILE_SIZE);
+        odometer.setTheta(90);
       } else if ((theta >= 75 && theta <= 105)) {
         // Current orientation is 90
         turnToExactTheta(0, false); // turn left
@@ -480,6 +492,7 @@ public class Navigation {
         // Correct odometer
         this.currY += 1;
         odometer.setY(this.currY*TILE_SIZE);
+        odometer.setTheta(0);
       } else if ((theta >= 165 && theta <= 195)) {
         // Current orientation is 180
         turnToExactTheta(90, false); // turn left
@@ -488,6 +501,7 @@ public class Navigation {
         // Correct odometer
         this.currX += 1;
         odometer.setX(this.currX*TILE_SIZE);
+        odometer.setTheta(90);
       } else if ((theta >= 255 && theta <= 285)) {
         // Current orientation is 270
         turnToExactTheta(0, false); // turn right
@@ -496,8 +510,10 @@ public class Navigation {
         // Correct odometer
         this.currY += 1;
         odometer.setY(this.currY*TILE_SIZE);
+        odometer.setTheta(0);
       }
     } else if ((x >= yAxis && x <= islandUpperRightX) && (y >= islandLowerLeftY && y <= xAxis)) {
+      System.out.println("Entered quadrant 4");
       // If robot is on the forth quadrant, i.e. bottom right
       if ((theta >= 345 && theta <= 360) || (theta >= 0 && theta <= 15)) { // allowing threshold of 15 degrees
         // Current orientation is 0
@@ -507,6 +523,7 @@ public class Navigation {
         // Correct odometer
         this.currX -= 1;
         odometer.setX(this.currX*TILE_SIZE);
+        odometer.setTheta(270);
       } else if ((theta >= 75 && theta <= 105)) {
         // Current orientation is 90
         turnToExactTheta(0, false); // turn left
@@ -515,6 +532,7 @@ public class Navigation {
         // Correct odometer
         this.currY += 1;
         odometer.setY(this.currY*TILE_SIZE);
+        odometer.setTheta(0);
       } else if ((theta >= 165 && theta <= 195)) {
         // Current orientation is 180
         turnToExactTheta(270, false); // turn right
@@ -523,6 +541,7 @@ public class Navigation {
         // Correct odometer
         this.currX -= 1;
         odometer.setX(this.currX*TILE_SIZE);
+        odometer.setTheta(270);
       } else if ((theta >= 255 && theta <= 285)) {
         // Current orientation is 270
         turnToExactTheta(0, false); // turn right
@@ -531,11 +550,14 @@ public class Navigation {
         // Correct odometer
         this.currY += 1;
         odometer.setY(this.currY*TILE_SIZE);
+        odometer.setTheta(0);
       }
     }
-   
+    
     // Find new launching position
     Main.wifi.findLaunchPosition();
+    
+    // Sleep 
     Main.sleepFor(2*SLEEPINT);
     
     // Set corrector back to false after detecting the lines.

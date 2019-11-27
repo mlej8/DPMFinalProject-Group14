@@ -75,6 +75,7 @@ public class Main {
 		// TODO: Navigate to bin x and bin y
 	    System.out.println("Launch intersection X " + wifi.getLaunchIntersectionPointX()/TILE_SIZE+ " Y " + wifi.getLaunchIntersectionPointY()/TILE_SIZE);
 	    System.out.println("facing angle = "+wifi.getBinAngle());
+	    System.out.println("Launch X " + wifi.getlaunchX() + " Y " + wifi.getlaunchY() + " Bin X " + wifi.getBinX()*TILE_SIZE);
 	    
 	    sensorPoller.setMode(Mode.BOTH);
 	    
@@ -106,6 +107,8 @@ public class Main {
 		// Navigate back to starting point 
 		navigator.travelTo(wifi.getStartX()*TILE_SIZE, wifi.getStartY()*TILE_SIZE);
 		System.out.println("start = ("+wifi.getStartX()+", "+wifi.getStartY()+")");
+		
+		navigator.turnToExactTheta(0, true);
 
 		Main.sleepFor(TUNNEL_SLEEP);  
 		
