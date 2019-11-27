@@ -790,7 +790,6 @@ public class Navigation {
         lightCorrector.setBothMotorsToFalse();
       }
     }
-
     stop();
     Main.sleepFor(SLEEPINT);
     this.traveling = false;
