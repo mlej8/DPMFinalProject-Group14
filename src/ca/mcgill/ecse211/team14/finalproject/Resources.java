@@ -27,7 +27,12 @@ public class Resources {
    * The IP address of the server that transmits data to the robot. Set this to the default for the
    * beta demo and competition.
    */
-  public static final String SERVER_IP = "192.168.43.171";    //TODO: change this
+  public static final String SERVER_IP = DEFAULT_SERVER_IP;    //TODO: change this
+  
+  /**
+   * US Sensor threshold.
+   */
+  public static final double US_LOCALIZATION_THRESHOLD = 7.5; 
   
   /**
    * Your team number.
@@ -76,7 +81,7 @@ public class Resources {
 	/**
 	 * The speed at which the robot rotates in degrees per second.
 	 */
-	public static final int ROTATE_SPEED = 100;
+	public static final int ROTATE_SPEED = 120;
 
 	/**
 	 * The acceleration.
@@ -147,11 +152,6 @@ public class Resources {
 	 * The front ultrasonic sensor.
 	 */
 	public static final EV3UltrasonicSensor usSensorFront = new EV3UltrasonicSensor(SensorPort.S3);
-	
-	/**
-     * The left ultrasonic sensor.
-     */
-//    public static final EV3UltrasonicSensor usSensorLeft= new EV3UltrasonicSensor(SensorPort.S2);
 
 	/**
      * The left light sensor.
@@ -187,13 +187,13 @@ public class Resources {
     /**
      * Threshold to activate object avoidance.
      */
-    public static double THRESHOLD = 28;
+    public static double THRESHOLD = 27.5;
 	
 	/**
 	 * d constant for ultrasonic localizer representing the threshold distance from the wall 
 	 *
 	 */
-	public static final double d = 60.0; 
+	public static final double d = 45.0; //60
 	
 	/**
 	 * Degree at which to rotate right when executing ultrasonic sensor localization.

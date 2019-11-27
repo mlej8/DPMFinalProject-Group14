@@ -18,7 +18,9 @@ public class UltrasonicLocalizer extends UltrasonicController{
 	 * Method that executes ultrasonic localization by using falling edge technique.
 	 */
 	public void fallingEdge() {
-
+	  
+	    Main.sleepFor(SLEEPINT);
+	  
 		// Falling edge is the point at which the measured distance is smaller than d -
 		// NOISE_MARGIN
 		double backWall, leftWall, correctionAngle;
@@ -26,10 +28,8 @@ public class UltrasonicLocalizer extends UltrasonicController{
 		// Get angle at which the back and left walls are detected.
 		backWall = findFallingEdgeA();
 	
-	    while (LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
-	      Main.sleepFor(SLEEPINT);
-	    }
-	
+	    navigator.sleepNavigation(); 
+		
 		// Detect left wall 
 		leftWall = findFallingEdgeB();
 
@@ -69,20 +69,28 @@ public class UltrasonicLocalizer extends UltrasonicController{
 		// not be facing the wall
 		while (readUSDistance() < d) {
 			navigator.rotate(ROTATION_LEFT);
+			Main.sleepFor(SLEEPINT);
 		}
 
-		Main.sleepFor(2*SLEEPINT);
+		navigator.sleepNavigation();
 		
 		// Turn right until the robot detects the falling edge for the back wall.
 		while (readUSDistance() > d) {
 			navigator.rotate(ROTATION_RIGHT);
+            Main.sleepFor(SLEEPINT);
 		}
 
 		// Stop robot when it detects the falling edge.
 		navigator.stop();
+		
+		// Make a sound when falling edge is detected.
+        Sound.beep();
 
 		// Store the angle at which the falling edge is detected.
 		fallingEdge = odometer.getXYT()[2];
+		
+		// Print angle at which falling edge was detected  
+		System.out.println("Falling edge A: " + fallingEdge);
 
 		return fallingEdge;
 	}
@@ -99,25 +107,32 @@ public class UltrasonicLocalizer extends UltrasonicController{
 		double fallingEdge;
 		
 		// Rotate counterclockwise to get out of noise margin.
-        while (readUSDistance() < d) {
+        while (readUSDistance() < d + US_LOCALIZATION_THRESHOLD) {
             navigator.rotate(ROTATION_LEFT);
-            Main.sleepFor(2*SLEEPINT);
+            Main.sleepFor(SLEEPINT);
         }
-		
-        Main.sleepFor(2*SLEEPINT);
+
+        navigator.sleepNavigation();
         
 		// Turn left until the falling edge is detected for the left wall.
 		while (readUSDistance() > d) {
 			navigator.rotate(ROTATION_LEFT);
+            Main.sleepFor(SLEEPINT);
 		}
 
 		// Stop robot when it detects the falling edge.
 		navigator.stop();
+		
+		// Make a sound when falling edge is detected.
+        Sound.beep();
 
 		// Store the angle at which the falling edge is detected.
 		fallingEdge = odometer.getXYT()[2];
 
-		return fallingEdge;
+		  // Print angle at which falling edge was detected  
+        System.out.println("Falling edge B: " + fallingEdge);
+
+        return fallingEdge;
 	}
 
 	/**

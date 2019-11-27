@@ -28,9 +28,6 @@ public class Main {
 	public static void main(String args[]) {  
 	  
 	    wifi = new WIFI();
-	    System.out.println("startX = "+ wifi.getStartX() + ", startY = "+wifi.getStartY() + ", startT = "+wifi.getStartT());
-	    System.out.println("tunnelEn = "+"("+wifi.getTunnelEnX()+", "+wifi.getTunnelEnY()+")"+
-	    ", tunnelEx = "+"("+wifi.getTunnelExX()+", "+wifi.getTunnelExY()+")");
 	    
 		// Start odometer and sensor poller thread
 		odometerThread.start(); 
@@ -47,8 +44,6 @@ public class Main {
 		odometer.setXYT(wifi.getStartX()*TILE_SIZE, wifi.getStartY()*TILE_SIZE, wifi.getStartT());
 		navigator.setCurrX(wifi.getStartX()); 
 		navigator.setCurrY(wifi.getStartY());
-        System.out.println("Start X " + navigator.getCurrX() + " Y " + navigator.getCurrY());
-		System.out.println("After US: X " + navigator.getCurrX() + " Y " + navigator.getCurrY());
 				   
 		// Beep three times after US Localization
 		stopAndBeep(3);
@@ -78,7 +73,7 @@ public class Main {
 	    System.out.println("facing angle = "+wifi.getBinAngle());
 	    System.out.println("Launch X " + wifi.getlaunchX() + " Y " + wifi.getlaunchY() + " Bin X " + wifi.getBinX()*TILE_SIZE);
 	    
-	    sensorPoller.setMode(Mode.BOTH);
+	    sensorPoller.setMode(Mode.LIGHT);
 	    
 	    // TODO: Find launch point
         // TODO: Travel to launch point
