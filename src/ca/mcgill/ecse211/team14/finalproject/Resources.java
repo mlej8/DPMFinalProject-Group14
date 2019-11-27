@@ -27,7 +27,7 @@ public class Resources {
    * The IP address of the server that transmits data to the robot. Set this to the default for the
    * beta demo and competition.
    */
-  public static final String SERVER_IP = "192.168.43.171";    //TODO: change this
+  public static final String SERVER_IP = "172.20.10.6";    //TODO: change this
   
   /**
    * Your team number.
@@ -46,12 +46,12 @@ public class Resources {
 	/**
 	 * The wheel radius in centimeters.
 	 */
-	public static final double WHEEL_RAD = 2.10; 
+	public static final double WHEEL_RAD = 2.05; 
 
 	/**
 	 * The robot's width in centimeters.
 	 */
-	public static final double TRACK = 16.0; // 15.10
+	public static final double TRACK = 15.45; // 15.10
 
 	/**
 	 * Turning 90 degrees to start position parallel the wall. 
@@ -203,7 +203,7 @@ public class Resources {
     /**
      * The rotation speed of launch motor.
      */
-    public static final int LAUNCH_MOTOR_SPEED = 800;
+    public static final int LAUNCH_MOTOR_SPEED = 350;
     
     /**
      * Acceleration of launch motor.
@@ -223,7 +223,7 @@ public class Resources {
     /**
      * Launch range of the ball launcher
      */
-    public static final double LAUNCH_RANGE = 6;    //TODO: change the range
+    public static final double LAUNCH_RANGE = 6.5;    //TODO: change the range
     
     /**
      * Create light corrector 
