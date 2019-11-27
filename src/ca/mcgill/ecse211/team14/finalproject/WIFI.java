@@ -189,8 +189,7 @@ public class WIFI {
   }
   
   private void setBinAngle() {
-    
-    Point a = new Point(this.binX, this.binY);
+    Point a = new Point(this.binX * TILE_SIZE, this.binY * TILE_SIZE);
     Point b = new Point (this.launchIntersectionPointX, this.launchIntersectionPointY);
     double theta = 0;
     double x = a.x - b.x;
