@@ -203,7 +203,7 @@ public class Navigation {
 
       while (Math.abs(x - odometer.getXYT()[0]) > ERROR_MARGIN) {
         // Travel light sensor distance.
-        travelLightSensorDistance();        
+//        travelLightSensorDistance();        
         if (xChange > 0) {
           dash(dashDistance(((x - odometer.getXYT()[0])*5)/ (double) 7));
           navigateForward(x - odometer.getXYT()[0], MOTOR_SPEED);
@@ -243,7 +243,7 @@ public class Navigation {
       }
       while (Math.abs(y - odometer.getXYT()[1]) > ERROR_MARGIN) {
         // Travel light sensor distance.
-        travelLightSensorDistance();
+//        travelLightSensorDistance();
         if (yChange > 0) {
           dash(dashDistance(((y - odometer.getXYT()[1])*5)/ (double) 7));
           navigateForward(y - odometer.getXYT()[1], MOTOR_SPEED);
@@ -287,7 +287,7 @@ public class Navigation {
 
       while (Math.abs(y - odometer.getXYT()[1]) > ERROR_MARGIN) {
         // Travel light sensor distance.
-        travelLightSensorDistance();
+//        travelLightSensorDistance();
         if (yChange > 0) {
           dash(dashDistance(((y - odometer.getXYT()[1])*5)/ (double) 7));
           navigateForward(y - odometer.getXYT()[1], MOTOR_SPEED);
@@ -331,7 +331,7 @@ public class Navigation {
 
       while (Math.abs(x - odometer.getXYT()[0]) > ERROR_MARGIN) {
         // Travel light sensor distance.
-        travelLightSensorDistance();
+//        travelLightSensorDistance();
         if (xChange > 0) {
           dash(dashDistance(((x - odometer.getXYT()[0])*5)/ (double) 7));
           navigateForward(x - odometer.getXYT()[0], MOTOR_SPEED);
