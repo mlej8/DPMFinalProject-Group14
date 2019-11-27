@@ -554,6 +554,9 @@ public class Navigation {
       }
     }
     
+    // Set correction to false 
+    this.detectedObstacle = false;
+    
     // Find new launching position
     Main.wifi.findLaunchPosition();
     
@@ -673,7 +676,7 @@ public class Navigation {
       travelOneTileSize(false);
       
       if (lightCorrector.isLeftMotorTouched() && lightCorrector.isRightMotorTouched()) {
-        this.currX += 3 * xChange;
+        this.currX += (n+1) * xChange;
         odometer.setX(this.currX * TILE_SIZE);
         if (xChange > 0) {
           odometer.setTheta(90);
@@ -746,7 +749,7 @@ public class Navigation {
       travelOneTileSize(false);
       
       if (lightCorrector.isLeftMotorTouched() && lightCorrector.isRightMotorTouched()) {
-        this.currY += 3 * yChange;
+        this.currY += (n+1) * yChange;
         odometer.setY(this.currY * TILE_SIZE);
         if (yChange > 0) {
           odometer.setTheta(0);

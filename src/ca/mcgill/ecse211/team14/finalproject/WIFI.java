@@ -189,13 +189,33 @@ public class WIFI {
   }
   
   private void setBinAngle() {
+    
     Point a = new Point(this.binX, this.binY);
     Point b = new Point (this.launchIntersectionPointX, this.launchIntersectionPointY);
     double theta = 0;
     double x = a.x - b.x;
     double y = a.y - b.y;
     theta = Math.atan2(x,y);
-    binAngle = Math.toDegrees(theta);
+    this.binAngle = Math.toDegrees(theta);
+  }
+  
+  private void setBinAngle2() {
+
+    // Compute displacement
+    double dx = this.binX - odometer.getXYT()[0];
+    double dy = this.binY - odometer.getXYT()[1];
+
+    // Compute the angle needed to turn; dx and dy are intentionally switched in)
+    // order to compute angle w.r.t. the y-axis and not w.r.t. the x-axis
+    double theta = Math.toDegrees(Math.atan2(dx, dy)) - odometer.getXYT()[2];
+    this.binAngle = theta;
+//    Point a = new Point(this.binX, this.binY);
+//    Point b = new Point (this.launchIntersectionPointX, this.launchIntersectionPointY);
+//    double theta = 0;
+//    double x = a.x - b.x;
+//    double y = a.y - b.y;
+//    theta = Math.atan2(x,y);
+//    binAngle = Math.toDegrees(theta);
   }
 
   /**
