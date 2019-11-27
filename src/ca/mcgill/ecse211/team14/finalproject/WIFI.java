@@ -136,10 +136,10 @@ public class WIFI {
     this.launchY = binY * TILE_SIZE + dy;
     this.launchX = binX * TILE_SIZE + dx;                                               
 
-    double top = (island.ur.y-1) * TILE_SIZE;
-    double bottom = (island.ll.y+1) * TILE_SIZE;
-    double left = (island.ll.x+1) * TILE_SIZE;
-    double right = (island.ur.x-1) * TILE_SIZE;
+    double top = (island.ur.y-0.6) * TILE_SIZE;
+    double bottom = (island.ll.y+0.6) * TILE_SIZE;
+    double left = (island.ll.x+0.6) * TILE_SIZE;
+    double right = (island.ur.x-0.6) * TILE_SIZE;
 
     Point center = new Point(this.binX * TILE_SIZE, this.binY * TILE_SIZE);
     ArrayList<Point> intersections = new ArrayList<Point>();
