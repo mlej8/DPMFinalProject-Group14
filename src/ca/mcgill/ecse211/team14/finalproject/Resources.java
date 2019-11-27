@@ -27,7 +27,7 @@ public class Resources {
    * The IP address of the server that transmits data to the robot. Set this to the default for the
    * beta demo and competition.
    */
-  public static final String SERVER_IP = "192.168.43.171";    //TODO: change this
+  public static final String SERVER_IP = "192.168.43.5";    //TODO: change this
   
   /**
    * Your team number.
@@ -187,7 +187,7 @@ public class Resources {
     /**
      * Threshold to activate object avoidance.
      */
-    public static double THRESHOLD = 20;
+    public static double THRESHOLD = 28;
 	
 	/**
 	 * d constant for ultrasonic localizer representing the threshold distance from the wall 
@@ -228,7 +228,7 @@ public class Resources {
     /**
      * Launch range of the ball launcher
      */
-    public static final double LAUNCH_RANGE = 6.5;    //TODO: change the range
+    public static final double LAUNCH_RANGE = 6.7;    //TODO: change the range
     
     /**
      * Create light corrector 
