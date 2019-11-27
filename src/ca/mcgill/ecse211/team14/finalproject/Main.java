@@ -54,17 +54,17 @@ public class Main {
 		stopAndBeep(3);
 		
 		// Navigate to the Tunnel entrance 
-		System.out.println("Tunnel EnX " + wifi.getTunnelEnX() + " EnY " + wifi.getTunnelEnY());
-		navigator.travelTo(wifi.getTunnelEnX(), wifi.getTunnelEnY()); 
-		System.out.println("x: " + navigator.getCurrX() + " y: " + navigator.getCurrY());
-		System.out.println("Before entering tunnel Odometer Reading:"+odometer.getXYT()[0]+","+odometer.getXYT()[1]+","+odometer.getXYT()[2]);
-			
-		// Traverse the Tunnel to the Island 
-		if (wifi.getTunnelHeight() != wifi.getTunnelWidth()) {		
-		navigator.traverseTunnel(wifi.getTunnelExX(), wifi.getTunnelExY(),2);
-		} else {
-		  navigator.traverseTunnel(wifi.getTunnelExX(), wifi.getTunnelExY(),1);
-		}
+//		System.out.println("Tunnel EnX " + wifi.getTunnelEnX() + " EnY " + wifi.getTunnelEnY());
+//		navigator.travelTo(wifi.getTunnelEnX(), wifi.getTunnelEnY()); 
+//		System.out.println("x: " + navigator.getCurrX() + " y: " + navigator.getCurrY());
+//		System.out.println("Before entering tunnel Odometer Reading:"+odometer.getXYT()[0]+","+odometer.getXYT()[1]+","+odometer.getXYT()[2]);
+//			
+//		// Traverse the Tunnel to the Island 
+//		if (wifi.getTunnelHeight() != wifi.getTunnelWidth()) {		
+//		navigator.traverseTunnel(wifi.getTunnelExX(), wifi.getTunnelExY(),2);
+//		} else {
+//		  navigator.traverseTunnel(wifi.getTunnelExX(), wifi.getTunnelExY(),1);
+//		}
 		
         System.out.println("Exit Tunnel Odometer Reading:"+odometer.getXYT()[0]+","+odometer.getXYT()[1]+","+odometer.getXYT()[2]);
         

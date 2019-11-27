@@ -192,17 +192,9 @@ public class WIFI {
     Point a = new Point(this.binX, this.binY);
     Point b = new Point (this.launchIntersectionPointX, this.launchIntersectionPointY);
     double theta = 0;
-    double x = Math.abs(b.x - a.x);
-    double y = Math.abs(b.y - a.y);
-    if(b.x > a.x && b.y > a.y) {
-      theta = - (Math.PI - Math.atan(x/y));
-    }else if(b.x < a.x && b.y > a.y) {
-      theta = Math.PI - Math.atan(x/y);
-    }else if(b.x < a.x && b.y < a.y) {
-      theta = Math.atan(x/y);
-    }else if(b.x > a.x && b.y < a.y) {
-      theta = - Math.atan(x/y);
-    }
+    double x = a.x - b.x;
+    double y = a.y - b.y;
+    theta = Math.atan2(x,y);
     binAngle = Math.toDegrees(theta);
   }
 
