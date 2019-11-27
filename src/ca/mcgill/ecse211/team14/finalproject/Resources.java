@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 /**
- * Class that stores all constants for lab 4 (localization).
+ * Class that stores all constants.
  */
 public class Resources {
 //Set these as appropriate for your team and current situation
@@ -61,7 +61,12 @@ public class Resources {
 	/**
 	 * Fixed Motor Speed.
 	 */
-	public static final int MOTOR_SPEED = 80;
+	public static final int MOTOR_SPEED = 75;
+
+    /**
+     * Fixed Motor Speed.
+     */
+    public static final int DASH_SPEED = 120;
 	
 	/**
 	 * Variable that keeps track of the distance between the light sensors and the motors. 
