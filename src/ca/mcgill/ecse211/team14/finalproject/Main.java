@@ -83,7 +83,7 @@ public class Main {
         // TODO: Travel to launch point
         navigator.travelTo(wifi.getLaunchIntersectionPointX(), wifi.getLaunchIntersectionPointY());
         Main.sleepFor(SLEEPINT);
-        navigator.turnToExactTheta(wifi.getBinAngle(),false);
+        navigator.travelToExactLaunchPoint();
         
 		// TODO: Step 6. Launch the ball a minimum distance of 4 tiles, stop and beep 
 		BallLauncher ballLauncher = new BallLauncher();
@@ -94,6 +94,9 @@ public class Main {
 		// Travel back to 
         navigator.stop();
         Main.sleepFor(SLEEPINT);
+        
+        // Navigate to latest intersection 
+        navigator.travelBackToLatestGridIntersection();
 		
 		// Travel back to tunnel        
         navigator.travelTo(wifi.getTunnelExX(), wifi.getTunnelExY());
