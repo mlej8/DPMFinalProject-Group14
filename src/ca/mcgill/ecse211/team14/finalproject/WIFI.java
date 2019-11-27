@@ -136,32 +136,33 @@ public class WIFI {
     this.launchY = binY * TILE_SIZE + dy;
     this.launchX = binX * TILE_SIZE + dx;                                               
 
-    double top = (island.ur.y-1) * TILE_SIZE;
-    double bottom = (island.ll.y+1) * TILE_SIZE;
-    double left = (island.ll.x+1) * TILE_SIZE;
-    double right = (island.ur.x-1) * TILE_SIZE;
+    double top = (island.ur.y-0.6) * TILE_SIZE;
+    double bottom = (island.ll.y+0.6) * TILE_SIZE;
+    double left = (island.ll.x+0.6) * TILE_SIZE;
+    double right = (island.ur.x-0.6) * TILE_SIZE;
 
     Point center = new Point(this.binX * TILE_SIZE, this.binY * TILE_SIZE);
     ArrayList<Point> intersections = new ArrayList<Point>();
 
-    if (launchX <= left || launchX >= right || launchY <= bottom || launchY >= top) {
+    if (launchX < left || launchX > right || launchY < bottom || launchY > top) {
       calculateIntersectionX(center, LAUNCH_RANGE * TILE_SIZE, left, intersections);
       calculateIntersectionX(center, LAUNCH_RANGE * TILE_SIZE, right, intersections);
       calculateIntersectionY(center, LAUNCH_RANGE * TILE_SIZE, top, intersections);
       calculateIntersectionY(center, LAUNCH_RANGE * TILE_SIZE, bottom, intersections);
       int index = 0;
-      for (int i=0;i<intersections.size();i++) {
+      int size = intersections.size();
+      for (int i=0;i<size;i++) {
         Point p = intersections.get(index);
-        if (p.x <= left || p.x >= right || p.y <= bottom || p.y >= top) {
+        if (p.x < left || p.x > right || p.y < bottom || p.y > top) {   //TODO: How to avoid hitting wall
           intersections.remove(index);
         }else {
-        index++;
+          index++;
         }
       }
       double minDist = distance(intersections.get(0),new Point(currentX, currentY));
       Point nearestPoint = intersections.get(0);
       for (Point p : intersections) {
-        double d = distance(intersections.get(0),new Point(currentX, currentY));
+        double d = distance(p,new Point(currentX, currentY));
         if (d < minDist) {
           minDist = d;
           nearestPoint = p;
@@ -172,23 +173,18 @@ public class WIFI {
       this.launchY = nearestPoint.y;
       System.out.println("Find launch Point Second Case");
     }
-      this.launchIntersectionPointX = approximate(launchX, left, right);
-      this.launchIntersectionPointY = approximate(launchY, bottom, top);
-      
+    
+      this.launchIntersectionPointX = approximate(launchX);
+      this.launchIntersectionPointY = approximate(launchY);
       setBinAngle();
   }
 
-  private double approximate(double coordinate, double lowerBound, double highBound) {
+  private double approximate(double coordinate) {
      double tile = coordinate / TILE_SIZE;
      int result = (int) tile;
      if(tile - (int)tile >= 0.5)
        result +=1;
      double r = result * TILE_SIZE;
-     if(r <= lowerBound) {
-       r += TILE_SIZE;
-     }else if(r >= highBound) {
-       r -= TILE_SIZE;
-     }
      return r;
   }
   

@@ -73,19 +73,24 @@ public class findDestMethodTests {
       calculateIntersectionX(center, LAUNCH_RANGE * TILE_SIZE, right, intersections);
       calculateIntersectionY(center, LAUNCH_RANGE * TILE_SIZE, top, intersections);
       calculateIntersectionY(center, LAUNCH_RANGE * TILE_SIZE, bottom, intersections);
+      
       int index = 0;
-      for (int i=0;i<intersections.size();i++) {
+      int size = intersections.size();
+      for (int i=0;i<size;i++) {
+        System.out.println("index: "+index+" "+intersections.toString());
         Point p = intersections.get(index);
-        if (p.x <= left || p.x >= right || p.y <= bottom || p.y >= top) {
+        if (p.x < left || p.x > right || p.y < bottom || p.y > top) {   //TODO: How to avoid hitting wall
+          System.out.println("Removed a point");
           intersections.remove(index);
         }else {
-        index++;
+          index++;
         }
       }
+      System.out.println(intersections.toString());
       double minDist = distance(intersections.get(0),new Point(currentX, currentY));
       Point nearestPoint = intersections.get(0);
       for (Point p : intersections) {
-        double d = distance(intersections.get(0),new Point(currentX, currentY));
+        double d = distance(p,new Point(currentX, currentY));
         if (d < minDist) {
           minDist = d;
           nearestPoint = p;
@@ -256,12 +261,92 @@ public class findDestMethodTests {
   }
   
   @Test
-  public void testIslandIntersections() {
-    currentX = 0;
-    currentY = 2*TILE_SIZE;
+  public void testDestination2() {
     ArrayList<Point> points = new ArrayList<Point>();
-    Point ll = new Point(-7,1);
-    Point ur = new Point(2,4);
+    calculateIntersectionX(new Point(0,0), LAUNCH_RANGE, 2, points);
+    for(Point p: points) {
+      p.x = keep3Digits(p.x);
+      p.y = keep3Digits(p.y);
+    }
+    ArrayList<Point> calculated = new ArrayList<Point>();
+    calculated.add(new Point(2.000, 5.657));
+    calculated.add(new Point(2.000, -5.657));
+    assertEquals(calculated.toString(), points.toString());
+  }
+  
+  @Test
+  public void testDestination3() {
+    ArrayList<Point> points = new ArrayList<Point>();
+    calculateIntersectionX(new Point(0,0), LAUNCH_RANGE, 8, points);
+    for(Point p: points) {
+      p.x = keep3Digits(p.x);
+      p.y = keep3Digits(p.y);
+    }
+    ArrayList<Point> calculated = new ArrayList<Point>();
+    assertEquals(calculated.toString(), points.toString());
+  }
+  
+  @Test
+  public void testDestination4() {
+    ArrayList<Point> points = new ArrayList<Point>();
+    calculateIntersectionY(new Point(0,0), LAUNCH_RANGE, 4, points);
+    for(Point p: points) {
+      p.x = keep3Digits(p.x);
+      p.y = keep3Digits(p.y);
+    }
+    ArrayList<Point> calculated = new ArrayList<Point>();
+    calculated.add(new Point(4.472, 4.000));
+    calculated.add(new Point(-4.472, 4.000));
+    assertEquals(calculated.toString(), points.toString());
+  }
+  
+  @Test
+  public void testDestination5() {
+    ArrayList<Point> points = new ArrayList<Point>();
+    calculateIntersectionY(new Point(0,0), LAUNCH_RANGE, 4, points);
+    for(Point p: points) {
+      p.x = keep3Digits(p.x);
+      p.y = keep3Digits(p.y);
+    }
+    ArrayList<Point> calculated = new ArrayList<Point>();
+    calculated.add(new Point(4.472, 4.000));
+    calculated.add(new Point(-4.472, 4.000));
+    assertEquals(calculated.toString(), points.toString());
+  }
+  
+  @Test
+  public void testDestination6() {
+    ArrayList<Point> points = new ArrayList<Point>();
+    calculateIntersectionY(new Point(0,0), LAUNCH_RANGE, -4, points);
+    for(Point p: points) {
+      p.x = keep3Digits(p.x);
+      p.y = keep3Digits(p.y);
+    }
+    ArrayList<Point> calculated = new ArrayList<Point>();
+    calculated.add(new Point(4.472, -4.000));
+    calculated.add(new Point(-4.472, -4.000));
+    assertEquals(calculated.toString(), points.toString());
+  }
+  
+//  @Test
+//  public void testIslandIntersections1() {
+//    currentX = 0;
+//    currentY = 2*TILE_SIZE;
+//    ArrayList<Point> points = new ArrayList<Point>();
+//    Point ll = new Point(-7,1);
+//    Point ur = new Point(2,4);
+//    findLaunchPoint(0, 0, ll, ur);
+//    assertEquals("I am going to X position: " + keep3Digits(1.9) + " Y position: " + keep3Digits(2.0),
+//         points.toString());
+//  }
+  
+  @Test
+  public void testIslandIntersections2() {
+    currentX = 2.5*TILE_SIZE;
+    currentY = 3*TILE_SIZE;
+    ArrayList<Point> points = new ArrayList<Point>();
+    Point ll = new Point(2,1);
+    Point ur = new Point(8,4);
     findLaunchPoint(0, 0, ll, ur);
     System.out.println("intersections" + points);
 
