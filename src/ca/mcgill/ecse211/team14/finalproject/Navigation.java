@@ -410,6 +410,7 @@ public class Navigation {
   public void travelToExactLaunchPoint() {
     // Traveling
     this.traveling = true;
+    Main.sleepFor(SLEEPINT);
 
     // Compute displacement
     double launchX = Main.wifi.getlaunchX();
@@ -429,6 +430,7 @@ public class Navigation {
         navigateForward(-1*(launchX - odometer.getXYT()[0]), MOTOR_SPEED);
       }
     }
+    sleepNavigation();
     if (Math.abs(launchY - odometer.getXYT()[1]) > ERROR_MARGIN) {
       // Second travel along Y-axis
       if (dy >= 0) {
@@ -475,6 +477,7 @@ public class Navigation {
         navigateForward(-1*(destY - odometer.getXYT()[1]), MOTOR_SPEED);
       }
     }
+    sleepNavigation();
     if (Math.abs(destX - odometer.getXYT()[0]) > ERROR_MARGIN) {
       // First travel along X-axis, then travel along Y-axis
       if (dx >= 0) {
@@ -707,9 +710,24 @@ public class Navigation {
 
     // Navigate Forward One Tile
     navigateForward(TILE_SIZE, MOTOR_SPEED);
-    while (LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
-      Main.sleepFor(SLEEPINT);
-    }
+
+    sleepNavigation();
+
+    // Travel light sensor distance.
+    travelLightSensorDistance();
+  }
+  
+  /**
+   * Traverse tile before tunnel.
+   */
+  public void traverseTunnelTile() {
+    
+    // Navigate Forward One Tile
+    navigateForward((5*TILE_SIZE)/(double)7, DASH_SPEED);
+
+    sleepNavigation();
+
+    navigateForward(TILE_SIZE, MOTOR_SPEED);
 
     // Travel light sensor distance.
     travelLightSensorDistance();
@@ -761,8 +779,9 @@ public class Navigation {
       }
 
       // Travel one tile
-      travelOneTileSize(true);
-
+//      travelOneTileSize(true);
+      traverseTunnelTile();
+      
       // Correct before entering tunnel.
       if (lightCorrector.isLeftMotorTouched() && lightCorrector.isRightMotorTouched()) {
         this.currX += xChange;
@@ -834,8 +853,9 @@ public class Navigation {
       }
 
       // Travel one tile
-      travelOneTileSize(true);
-
+//      travelOneTileSize(true);
+      traverseTunnelTile();
+      
       // Correct before entering tunnel.
       if (lightCorrector.isLeftMotorTouched() && lightCorrector.isRightMotorTouched()) {
         this.currY += yChange;
