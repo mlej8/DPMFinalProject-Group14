@@ -82,6 +82,7 @@ public class Main {
 	    // TODO: Find launch point
         // TODO: Travel to launch point
         navigator.travelTo(wifi.getLaunchIntersectionPointX(), wifi.getLaunchIntersectionPointY());
+        navigator.travelShortestPath(wifi.getlaunchX(), wifi.getlaunchY());
         Main.sleepFor(SLEEPINT);
         navigator.travelToExactLaunchPoint();
         

@@ -517,8 +517,8 @@ public class Navigation {
     double islandUpperRightY = island.ur.y * TILE_SIZE;
 
     // Determine X and Y axis position
-    double yAxis = (island.ur.x - island.ll.x) * TILE_SIZE / (double) 2;
-    double xAxis = (island.ur.y - island.ll.y) * TILE_SIZE / (double) 2;
+    double yAxis = (island.ur.x + island.ll.x)*TILE_SIZE / (double) 2;
+    double xAxis = (island.ur.y + island.ll.y)*TILE_SIZE / (double) 2;
     System.out.println("Obstacle avoiding");
     if ((x >= yAxis && x <= islandUpperRightX) && (y >= xAxis && y <= islandUpperRightY)) {
       System.out.println("Entered quadrant 1");
