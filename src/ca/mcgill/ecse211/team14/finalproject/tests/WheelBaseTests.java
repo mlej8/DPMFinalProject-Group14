@@ -16,7 +16,7 @@ public class WheelBaseTests {
       // Test wheel base by rotating the robot 360 degrees.
       LEFT_MOTOR.setSpeed(ROTATE_SPEED);
       RIGHT_MOTOR.setSpeed(ROTATE_SPEED);
-      navigator.turnToExactTheta(90, false);
+      navigator.turnToExactTheta(-90, false);
       
   	  // Do nothing until exit button is pressed, then exit.	
 		while (Button.waitForAnyPress() != Button.ID_ESCAPE)

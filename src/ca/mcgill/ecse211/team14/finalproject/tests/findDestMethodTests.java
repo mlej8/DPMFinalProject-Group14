@@ -96,7 +96,7 @@ public class findDestMethodTests {
       launchY = nearestPoint.y;
 
     }
-    System.out.println("I am going to X position: " + keep3Digits(launchX) + " Y position: " + keep3Digits(launchY));
+    System.out.println("I am going to launchX position: " + keep3Digits(launchX) + " launchY position: " + keep3Digits(launchY));
     return "I am going to X position: " + keep3Digits(launchX) + " Y position: " + keep3Digits(launchY);
     
   }
@@ -263,6 +263,8 @@ public class findDestMethodTests {
     Point ll = new Point(-7,1);
     Point ur = new Point(2,4);
     findLaunchPoint(0, 0, ll, ur);
+    System.out.println("intersections" + points);
+
     assertEquals("I am going to X position: " + keep3Digits(1.9) + " Y position: " + keep3Digits(2.0),
          points.toString());
   }
