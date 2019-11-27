@@ -54,17 +54,17 @@ public class Main {
 		stopAndBeep(3);
 		
 		// Navigate to the Tunnel entrance 
-//		System.out.println("Tunnel EnX " + wifi.getTunnelEnX() + " EnY " + wifi.getTunnelEnY());
-//		navigator.travelTo(wifi.getTunnelEnX(), wifi.getTunnelEnY()); 
-//		System.out.println("x: " + navigator.getCurrX() + " y: " + navigator.getCurrY());
-//		System.out.println("Before entering tunnel Odometer Reading:"+odometer.getXYT()[0]+","+odometer.getXYT()[1]+","+odometer.getXYT()[2]);
-//			
-//		// Traverse the Tunnel to the Island 
-//		if (wifi.getTunnelHeight() != wifi.getTunnelWidth()) {		
-//		navigator.traverseTunnel(wifi.getTunnelExX(), wifi.getTunnelExY(),2);
-//		} else {
-//		  navigator.traverseTunnel(wifi.getTunnelExX(), wifi.getTunnelExY(),1);
-//		}
+		System.out.println("Tunnel EnX " + wifi.getTunnelEnX() + " EnY " + wifi.getTunnelEnY());
+		navigator.travelTo(wifi.getTunnelEnX(), wifi.getTunnelEnY()); 
+		System.out.println("x: " + navigator.getCurrX() + " y: " + navigator.getCurrY());
+		System.out.println("Before entering tunnel Odometer Reading:"+odometer.getXYT()[0]+","+odometer.getXYT()[1]+","+odometer.getXYT()[2]);
+			
+		// Traverse the Tunnel to the Island 
+		if (wifi.getTunnelHeight() != wifi.getTunnelWidth()) {		
+		navigator.traverseTunnel(wifi.getTunnelExX(), wifi.getTunnelExY(),2);
+		} else {
+		  navigator.traverseTunnel(wifi.getTunnelExX(), wifi.getTunnelExY(),1);
+		}
 		
         System.out.println("Exit Tunnel Odometer Reading:"+odometer.getXYT()[0]+","+odometer.getXYT()[1]+","+odometer.getXYT()[2]);
         
@@ -75,6 +75,7 @@ public class Main {
 		// TODO: Navigate to bin x and bin y
 	    System.out.println("Launch intersection X " + wifi.getLaunchIntersectionPointX()/TILE_SIZE+ " Y " + wifi.getLaunchIntersectionPointY()/TILE_SIZE);
 	    System.out.println("facing angle = "+wifi.getBinAngle());
+	    System.out.println("Launch X " + wifi.getlaunchX() + " Y " + wifi.getlaunchY() + " Bin X " + wifi.getBinX()*TILE_SIZE);
 	    
 	    sensorPoller.setMode(Mode.BOTH);
 	    
@@ -106,6 +107,8 @@ public class Main {
 		// Navigate back to starting point 
 		navigator.travelTo(wifi.getStartX()*TILE_SIZE, wifi.getStartY()*TILE_SIZE);
 		System.out.println("start = ("+wifi.getStartX()+", "+wifi.getStartY()+")");
+		
+		navigator.turnToExactTheta(0, true);
 
 		Main.sleepFor(TUNNEL_SLEEP);  
 		
