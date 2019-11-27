@@ -72,6 +72,7 @@ public class Main {
 		wifi.findLaunchPosition();
 		Main.sleepFor(SLEEPINT);
 		
+		if (wifi.getlaunchX() != 0 && wifi.getlaunchY() != 0) {
 		// TODO: Navigate to bin x and bin y
 	    System.out.println("Launch intersection X " + wifi.getLaunchIntersectionPointX()/TILE_SIZE+ " Y " + wifi.getLaunchIntersectionPointY()/TILE_SIZE);
 	    System.out.println("facing angle = "+wifi.getBinAngle());
@@ -98,6 +99,7 @@ public class Main {
         
         // Navigate to latest intersection 
         navigator.travelBackToLatestGridIntersection();
+		}
 		
 		// Travel back to tunnel        
         navigator.travelTo(wifi.getTunnelExX(), wifi.getTunnelExY());
