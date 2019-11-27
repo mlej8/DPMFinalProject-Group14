@@ -159,8 +159,8 @@ public class WIFI {
           index++;
         }
       }
-      double minDist = distance(intersections.get(0),new Point(currentX, currentY));
       if(intersections.size()!=0) {
+        double minDist = distance(intersections.get(0),new Point(currentX, currentY));
         Point nearestPoint = intersections.get(0);
         for (Point p : intersections) {
         double d = distance(p,new Point(currentX, currentY));
