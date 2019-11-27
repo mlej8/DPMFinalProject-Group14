@@ -205,10 +205,10 @@ public class Navigation {
         // Travel light sensor distance.
         travelLightSensorDistance();        
         if (xChange > 0) {
-          dash(x - (2*odometer.getXYT()[0])/ (double) 5);
+          dash(dashDistance(((x - odometer.getXYT()[0])*5)/ (double) 7));
           navigateForward(x - odometer.getXYT()[0], MOTOR_SPEED);
         } else {
-          dash(xChange*(x - (2*odometer.getXYT()[0])/ (double) 5));
+          dash(xChange*dashDistance(((x - odometer.getXYT()[0])*5)/ (double) 7));
           navigateForward(xChange*(x - odometer.getXYT()[0]), MOTOR_SPEED);
         }
         while (LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
@@ -245,10 +245,10 @@ public class Navigation {
         // Travel light sensor distance.
         travelLightSensorDistance();
         if (yChange > 0) {
-          dash(y - (2*odometer.getXYT()[1])/ (double) 5);
+          dash(dashDistance(((y - odometer.getXYT()[1])*5)/ (double) 7));
           navigateForward(y - odometer.getXYT()[1], MOTOR_SPEED);
         } else {
-          dash(yChange*(y - (2*odometer.getXYT()[1])/ (double) 5));
+          dash(yChange*dashDistance(((y - odometer.getXYT()[1])*5)/ (double) 7));
           navigateForward(yChange*(y - odometer.getXYT()[1]), MOTOR_SPEED);
         }
         while (LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
@@ -289,10 +289,10 @@ public class Navigation {
         // Travel light sensor distance.
         travelLightSensorDistance();
         if (yChange > 0) {
-          dash(y - (2*odometer.getXYT()[1])/ (double) 5);
+          dash(dashDistance(((y - odometer.getXYT()[1])*5)/ (double) 7));
           navigateForward(y - odometer.getXYT()[1], MOTOR_SPEED);
         } else {
-          dash(yChange*(y - (2*odometer.getXYT()[1])/ (double) 5));
+          dash(yChange*dashDistance(((y - odometer.getXYT()[1])*5)/ (double) 7));
           navigateForward(yChange*(y - odometer.getXYT()[1]), MOTOR_SPEED);
         }
         while (LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
@@ -333,10 +333,10 @@ public class Navigation {
         // Travel light sensor distance.
         travelLightSensorDistance();
         if (xChange > 0) {
-          dash(x - (2*odometer.getXYT()[0])/ (double) 5);
+          dash(dashDistance(((x - odometer.getXYT()[0])*5)/ (double) 7));
           navigateForward(x - odometer.getXYT()[0], MOTOR_SPEED);
         } else {
-          dash(xChange*(x - (2*odometer.getXYT()[0])/ (double) 5));
+          dash(xChange*dashDistance(((x - odometer.getXYT()[0])*5)/ (double) 7));
           navigateForward(xChange*(x - odometer.getXYT()[0]), MOTOR_SPEED);
         }
         while (LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
@@ -376,6 +376,19 @@ public class Navigation {
   }
 
   /**
+   * Method that returns distance to burst
+   * @param d
+   * @return
+   */
+  private double dashDistance(double d) {
+    // Adding upper bound
+    if(d > TILE_SIZE) {
+      return (TILE_SIZE*5)/7;
+    }
+    return d;
+  }
+
+  /**
    * Method to allow navigation to be done faster by traveling a certain amount of distance faster
    * 
    * @param distance: distance to travel
@@ -384,8 +397,9 @@ public class Navigation {
     LEFT_MOTOR.setSpeed(DASH_SPEED);
     RIGHT_MOTOR.setSpeed(DASH_SPEED);
     LEFT_MOTOR.rotate(Converter.convertDistance(distance), true);
-    RIGHT_MOTOR.rotate(Converter.convertDistance(distance), false);
+    RIGHT_MOTOR.rotate(Converter.convertDistance(distance), true);
     sleepNavigation();
+    stop(); // to be comment out 
   }
 
   private void avoidObstacle() { // TODO
