@@ -421,19 +421,23 @@ public class Navigation {
       // First travel along X-axis, then travel along Y-axis
       if (dx >= 0) {
         turnToExactTheta(90, true);
+        Main.sleepFor(SLEEPINT);
         navigateForward(launchX - odometer.getXYT()[0], MOTOR_SPEED);
       } else {
         turnToExactTheta(270, true);
-        navigateForward(-1 * (launchX - odometer.getXYT()[0]), MOTOR_SPEED);
+        Main.sleepFor(SLEEPINT);
+        navigateForward(-1*(launchX - odometer.getXYT()[0]), MOTOR_SPEED);
       }
     }
     if (Math.abs(launchY - odometer.getXYT()[1]) > ERROR_MARGIN) {
       // Second travel along Y-axis
       if (dy >= 0) {
         turnToExactTheta(0, true);
+        Main.sleepFor(SLEEPINT);
         navigateForward(launchY - odometer.getXYT()[1], MOTOR_SPEED);
       } else {
         turnToExactTheta(180, true);
+        Main.sleepFor(SLEEPINT);
         navigateForward(-1 * (launchY - odometer.getXYT()[1]), MOTOR_SPEED);
       }
     }
@@ -454,18 +458,20 @@ public class Navigation {
     this.traveling = true;
 
     // Compute displacement
-    double destY = this.currY*TILE_SIZE;
     double destX = this.currX*TILE_SIZE;
-    double dx = destX- odometer.getXYT()[0];
+    double destY = this.currY*TILE_SIZE;
+    double dx = destX - odometer.getXYT()[0];
     double dy = destY - odometer.getXYT()[1];
 
     if (Math.abs(destY - odometer.getXYT()[1]) > ERROR_MARGIN) {
       // Second travel along Y-axis
       if (dy >= 0) {
         turnToExactTheta(0, false);
+        Main.sleepFor(SLEEPINT);
         navigateForward(destY - odometer.getXYT()[1], MOTOR_SPEED);
       } else {
         turnToExactTheta(180, false);
+        Main.sleepFor(SLEEPINT);
         navigateForward(-1*(destY - odometer.getXYT()[1]), MOTOR_SPEED);
       }
     }
@@ -473,9 +479,11 @@ public class Navigation {
       // First travel along X-axis, then travel along Y-axis
       if (dx >= 0) {
         turnToExactTheta(90, false);
+        Main.sleepFor(SLEEPINT);
         navigateForward(destX - odometer.getXYT()[0], MOTOR_SPEED);
       } else {
         turnToExactTheta(270, false);
+        Main.sleepFor(SLEEPINT);
         navigateForward(-1*(destX - odometer.getXYT()[0]), MOTOR_SPEED);
       }
     }
@@ -485,10 +493,7 @@ public class Navigation {
     // Set traveling to false
     this.traveling = false;
     Main.sleepFor(SLEEPINT);
-
   }
-
-
 
   private void avoidObstacle() { // TODO
 
