@@ -160,17 +160,23 @@ public class WIFI {
         }
       }
       double minDist = distance(intersections.get(0),new Point(currentX, currentY));
-      Point nearestPoint = intersections.get(0);
-      for (Point p : intersections) {
+      if(intersections.size()!=0) {
+        Point nearestPoint = intersections.get(0);
+        for (Point p : intersections) {
         double d = distance(p,new Point(currentX, currentY));
         if (d < minDist) {
           minDist = d;
           nearestPoint = p;
         }
-      }
+        }
 
-      this.launchX = nearestPoint.x;
-      this.launchY = nearestPoint.y;
+        this.launchX = nearestPoint.x;
+        this.launchY = nearestPoint.y;
+      }else {
+        this.launchX = 0;
+        this.launchY = 0;
+      }
+      
       System.out.println("Find launch Point Second Case");
     }
     
