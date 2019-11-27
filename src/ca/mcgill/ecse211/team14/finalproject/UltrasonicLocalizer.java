@@ -81,9 +81,6 @@ public class UltrasonicLocalizer extends UltrasonicController{
 		// Stop robot when it detects the falling edge.
 		navigator.stop();
 
-		// Make a sound when falling edge is detected.
-		Sound.beep();
-
 		// Store the angle at which the falling edge is detected.
 		fallingEdge = odometer.getXYT()[2];
 
@@ -116,9 +113,6 @@ public class UltrasonicLocalizer extends UltrasonicController{
 
 		// Stop robot when it detects the falling edge.
 		navigator.stop();
-
-		// Make a sound when falling edge is detected.
-		Sound.beep();
 
 		// Store the angle at which the falling edge is detected.
 		fallingEdge = odometer.getXYT()[2];
