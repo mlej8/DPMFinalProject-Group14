@@ -99,7 +99,7 @@ public class WIFI {
   private double launchIntersectionPointY;
 
   /**
-   * WIFI Class initializer.
+   * Constructor for WIFI Class.
    */
   public WIFI() {
     setBinPosition();

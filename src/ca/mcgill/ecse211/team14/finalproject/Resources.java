@@ -324,7 +324,6 @@ public class Resources {
       if (!RECEIVE_WIFI_PARAMS || wifiParameters != null) {
         return;
       }
-      System.out.println("Waiting to receive Wi-Fi parameters.");
 
       // Connect to server and get the data, catching any errors that might occur
       try (WifiConnection conn =

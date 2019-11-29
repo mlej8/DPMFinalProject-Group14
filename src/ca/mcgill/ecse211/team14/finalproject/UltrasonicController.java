@@ -7,12 +7,18 @@ import static ca.mcgill.ecse211.team14.finalproject.Resources.*;
  */
 public abstract class UltrasonicController {
 
+  /**
+   * Current distance extracted from ultrasonic reading.
+   */
   int distance;
+  
+  /**
+   * Filter control threshold value.
+   */
   int filterControl;
 
   /**
    * Perform an action based on the US data input.
-   * 
    * @param distance: the distance to the wall in cm
    */
   public abstract void processUSData(int distance);

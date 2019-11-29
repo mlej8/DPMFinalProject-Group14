@@ -40,6 +40,9 @@ public class SensorPoller implements Runnable {
         US_LOCALIZATION, LIGHT, BOTH, IDLE;
     } 
       
+    /**
+     * Constructor for SensorPoller thread.
+     */
     public SensorPoller() {
         usDataFront = new float[usSensorFront.sampleSize()]; 
         leftLightData = new float[leftLightSensor.sampleSize()];                                    

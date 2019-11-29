@@ -24,6 +24,9 @@ public class BallLauncher {
      */
     public static EV3LargeRegulatedMotor rightLaunchMotor; 
 	
+    /**
+     * Class constructor for ball launcher.
+     */
     public BallLauncher() {
     	leftLaunchMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("B"));        
     	rightLaunchMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("C"));

@@ -167,8 +167,6 @@ public class Navigation {
    */
   public void travelTo(double x, double y) {
 
-    System.out.println("Navigating to " + x + " " + y);
-
     int xChange, yChange = 0;
 
     // Traveling
@@ -265,11 +263,9 @@ public class Navigation {
       if (Math.abs(y - odometer.getXYT()[1]) > ERROR_MARGIN) {
         // Travel along Y-axis
         if (dy >= 0) {
-          System.out.println("Turned to 0");
           turnToExactTheta(0, true);
           yChange = 1;
         } else {
-          System.out.println("Turned to 180");
           turnToExactTheta(180, true);
           yChange = -1;
         }
@@ -517,9 +513,7 @@ public class Navigation {
     // Determine X and Y axis position
     double yAxis = (island.ur.x + island.ll.x)*TILE_SIZE / (double) 2;
     double xAxis = (island.ur.y + island.ll.y)*TILE_SIZE / (double) 2;
-    System.out.println("Obstacle avoiding");
     if ((x >= yAxis && x <= islandUpperRightX) && (y >= xAxis && y <= islandUpperRightY)) {
-      System.out.println("Entered quadrant 1");
       // If robot is on the first quadrant, i.e. top right
       if ((theta >= 345 && theta <= 360) || (theta >= 0 && theta <= 15)) { // allowing threshold of 15 degrees
         // Current orientation is 0
@@ -559,7 +553,6 @@ public class Navigation {
         odometer.setTheta(180);
       }
     } else if ((x >= islandLowerLeftX && x <= yAxis) && (y >= xAxis && y <= islandUpperRightY)) {
-      System.out.println("Entered quadrant 2");
       // If robot is on the second quadrant, i.e. top left
       if ((theta >= 345 && theta <= 360) || (theta >= 0 && theta <= 15)) { // allowing threshold of 15 degrees
         // Current orientation is 0
@@ -599,7 +592,6 @@ public class Navigation {
         odometer.setTheta(180);
       }
     } else if ((x >= islandLowerLeftX && x <= yAxis) && (y >= islandLowerLeftY && y <= xAxis)) {
-      System.out.println("Entered quadrant 3");
       // If robot is on the third quadrant, i.e. bottom left
       if ((theta >= 345 && theta <= 360) || (theta >= 0 && theta <= 15)) { // allowing threshold of 15 degrees
         // Current orientation is 0
@@ -639,7 +631,6 @@ public class Navigation {
         odometer.setTheta(0);
       }
     } else if ((x >= yAxis && x <= islandUpperRightX) && (y >= islandLowerLeftY && y <= xAxis)) {
-      System.out.println("Entered quadrant 4");
       // If robot is on the forth quadrant, i.e. bottom right
       if ((theta >= 345 && theta <= 360) || (theta >= 0 && theta <= 15)) { // allowing threshold of 15 degrees
         // Current orientation is 0
@@ -679,7 +670,6 @@ public class Navigation {
         odometer.setTheta(0);
       }
     }
-    System.out.println("Obstacle avoided");
 
     // Set correction to false
     this.detectedObstacle = false;
