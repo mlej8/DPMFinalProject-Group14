@@ -12,25 +12,25 @@ import static ca.mcgill.ecse211.team14.finalproject.Resources.*;
  * 
  * @author Michael Li
  */
-public class UltrasonicLocalizer extends UltrasonicController{
-	
+public class UltrasonicLocalizer extends UltrasonicController {
+
 	/**
 	 * Method that executes ultrasonic localization by using falling edge technique.
 	 */
 	public void fallingEdge() {
-	  
-	    Main.sleepFor(SLEEPINT);
-	  
+
+		Main.sleepFor(SLEEPINT);
+
 		// Falling edge is the point at which the measured distance is smaller than d -
 		// NOISE_MARGIN
 		double backWall, leftWall, correctionAngle;
 
 		// Get angle at which the back and left walls are detected.
 		backWall = findFallingEdgeA();
-	
-	    navigator.sleepNavigation(); 
-		
-		// Detect left wall 
+
+		navigator.sleepNavigation();
+
+		// Detect left wall
 		leftWall = findFallingEdgeB();
 
 		// Get the angle to be added to the heading reported by the odometer to correct
@@ -73,11 +73,11 @@ public class UltrasonicLocalizer extends UltrasonicController{
 		}
 
 		navigator.sleepNavigation();
-		
+
 		// Turn right until the robot detects the falling edge for the back wall.
 		while (readUSDistance() > d) {
 			navigator.rotate(ROTATION_RIGHT);
-            Main.sleepFor(SLEEPINT);
+			Main.sleepFor(SLEEPINT);
 		}
 
 		// Stop robot when it detects the falling edge.
@@ -99,19 +99,19 @@ public class UltrasonicLocalizer extends UltrasonicController{
 	private double findFallingEdgeB() {
 
 		double fallingEdge;
-		
-		// Rotate counterclockwise to get out of noise margin.
-        while (readUSDistance() < d + US_LOCALIZATION_THRESHOLD) {
-            navigator.rotate(ROTATION_LEFT);
-            Main.sleepFor(SLEEPINT);
-        }
 
-        navigator.sleepNavigation();
-        
+		// Rotate counterclockwise to get out of noise margin.
+		while (readUSDistance() < d + US_LOCALIZATION_THRESHOLD) {
+			navigator.rotate(ROTATION_LEFT);
+			Main.sleepFor(SLEEPINT);
+		}
+
+		navigator.sleepNavigation();
+
 		// Turn left until the falling edge is detected for the left wall.
 		while (readUSDistance() > d) {
 			navigator.rotate(ROTATION_LEFT);
-            Main.sleepFor(SLEEPINT);
+			Main.sleepFor(SLEEPINT);
 		}
 
 		// Stop robot when it detects the falling edge.
@@ -120,15 +120,17 @@ public class UltrasonicLocalizer extends UltrasonicController{
 		// Store the angle at which the falling edge is detected.
 		fallingEdge = odometer.getXYT()[2];
 
-        return fallingEdge;
+		return fallingEdge;
 	}
 
 	/**
 	 * Method that computes the angle to be added to the heading reported by the
 	 * odometer to orient the robot correctly.
 	 * 
-	 * @param a: angle at which the back wall is detected.
-	 * @param b: angle at which the left wall is detected.
+	 * @param a:
+	 *            angle at which the back wall is detected.
+	 * @param b:
+	 *            angle at which the left wall is detected.
 	 * @return
 	 */
 	public double getCorrectionAngle(double a, double b) {

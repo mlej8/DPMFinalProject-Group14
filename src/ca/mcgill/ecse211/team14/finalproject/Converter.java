@@ -11,7 +11,7 @@ import static ca.mcgill.ecse211.team14.finalproject.Resources.WHEEL_RAD;
  */
 
 public class Converter {
-	
+
 	/**
 	 * Converts input distance to the total rotation of each wheel needed to cover
 	 * that distance.
@@ -29,8 +29,8 @@ public class Converter {
 	 * 
 	 * @param angle
 	 * @return the wheel rotations necessary to rotate the robot by the angle
-	 */	
+	 */
 	public static int convertAngle(double angle) {
 		return convertDistance(Math.PI * TRACK * angle / 360.0);
-	}	
+	}
 }
