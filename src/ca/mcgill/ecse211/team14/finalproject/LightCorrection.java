@@ -84,19 +84,6 @@ public class LightCorrection {
       }
     }
   }
-
-  /**
-   * This method corrects the odometer based on current orientation.
-   * 
-   * @param correctX: If true correct x parameter, else correct Y parameter 
-   */
-  public void correctOdometer(boolean correctX) {
-    if (correctX) {
-      
-    } else {
-      
-    }
-  }
   
   public boolean isCorrection() {
     return correction;

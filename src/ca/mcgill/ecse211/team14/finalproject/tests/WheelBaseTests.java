@@ -1,6 +1,5 @@
 package ca.mcgill.ecse211.team14.finalproject.tests;
 import static ca.mcgill.ecse211.team14.finalproject.Resources.*;
-import ca.mcgill.ecse211.team14.finalproject.Converter;
 import lejos.hardware.Button;
 
 public class WheelBaseTests {

@@ -227,7 +227,7 @@ public class Resources {
     /**
      * Launch range of the ball launcher
      */
-    public static final double LAUNCH_RANGE = 7.2;    //TODO: change the range
+    public static final double LAUNCH_RANGE = 7.0;    //TODO: change the range
     
     /**
      * Create light corrector 
