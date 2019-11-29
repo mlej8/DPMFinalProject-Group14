@@ -11,6 +11,11 @@ import ca.mcgill.ecse211.team14.finalproject.Converter;
 import ca.mcgill.ecse211.team14.finalproject.SensorPoller.Mode;
 import lejos.hardware.Button;
 
+/**
+ * Tester class for testing light sensor sampling rate and intensity ratio.
+ * @author Cecilia Jiang
+ *
+ */
 public class LightSensorTests {
 	public static void main(String[] args) {
 	      int buttonChoice = -1;

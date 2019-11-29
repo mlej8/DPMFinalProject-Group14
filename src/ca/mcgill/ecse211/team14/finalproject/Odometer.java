@@ -38,18 +38,18 @@ public class Odometer implements Runnable {
 	private volatile double theta;
 
 	/**
-	 * The (x, y, theta) position as an array
+	 * The (x, y, theta) position as an array.
 	 */
 	private double[] position;
 
 	// Thread control tools
 	/**
-	 * Fair lock for concurrent writing
+	 * Fair lock for concurrent writing.
 	 */
 	private static Lock lock = new ReentrantLock(true);
 
 	/**
-	 * Indicates if a thread is trying to reset any position parameters
+	 * Indicates if a thread is trying to reset any position parameters.
 	 */
 	private volatile boolean isResetting = false;
 
@@ -61,22 +61,22 @@ public class Odometer implements Runnable {
 	private static Odometer odo; // Returned as singleton
 
 	/**
-	 * Left motor tacho count
+	 * Left motor tacho count.
 	 */
 	private static int leftMotorTachoCount;  // current left wheel's tachometer count
 
 	/**
-	 * Right motor tacho count
+	 * Right motor tacho count.
 	 */
 	private static int rightMotorTachoCount; // current right wheel's tachometer count
 	
 	/**
-	 * Last left motor tacho count
+	 * Last left motor tacho count.
 	 */
 	private static int lastTachoCountL = 0;  // left wheel's last tachometer count
 	
 	/**
-	 * Last right motor tacho count
+	 * Last right motor tacho count.
 	 */
 	private static int lastTachoCountR = 0;  // right wheel's last tachometer count
 
@@ -178,7 +178,7 @@ public class Odometer implements Runnable {
 	 * Returns the Odometer data.
 	 * Writes the current position and orientation of the robot onto the odoData
 	 * array. {@code odoData[0] =
-	 * x, odoData[1] = y; odoData[2] = theta;}
+	 * x, odoData[1] = y; odoData[2] = theta;}.
 	 * 
 	 * @return the odometer data.
 	 */

@@ -6,6 +6,11 @@ import ca.mcgill.ecse211.team14.finalproject.Main;
 import ca.mcgill.ecse211.team14.finalproject.SensorPoller.Mode;
 import lejos.hardware.Button;
 
+/**
+ * Tester for testing WHEEL_RAD constant.
+ * @author Cecilia Jiang
+ *
+ */
 public class WheelRadiusTests {
   public static void main(String args[]) {
     

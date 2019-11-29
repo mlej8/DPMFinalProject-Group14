@@ -6,7 +6,8 @@ import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 
 /**
- * This class contains method for launching a ping-pong ball using the launching mechanism designed by the hardware team.
+ * This class contains method for launching a ping-pong ball using the launching mechanism designed 
+ * by the hardware team.
  * 
  * @author Yilin Jiang, Michael Li, Lora Zhang
  *

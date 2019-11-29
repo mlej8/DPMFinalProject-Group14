@@ -45,10 +45,7 @@ public class Main {
 		stopAndBeep(3);
 		
 		// Navigate to the Tunnel entrance 
-		System.out.println("Tunnel EnX " + wifi.getTunnelEnX() + " EnY " + wifi.getTunnelEnY());
 		navigator.travelTo(wifi.getTunnelEnX(), wifi.getTunnelEnY()); 
-		System.out.println("x: " + navigator.getCurrX() + " y: " + navigator.getCurrY());
-		System.out.println("Before entering tunnel Odometer Reading:"+odometer.getXYT()[0]+","+odometer.getXYT()[1]+","+odometer.getXYT()[2]);
 			
 		// Traverse the Tunnel to the Island 
 		if (wifi.getTunnelHeight() != wifi.getTunnelWidth()) {		
@@ -56,19 +53,14 @@ public class Main {
 		} else {
 		  navigator.traverseTunnel(wifi.getTunnelExX(), wifi.getTunnelExY(),1);
 		}
-		
-        System.out.println("Exit Tunnel Odometer Reading:"+odometer.getXYT()[0]+","+odometer.getXYT()[1]+","+odometer.getXYT()[2]);
-        
+
 		// Set launch position
 		wifi.findLaunchPosition();
 		Main.sleepFor(SLEEPINT);
 		
 		// If there's a possible launch point residing in the island
 		if (wifi.getlaunchX() != 0 && wifi.getlaunchY() != 0) {
-	    System.out.println("Launch intersection X " + wifi.getLaunchIntersectionPointX()/TILE_SIZE+ " Y " + wifi.getLaunchIntersectionPointY()/TILE_SIZE);
-	    System.out.println("facing angle = "+wifi.getBinAngle());
-	    System.out.println("Launch X " + wifi.getlaunchX() + " Y " + wifi.getlaunchY() + " Bin X " + wifi.getBinX()*TILE_SIZE);
-	    
+	   
 	    // Travel to grid intersection near launch point
 	    sensorPoller.setMode(Mode.LIGHT);
         navigator.travelTo(wifi.getLaunchIntersectionPointX(), wifi.getLaunchIntersectionPointY());
@@ -104,11 +96,9 @@ public class Main {
           } else {
             navigator.traverseTunnel(wifi.getTunnelEnX(), wifi.getTunnelEnY(),1);
           }	
-		System.out.println("Back to Tunnel Entrance X " +  odometer.getXYT()[0] + " Y " + odometer.getXYT()[1] + " T " + odometer.getXYT()[2]);
        
 		// Navigate back to starting point 
 		navigator.travelTo(wifi.getStartX()*TILE_SIZE, wifi.getStartY()*TILE_SIZE);
-		System.out.println("start = ("+wifi.getStartX()+", "+wifi.getStartY()+")");
 		
 		navigator.turnToExactTheta(0, true);
 
@@ -125,8 +115,7 @@ public class Main {
 
 
 	/**
-	 * Thread sleeps for a time period specified by sleepFor
-	 * 
+	 * Thread sleeps for a time period specified by sleepFor.
 	 * @param duration
 	 */
 	public static void sleepFor(long duration) {

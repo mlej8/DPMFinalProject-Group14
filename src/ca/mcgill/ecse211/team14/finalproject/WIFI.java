@@ -3,6 +3,12 @@ package ca.mcgill.ecse211.team14.finalproject;
 import static ca.mcgill.ecse211.team14.finalproject.Resources.*;
 import java.util.ArrayList;
 
+/**
+ * The class that process wifi data and calculates start point, tunnel entrance point, tunnel exit point
+ * and launch point.
+ * @author Cecilia Jiang, Lora Zhang
+ *
+ */
 public class WIFI {
 
   /**
@@ -43,7 +49,7 @@ public class WIFI {
 
   
   /**
-   * Variable target facing angle to throw the ball
+   * Variable target facing angle to throw the ball.
    */
   private double binAngle;
 
@@ -83,15 +89,18 @@ public class WIFI {
   private double tunnelHeight;
   
   /**
-   * X-coordinate of nearest intersection point of launch Point
+   * X-coordinate of nearest intersection point of launch Point.
    */
   private double launchIntersectionPointX;
   
   /**
-   * Y-coordinate of nearest intersection point of launch Point
+   * Y-coordinate of nearest intersection point of launch Point.
    */
   private double launchIntersectionPointY;
 
+  /**
+   * WIFI Class initializer.
+   */
   public WIFI() {
     setBinPosition();
     findStartPoint();
@@ -176,7 +185,7 @@ public class WIFI {
   }
   
   /**
-   * This method rounds a x or y coordinate down or up to match a grid line
+   * This method rounds a x or y coordinate down or up to match a grid line.
    * @param coordinate
    * @return rounded coordinate result, which corresponds to a grid line
    */
@@ -190,7 +199,7 @@ public class WIFI {
   }
   
   /**
-   * Calculate and set the launch angle based on the relative position of calculated launch point and bin point
+   * Calculate and set the launch angle based on the relative position of calculated launch point and bin point.
    */
   private void setBinAngle() {
     Point a = new Point(this.binX * TILE_SIZE, this.binY * TILE_SIZE);
@@ -203,7 +212,7 @@ public class WIFI {
   }
 
   /**
-   * Calculate the intersection points of a circle's circumference with a vertical line
+   * Calculate the intersection points of a circle's circumference with a vertical line.
    * @param center A point indicating the center of a circle.
    * @param radius The radius of the circle.
    * @param x The given x value
@@ -223,7 +232,7 @@ public class WIFI {
   }
 
   /**
-   * Calculate the intersection points of a circle's circumference with a horizontal line
+   * Calculate the intersection points of a circle's circumference with a horizontal line.
    * @param center A point indicating the center of a circle.
    * @param radius The radius of the circle.
    * @param y The given y value
@@ -243,7 +252,7 @@ public class WIFI {
   }
   
   /**
-   * Calculates the distance between two points
+   * Calculates the distance between two points.
    * @param p1
    * @param p2
    * @return the distance between two points
@@ -254,7 +263,7 @@ public class WIFI {
 
 
   /**
-   * Sets the starting position (x,y) and start andgle T, unit is in tile_size
+   * Sets the starting position (x,y) and start andgle T, unit is in tile_size.
    */
   private void findStartPoint() {
 
@@ -263,7 +272,6 @@ public class WIFI {
     } else {
       startCorner = greenCorner;
     }
-    // For beta demo
     switch (startCorner) {
       case 0:
         startX = 1;
@@ -290,7 +298,7 @@ public class WIFI {
 
   /**
    * Method that calculates and returns the coordinates at which the robot needs to travel to in order to enter the
-   * tunnel and exit the tunnel. In final competition, we might split it into getTunnelEntrance and getTunnelExit
+   * tunnel and exit the tunnel. In final competition, we might split it into getTunnelEntrance and getTunnelExit.
    */
   private void findTunnelEnEx() {
     Region tunnelArea = null;

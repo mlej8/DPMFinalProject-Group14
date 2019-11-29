@@ -12,6 +12,11 @@ import ca.mcgill.ecse211.team14.finalproject.Converter;
 import ca.mcgill.ecse211.team14.finalproject.SensorPoller.Mode;
 import lejos.hardware.Button;
 
+/**
+ * Tester for testing orientation adjustment method
+ * @author Michael Li
+ *
+ */
 public class LightCorrectionTests {
 	public static void main(String args[]) {
 

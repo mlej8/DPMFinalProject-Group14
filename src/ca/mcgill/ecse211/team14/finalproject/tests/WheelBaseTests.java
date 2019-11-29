@@ -2,15 +2,13 @@ package ca.mcgill.ecse211.team14.finalproject.tests;
 import static ca.mcgill.ecse211.team14.finalproject.Resources.*;
 import lejos.hardware.Button;
 
+/**
+ * Tester for testing TRACK constant.
+ * @author Cecilia Jiang
+ *
+ */
 public class WheelBaseTests {
     public static void main(String args[]) { 
-//      int buttonChoice = -1;
-//      
-//      showText("Press Right      ","Button to start  ");
-//      
-//      while(buttonChoice != Button.ID_RIGHT) {
-//        buttonChoice = Button.waitForAnyPress();
-//      }
       
       // Test wheel base by rotating the robot 360 degrees.
       LEFT_MOTOR.setSpeed(ROTATE_SPEED);

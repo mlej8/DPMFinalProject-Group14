@@ -7,6 +7,11 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import org.junit.Test;
 
+/**
+ * Tester for testing correctness of find launch position method.
+ * @author mindo
+ *
+ */
 public class findDestMethodTests {
   static double currentX;
   static double currentY;

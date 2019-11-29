@@ -3,6 +3,11 @@ package ca.mcgill.ecse211.team14.finalproject;
 import static ca.mcgill.ecse211.team14.finalproject.Resources.*;
 import ca.mcgill.ecse211.team14.finalproject.SensorPoller.Mode;
 
+/**
+ * The class which contains all method necessary for navigation.
+ * @author Michael Li
+ *
+ */
 public class Navigation {
 
   private static Navigation navigator;
@@ -33,12 +38,12 @@ public class Navigation {
   private int currY = 0;
 
   /**
-   * Variable that tracks if the robot has detected an obstacle
+   * Variable that tracks if the robot has detected an obstacle.
    */
   private boolean detectedObstacle = false;
 
   /**
-   * Navigation class implements the singleton pattern
+   * Navigation class implements the singleton pattern.
    */
   private Navigation() {
 
@@ -63,7 +68,7 @@ public class Navigation {
   }
 
   /**
-   * Method that travels to the closest grid intersection
+   * Method that travels to the closest grid intersection.
    */
   public void travelToGridIntersection() {
 
@@ -359,7 +364,7 @@ public class Navigation {
   }
 
   /**
-   * Method that returns distance to burst
+   * Method that returns distance to burst.
    * 
    * @param d
    * @return
@@ -373,8 +378,7 @@ public class Navigation {
   }
 
   /**
-   * Method to allow navigation to be done faster by traveling a certain amount of distance faster
-   * 
+   * Method to allow navigation to be done faster by traveling a certain amount of distance faster.
    * @param distance: distance to travel
    */
   private void dash(double distance) {
@@ -387,8 +391,8 @@ public class Navigation {
   }
 
   /**
-   * Method that handles the traveling from the closest grid intersection point to the exact launch point. Then, it turn
-   * towards the bin
+   * Method that handles the traveling from the closest grid intersection point to the exact launch point. 
+   * Then, it turn towards the bin.
    */
   public void travelToExactLaunchPoint() {
     // Traveling
@@ -434,7 +438,10 @@ public class Navigation {
     // Set traveling to false
     this.traveling = false;
   }
-
+  
+  /**
+   * The method that navigates the robot back to the latest intersection point. 
+   */
   public void travelBackToLatestGridIntersection() {
     // Travel back to closest grid intersection by traveling y first, then x.
     // Traveling
@@ -451,13 +458,11 @@ public class Navigation {
       if (dy >= 0) {
         turnToExactTheta(0, false);
         Main.sleepFor(SLEEPINT);        
-//        navigateForward(destY - odometer.getXYT()[1], MOTOR_SPEED);
         travelOneTileSize(false);
         odometer.setTheta(0);
       } else {
         turnToExactTheta(180, false);
         Main.sleepFor(SLEEPINT);
-//        navigateForward(-1*(destY - odometer.getXYT()[1]), MOTOR_SPEED);
         travelOneTileSize(false);
         odometer.setTheta(180);
       }
@@ -470,13 +475,11 @@ public class Navigation {
         Main.sleepFor(SLEEPINT);
         travelOneTileSize(false);
         odometer.setTheta(90);
-//        navigateForward(destX - odometer.getXYT()[0], MOTOR_SPEED);
       } else {
         turnToExactTheta(270, false);
         Main.sleepFor(SLEEPINT);
         travelOneTileSize(false);
         odometer.setTheta(270);
-//        navigateForward(-1*(destX - odometer.getXYT()[0]), MOTOR_SPEED);
       }
     }
     sleepNavigation();
@@ -487,6 +490,9 @@ public class Navigation {
     Main.sleepFor(SLEEPINT);
   }
 
+  /**
+   * The method that determines how the robot turns away from obstacle.
+   */
   private void avoidObstacle() {
 
     // Store current positions
@@ -691,6 +697,11 @@ public class Navigation {
     travelTo(Main.wifi.getlaunchX(), Main.wifi.getlaunchY());
   }
 
+  /**
+   * This method takes lightDistance boolean as an input, if it is true, travel lightSensor distance
+   * then navigate forward one tile. If it is false, directly navigate forward one tile.
+   * @param lightDistance
+   */
   private void travelOneTileSize(boolean lightDistance) {
 
     if (lightDistance) {
@@ -723,7 +734,7 @@ public class Navigation {
   }
 
   /**
-   * Method that handles the process of traversing the tunnel
+   * Method that handles the process of traversing the tunnel.
    * 
    * @param x: Tunnel exit x coordinates
    * @param y: Tunnel exit y coordinates
@@ -1018,20 +1029,10 @@ public class Navigation {
     RIGHT_MOTOR.rotate(-Converter.convertAngle(theta), true); // true
   }
 
-  /**
-   * Getters method for traveling.
-   * 
-   * @return traveling
-   */
   public boolean isTraveling() {
     return this.traveling;
   }
 
-  /**
-   * Setter method for traveling.
-   * 
-   * @param traveling
-   */
   public void setTraveling(boolean traveling) {
     this.traveling = traveling;
   }

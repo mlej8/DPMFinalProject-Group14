@@ -9,6 +9,8 @@ import static ca.mcgill.ecse211.team14.finalproject.Resources.*;
  * measured clockwise w.r.t. the positive y-axis. Use the ultrasonic sensor to
  * measure the distance to the two walls nearest the robot to determine the
  * initial orientation of the robot by rotating 360 degrees on itself.
+ * 
+ * @author Michael Li
  */
 public class UltrasonicLocalizer extends UltrasonicController{
 	
@@ -54,7 +56,7 @@ public class UltrasonicLocalizer extends UltrasonicController{
 
 	/**
 	 * Method that returns the angle at which the back wall is detected for the
-	 * falling edge implementation
+	 * falling edge implementation.
 	 * 
 	 * @return average of the angle at which the robot enters the noise margin and
 	 *         the angle at which the falling edge is detected.
@@ -89,7 +91,7 @@ public class UltrasonicLocalizer extends UltrasonicController{
 
 	/**
 	 * Method that returns the angle at which the left wall is detected for the
-	 * falling edge implementation
+	 * falling edge implementation.
 	 * 
 	 * @return average of the angle at which the robot enter the noise margin and
 	 *         the angle at which the falling edge is detected.

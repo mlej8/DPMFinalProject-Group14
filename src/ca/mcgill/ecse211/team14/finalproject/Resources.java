@@ -14,9 +14,11 @@ import java.util.Map;
 
 /**
  * Class that stores all constants.
+ * 
+ * @author Michael Li, Cecilia Jiang, Lora Zhang
  */
 public class Resources {
-//Set these as appropriate for your team and current situation
+
   /**
    * The default server IP used by the profs and TA's.
    */
@@ -178,7 +180,7 @@ public class Resources {
 	public static Odometer odometer = Odometer.getOdometer();
 	
 	/**
-	 * Instance of US Localizer
+	 * Instance of US Localizer.
 	 */
 	public static UltrasonicLocalizer ultrasonicLocalizer = new UltrasonicLocalizer();
 	
@@ -189,10 +191,10 @@ public class Resources {
     public static double THRESHOLD = 27.5;
 	
 	/**
-	 * d constant for ultrasonic localizer representing the threshold distance from the wall 
+	 * d constant for ultrasonic localizer representing the threshold distance from the wall.
 	 *
 	 */
-	public static final double d = 45.0; //60
+	public static final double d = 45.0;
 	
 	/**
 	 * Degree at which to rotate right when executing ultrasonic sensor localization.
@@ -225,12 +227,12 @@ public class Resources {
     public static final double LAUNCH_ANGLE = 180;
     
     /**
-     * Launch range of the ball launcher
+     * Launch range of the ball launcher.
      */
-    public static final double LAUNCH_RANGE = 7.0;    //TODO: change the range
+    public static final double LAUNCH_RANGE = 7.0;
     
     /**
-     * Create light corrector 
+     * Create light corrector.
      */
     public static LightCorrection lightCorrector = new LightCorrection();
     
@@ -299,11 +301,6 @@ public class Resources {
      */
      public static Region tnr = new Region("TNR_LL_x", "TNR_LL_y", "TNR_UR_x", "TNR_UR_y");
     
-    /**
-     * Beta-demo: the given rotation angle before launching
-     */
-    public static double targetAngle = Math.max(get("TNR_LL_x"), get("TNR_UR_x"));
-
     /**
      * The green tunnel footprint.
      */
