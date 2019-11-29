@@ -151,22 +151,6 @@ public class Navigation {
     lightCorrector.setCorrection(true);
   }
 
-  public void turnToLaunchPoint() {
-    // Traveling
-    this.traveling = true;
-
-    // Compute displacement
-    double dx = Main.wifi.getBinX() * TILE_SIZE - odometer.getXYT()[0];
-    double dy = Main.wifi.getBinY() * TILE_SIZE - odometer.getXYT()[1];
-
-    double theta = Math.toDegrees(Math.atan2(dx, dy)) - odometer.getXYT()[2];
-
-    turnTo(theta);
-
-    this.traveling = false;
-  }
-
-
   /**
    * This method causes the robot to travel to the absolute field location (x, y), specified in tile points. This method
    * should continuously call turnTo(double theta) and then set the motor speed to forward (straight). This will make
