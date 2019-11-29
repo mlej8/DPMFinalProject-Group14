@@ -197,9 +197,9 @@ public class Navigation {
           }
           while (LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
             Main.sleepFor(SLEEPINT);
-            if (detectedObstacle()) { // TODO : OBSTACLE BOI
+            if (detectedObstacle()) {
               stop();
-              this.detectedObstacle = true; // TODO: Consider case where it detects wall
+              this.detectedObstacle = true;
               break navigation;
             }
           }
@@ -237,7 +237,7 @@ public class Navigation {
           }
           while (LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
             Main.sleepFor(SLEEPINT);
-            if (detectedObstacle()) { // TODO : OBSTACLE BOI
+            if (detectedObstacle()) {
               stop();
               this.detectedObstacle = true; // Consider case where it detects wall
               break navigation;
@@ -281,7 +281,7 @@ public class Navigation {
           }
           while (LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
             Main.sleepFor(SLEEPINT);
-            // TODO : OBSTACLE BOI
+            
             if (detectedObstacle()) {
               stop();
               this.detectedObstacle = true; // Consider case where it detects wall
@@ -325,7 +325,6 @@ public class Navigation {
           }
           while (LEFT_MOTOR.isMoving() || RIGHT_MOTOR.isMoving()) {
             Main.sleepFor(SLEEPINT);
-            // TODO : OBSTACLE BOI
             if (detectedObstacle()) {
               stop();
               this.detectedObstacle = true; // Consider case where it detects wall
@@ -407,11 +406,11 @@ public class Navigation {
       if (dx >= 0) {
         turnToExactTheta(90, true);
         sleepNavigation();
-        navigateForward(launchX - odometer.getXYT()[0], MOTOR_SPEED + 50);
+        navigateForward(launchX - odometer.getXYT()[0], MOTOR_SPEED);
       } else {
         turnToExactTheta(270, true);
         sleepNavigation();
-        navigateForward(-1*(launchX - odometer.getXYT()[0]), MOTOR_SPEED + 50);
+        navigateForward(-1*(launchX - odometer.getXYT()[0]), MOTOR_SPEED);
       }
       sleepNavigation();
     }
@@ -488,7 +487,7 @@ public class Navigation {
     Main.sleepFor(SLEEPINT);
   }
 
-  private void avoidObstacle() { // TODO
+  private void avoidObstacle() {
 
     // Store current positions
     double x = odometer.getXYT()[0];
@@ -498,7 +497,7 @@ public class Navigation {
     // Correct every time it turns
     navigateForward(-TILE_SIZE, MOTOR_SPEED);
     sleepNavigation();
-    travelLightSensorDistance(); // TODO CORRECT ODOMETER using a method in light correction
+    travelLightSensorDistance();
 
     // Set both motors to False
     lightCorrector.setBothMotorsToFalse();
