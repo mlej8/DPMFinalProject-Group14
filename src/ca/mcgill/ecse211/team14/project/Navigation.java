@@ -1,7 +1,11 @@
-package ca.mcgill.ecse211.team14.finalproject;
+package ca.mcgill.ecse211.team14.project;
 
-import static ca.mcgill.ecse211.team14.finalproject.Resources.*;
-import ca.mcgill.ecse211.team14.finalproject.SensorPoller.Mode;
+import static ca.mcgill.ecse211.team14.project.Resources.*;
+
+import ca.mcgill.ecse211.team14.finalproject.Converter;
+import ca.mcgill.ecse211.team14.finalproject.Main;
+import ca.mcgill.ecse211.team14.finalproject.Navigation;
+import ca.mcgill.ecse211.team14.project.SensorPoller.Mode;
 
 /**
  * The class which contains all method necessary for navigation.

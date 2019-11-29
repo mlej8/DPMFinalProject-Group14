@@ -1,11 +1,12 @@
-package ca.mcgill.ecse211.team14.finalproject;
+package ca.mcgill.ecse211.team14.project;
+
+import static ca.mcgill.ecse211.team14.project.Resources.*;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-// static import to avoid duplicating variables and make the code easier to read
-import static ca.mcgill.ecse211.team14.finalproject.Resources.*;
+import ca.mcgill.ecse211.team14.finalproject.Odometer;
 
 /**
  * The odometer class keeps track of the robot's (x, y, theta) position.

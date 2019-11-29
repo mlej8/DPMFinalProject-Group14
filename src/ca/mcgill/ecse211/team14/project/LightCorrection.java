@@ -1,6 +1,6 @@
-package ca.mcgill.ecse211.team14.finalproject;
+package ca.mcgill.ecse211.team14.project;
 
-import static ca.mcgill.ecse211.team14.finalproject.Resources.*;
+import static ca.mcgill.ecse211.team14.project.Resources.*;
 
 /**
  * Class that implements light correction for navigation using two light

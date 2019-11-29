@@ -1,7 +1,11 @@
-package ca.mcgill.ecse211.team14.finalproject;
+package ca.mcgill.ecse211.team14.project;
 
-import static ca.mcgill.ecse211.team14.finalproject.Resources.*;
+import static ca.mcgill.ecse211.team14.project.Resources.*;
+
 import java.util.ArrayList;
+
+import ca.mcgill.ecse211.team14.finalproject.Point;
+import ca.mcgill.ecse211.team14.finalproject.Region;
 
 /**
  * The class that process Wi-Fi data and calculates start point, tunnel entrance

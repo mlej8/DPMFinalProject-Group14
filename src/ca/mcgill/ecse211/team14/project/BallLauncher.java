@@ -1,7 +1,8 @@
-package ca.mcgill.ecse211.team14.finalproject;
+package ca.mcgill.ecse211.team14.project;
 
-import static ca.mcgill.ecse211.team14.finalproject.Resources.*;
+import static ca.mcgill.ecse211.team14.project.Resources.*;
 
+import ca.mcgill.ecse211.team14.finalproject.Converter;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 

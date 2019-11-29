@@ -1,7 +1,7 @@
-package ca.mcgill.ecse211.team14.finalproject;
+package ca.mcgill.ecse211.team14.project;
 
-import static ca.mcgill.ecse211.team14.finalproject.Resources.TRACK;
-import static ca.mcgill.ecse211.team14.finalproject.Resources.WHEEL_RAD;
+import static ca.mcgill.ecse211.team14.project.Resources.TRACK;
+import static ca.mcgill.ecse211.team14.project.Resources.WHEEL_RAD;
 
 /**
  * Utilities class that contains methods for converting distances and angles for

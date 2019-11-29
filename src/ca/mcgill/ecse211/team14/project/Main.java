@@ -1,7 +1,11 @@
-package ca.mcgill.ecse211.team14.finalproject;
+package ca.mcgill.ecse211.team14.project;
 
-import static ca.mcgill.ecse211.team14.finalproject.Resources.*;
-import ca.mcgill.ecse211.team14.finalproject.SensorPoller.Mode;
+import static ca.mcgill.ecse211.team14.project.Resources.*;
+
+import ca.mcgill.ecse211.team14.project.BallLauncher;
+import ca.mcgill.ecse211.team14.project.Main;
+import ca.mcgill.ecse211.team14.project.WIFI;
+import ca.mcgill.ecse211.team14.project.SensorPoller.Mode;
 import lejos.hardware.Button;
 import lejos.hardware.Sound;
 

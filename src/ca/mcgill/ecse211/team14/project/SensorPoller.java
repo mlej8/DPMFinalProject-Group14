@@ -1,6 +1,9 @@
-package ca.mcgill.ecse211.team14.finalproject;
+package ca.mcgill.ecse211.team14.project;
 
-import static ca.mcgill.ecse211.team14.finalproject.Resources.*;
+import static ca.mcgill.ecse211.team14.project.Resources.*;
+
+import ca.mcgill.ecse211.team14.finalproject.Main;
+import ca.mcgill.ecse211.team14.finalproject.Mode;
 
 /**
  * Class that handles which sensor to use (US Sensor or Light Sensor) and fetch

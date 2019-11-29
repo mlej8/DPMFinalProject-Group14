@@ -1,13 +1,18 @@
-package ca.mcgill.ecse211.team14.finalproject;
+package ca.mcgill.ecse211.team14.project;
 
-import ca.mcgill.ecse211.team14.finalproject.Odometer;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.lcd.TextLCD;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
-
+import ca.mcgill.ecse211.team14.finalproject.LightCorrection;
+import ca.mcgill.ecse211.team14.finalproject.Navigation;
+import ca.mcgill.ecse211.team14.finalproject.Point;
+import ca.mcgill.ecse211.team14.finalproject.Region;
+import ca.mcgill.ecse211.team14.finalproject.SensorPoller;
+import ca.mcgill.ecse211.team14.finalproject.UltrasonicLocalizer;
+import ca.mcgill.ecse211.team14.project.Odometer;
 import ca.mcgill.ecse211.wificlient.WifiConnection;
 import java.math.BigDecimal;
 import java.util.Map;
