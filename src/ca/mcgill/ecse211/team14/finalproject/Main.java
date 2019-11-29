@@ -9,11 +9,7 @@ import lejos.hardware.Sound;
  * The main class controls the flow of the application.
  */
 public class Main {
-  
-	/**
-	 * Private class variable for ballLauncher 
-	 */
-	private static BallLauncher ballLauncher;
+
 
     /**
      * Global instance of WIFI class
@@ -67,31 +63,31 @@ public class Main {
 		wifi.findLaunchPosition();
 		Main.sleepFor(SLEEPINT);
 		
+		// If there's a possible launch point residing in the island
 		if (wifi.getlaunchX() != 0 && wifi.getlaunchY() != 0) {
-		// TODO: Navigate to bin x and bin y
 	    System.out.println("Launch intersection X " + wifi.getLaunchIntersectionPointX()/TILE_SIZE+ " Y " + wifi.getLaunchIntersectionPointY()/TILE_SIZE);
 	    System.out.println("facing angle = "+wifi.getBinAngle());
 	    System.out.println("Launch X " + wifi.getlaunchX() + " Y " + wifi.getlaunchY() + " Bin X " + wifi.getBinX()*TILE_SIZE);
 	    
+	    // Travel to grid intersection near launch point
 	    sensorPoller.setMode(Mode.LIGHT);
-	    
-	    // TODO: Find launch point
-        // TODO: Travel to launch point
         navigator.travelTo(wifi.getLaunchIntersectionPointX(), wifi.getLaunchIntersectionPointY());
         Main.sleepFor(SLEEPINT);
+        
+        // Travel to exact launch point
         navigator.travelToExactLaunchPoint();
         Main.sleepFor(SLEEPINT);
 
-        // Turn to exact bin angle
+        // Turn to launch angle
         navigator.turnToExactTheta(Main.wifi.getBinAngle(), false);         
         
-		// TODO: Step 6. Launch the ball a minimum distance of 4 tiles, stop and beep 
+        // Launch the ball
+        stopAndBeep(5);
 		BallLauncher ballLauncher = new BallLauncher();
 		ballLauncher.launch();	
-		stopAndBeep(5);
 		Main.sleepFor(SLEEPINT);
 		
-		// Travel back to 
+		// Travel back to tunnel exit
         navigator.stop();
         Main.sleepFor(SLEEPINT);
         
@@ -102,7 +98,7 @@ public class Main {
 		// Travel back to tunnel        
         navigator.travelTo(wifi.getTunnelExX(), wifi.getTunnelExY());
         
-		// Pass Tunnel 
+		// Pass Tunnel
         if (wifi.getTunnelHeight() != wifi.getTunnelWidth()) {      
           navigator.traverseTunnel(wifi.getTunnelEnX(), wifi.getTunnelEnY(),2);
           } else {
@@ -118,7 +114,7 @@ public class Main {
 
 		Main.sleepFor(TUNNEL_SLEEP);  
 		
-        // TODO: Stop and beep for 5 times		
+        // Stop and beep for 5 times		
         stopAndBeep(5);
 
 		// Do nothing until exit button is pressed, then exit.	
@@ -127,25 +123,6 @@ public class Main {
 
 	}
 
-	/**
-	 * Wait till center button is clicked before localizing and navigating to the
-	 * computed launch position.
-	 * 
-	 * @return Button choice
-	 */
-	private static int waitForPress() {
-		int buttonChoice;
-
-		System.out.println("Press the right button to start.");
-		do {
-			buttonChoice = Button.waitForAnyPress();
-			RECEIVE_WIFI_PARAMS = true;
-		} while (buttonChoice != Button.ID_RIGHT);
-
-		LCDScreen.clear();
-
-		return buttonChoice;
-	}
 
 	/**
 	 * Thread sleeps for a time period specified by sleepFor
