@@ -2,8 +2,6 @@ package ca.mcgill.ecse211.team14.finalproject;
 
 import static ca.mcgill.ecse211.team14.finalproject.Resources.*;
 
-import lejos.hardware.Sound;
-
 /**
  * Class that uses the ultrasonic sensor to localize itself assuming the robot
  * will start with its center of rotation in the bottom left tile of the field.
@@ -82,15 +80,9 @@ public class UltrasonicLocalizer extends UltrasonicController{
 
 		// Stop robot when it detects the falling edge.
 		navigator.stop();
-		
-		// Make a sound when falling edge is detected.
-        Sound.beep();
 
 		// Store the angle at which the falling edge is detected.
 		fallingEdge = odometer.getXYT()[2];
-		
-		// Print angle at which falling edge was detected  
-		System.out.println("Falling edge A: " + fallingEdge);
 
 		return fallingEdge;
 	}
@@ -122,15 +114,9 @@ public class UltrasonicLocalizer extends UltrasonicController{
 
 		// Stop robot when it detects the falling edge.
 		navigator.stop();
-		
-		// Make a sound when falling edge is detected.
-        Sound.beep();
 
 		// Store the angle at which the falling edge is detected.
 		fallingEdge = odometer.getXYT()[2];
-
-		  // Print angle at which falling edge was detected  
-        System.out.println("Falling edge B: " + fallingEdge);
 
         return fallingEdge;
 	}

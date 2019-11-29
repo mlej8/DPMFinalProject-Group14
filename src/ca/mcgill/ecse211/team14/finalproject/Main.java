@@ -41,7 +41,7 @@ public class Main {
 		navigator.travelToGridIntersection();
 		
 		// Set startPoint (x,y,t) to odometer (e.g. at corner 0, the angle is 90)
-		odometer.setXYT(wifi.getStartX()*TILE_SIZE, wifi.getStartY()*TILE_SIZE, wifi.getStartT());
+		odometer.setXYT(wifi.getStartX() * TILE_SIZE, wifi.getStartY() * TILE_SIZE, wifi.getStartT() * TILE_SIZE);
 		navigator.setCurrX(wifi.getStartX()); 
 		navigator.setCurrY(wifi.getStartY());
 				   

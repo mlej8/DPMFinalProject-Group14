@@ -1,21 +1,17 @@
 package ca.mcgill.ecse211.team14.finalproject;
 
 import static ca.mcgill.ecse211.team14.finalproject.Resources.*;
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Map;
-import ca.mcgill.ecse211.team14.finalproject.Resources.Point;
-import ca.mcgill.ecse211.wificlient.WifiConnection;
 
 public class WIFI {
 
   /**
-   * Variable start point x coodinate.
+   * Variable start point x coordinate in unit TILE_SIZE.
    */
   private int startX;
 
   /**
-   * Variable start point y coodinate.
+   * Variable start point y coordinate in unit TILE_SIZE.
    */
   private int startY;
 
@@ -51,8 +47,6 @@ public class WIFI {
    */
   private double binAngle;
 
-
-
   /**
    * Variable tracking if tunnel is horizontal or vertical.
    */
@@ -78,12 +72,10 @@ public class WIFI {
    */
   private double tunnelExY;
 
-  
-
   /**
    * Tunnel width.
    */
-  private double tunnelWidth; // TODO: keep this?
+  private double tunnelWidth;
 
   /**
    * Tunnel height.
@@ -120,7 +112,7 @@ public class WIFI {
   }
 
   /**
-   * This method uses the given target position (binX,binY) to find the ideal launching position and the facing angle towards the bin.
+   * This method uses the given target position (binX,binY) to find the ideal launching position.
    */
   public void findLaunchPosition() {
 
@@ -130,7 +122,7 @@ public class WIFI {
     double theta = Math.atan2(currentX - binX * TILE_SIZE, currentY - binY * TILE_SIZE);
 
     double dx, dy;
-    // calculate the intersection of the circle and the line
+    // calculate the intersection of the circle circumference and the line
     dy = LAUNCH_RANGE  * Math.cos(theta) * TILE_SIZE;
     dx = LAUNCH_RANGE * Math.sin(theta) * TILE_SIZE;
     this.launchY = binY * TILE_SIZE + dy;
@@ -153,7 +145,7 @@ public class WIFI {
       int size = intersections.size();
       for (int i=0;i<size;i++) {
         Point p = intersections.get(index);
-        if (p.x < left || p.x > right || p.y < bottom || p.y > top) {   //TODO: How to avoid hitting wall
+        if (p.x < left || p.x > right || p.y < bottom || p.y > top) {
           intersections.remove(index);
         }else {
           index++;
@@ -176,15 +168,18 @@ public class WIFI {
         this.launchX = 0;
         this.launchY = 0;
       }
-      
-      System.out.println("Find launch Point Second Case");
     }
     
       this.launchIntersectionPointX = approximate(launchX);
       this.launchIntersectionPointY = approximate(launchY);
       setBinAngle();
   }
-
+  
+  /**
+   * This method rounds a x or y coordinate down or up to match a grid line
+   * @param coordinate
+   * @return rounded coordinate result, which corresponds to a grid line
+   */
   private double approximate(double coordinate) {
      double tile = coordinate / TILE_SIZE;
      int result = (int) tile;
@@ -194,9 +189,12 @@ public class WIFI {
      return r;
   }
   
+  /**
+   * Calculate and set the launch angle based on the relative position of calculated launch point and bin point
+   */
   private void setBinAngle() {
     Point a = new Point(this.binX * TILE_SIZE, this.binY * TILE_SIZE);
-    Point b = new Point (this.launchIntersectionPointX, this.launchIntersectionPointY);
+    Point b = new Point (this.launchX, this.launchY);
     double theta = 0;
     double x = a.x - b.x;
     double y = a.y - b.y;
@@ -205,7 +203,7 @@ public class WIFI {
   }
 
   /**
-   * 
+   * Calculate the intersection points of a circle's circumference with a vertical line
    * @param center A point indicating the center of a circle.
    * @param radius The radius of the circle.
    * @param x The given x value
@@ -225,7 +223,7 @@ public class WIFI {
   }
 
   /**
-   * 
+   * Calculate the intersection points of a circle's circumference with a horizontal line
    * @param center A point indicating the center of a circle.
    * @param radius The radius of the circle.
    * @param y The given y value
@@ -243,14 +241,20 @@ public class WIFI {
     intersects.add(p1);
     intersects.add(p2);
   }
-
+  
+  /**
+   * Calculates the distance between two points
+   * @param p1
+   * @param p2
+   * @return the distance between two points
+   */
   private double distance(Point p1,Point p2) {
     return Math.hypot(p1.x-p2.x, p1.y-p2.y);
   }
 
 
   /**
-   * Changes the starting position (x,y).
+   * Sets the starting position (x,y) and start andgle T, unit is in tile_size
    */
   private void findStartPoint() {
 
@@ -263,26 +267,22 @@ public class WIFI {
     switch (startCorner) {
       case 0:
         startX = 1;
-        startY = 1; // (1,1)
+        startY = 1;
         startT = 90;
         break;
       case 1:
         startX = (mapWidth - 1);
-        startY = 1; // (14, 1)
+        startY = 1;
         startT = 0;
         break;
       case 2:
-        // startX = (mapWidth - 0.5) * TILE_SIZE;
-        // startY = (mapHeight - 0.5) * TILE_SIZE;
         startX = (mapWidth - 1);
-        startY = (mapHeight - 1); // (14, 8)
+        startY = (mapHeight - 1);
         startT = 270;
         break;
       case 3:
-        // startX = 0.5 * TILE_SIZE;
-        // startY = (mapHeight - 0.5) * TILE_SIZE;
         startX = 1;
-        startY = (mapHeight - 1); // (1, 8)
+        startY = (mapHeight - 1);
         startT = 180;
         break;
     }
@@ -303,11 +303,6 @@ public class WIFI {
       tunnelArea = tng;
       startArea = green;
     }
-
-    // TODO: Considering current start area corner's coordinate and tunnel's coordinates, compute whether tunnel is
-    // horizontal or vertical
-    // TODO: Compute tunnel's width and tunnel's height: width = 1, height = 2?
-
     this.tunnelWidth = tunnelArea.ur.x - tunnelArea.ll.x;
     this.tunnelHeight = tunnelArea.ur.y - tunnelArea.ll.y;
     if (this.tunnelWidth != this.tunnelHeight) {
@@ -374,7 +369,6 @@ public class WIFI {
           }
           break;
       }
-
     } else {
       // 1*1 tunnel
       switch (startCorner) {
@@ -443,16 +437,10 @@ public class WIFI {
 
   }
 
-  /**
-   * @return launch point's x coordinate.
-   */
   public double getlaunchX() {
     return this.launchX;
   }
 
-  /**
-   * @return launch point's y coordinate.
-   */
   public double getlaunchY() {
     return this.launchY;
   }

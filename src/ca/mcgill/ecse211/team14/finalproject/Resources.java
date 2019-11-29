@@ -1,7 +1,6 @@
 package ca.mcgill.ecse211.team14.finalproject;
 
 import ca.mcgill.ecse211.team14.finalproject.Odometer;
-import lejos.hardware.Wifi;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.lcd.TextLCD;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
@@ -28,7 +27,7 @@ public class Resources {
    * beta demo and competition.
    */
   public static final String SERVER_IP = DEFAULT_SERVER_IP;    //TODO: change this
-  
+ // public static final String SERVER_IP = "172.20.10.2"; 
   /**
    * US Sensor threshold.
    */
@@ -228,7 +227,7 @@ public class Resources {
     /**
      * Launch range of the ball launcher
      */
-    public static final double LAUNCH_RANGE = 7.0;    //TODO: change the range
+    public static final double LAUNCH_RANGE = 7.2;    //TODO: change the range
     
     /**
      * Create light corrector 

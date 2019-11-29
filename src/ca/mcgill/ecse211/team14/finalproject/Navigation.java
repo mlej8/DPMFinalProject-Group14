@@ -423,11 +423,11 @@ public class Navigation {
       if (dx >= 0) {
         turnToExactTheta(90, true);
         sleepNavigation();
-        navigateForward(launchX - odometer.getXYT()[0], MOTOR_SPEED);
+        navigateForward(launchX - odometer.getXYT()[0], MOTOR_SPEED + 50);
       } else {
         turnToExactTheta(270, true);
         sleepNavigation();
-        navigateForward(-1*(launchX - odometer.getXYT()[0]), MOTOR_SPEED);
+        navigateForward(-1*(launchX - odometer.getXYT()[0]), MOTOR_SPEED + 50);
       }
       sleepNavigation();
     }
